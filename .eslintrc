@@ -1,0 +1,62 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"plugins": [
+		"@typescript-eslint",
+		"react",
+		"react-hooks",
+		"unused-imports"
+	],
+	"env": {
+		"browser": true
+	},
+	"extends": [
+		"plugin:@typescript-eslint/recommended",
+		"plugin:react/recommended"
+	],
+	"parserOptions": {
+		"project": [
+			"tsconfig.json"
+		],
+		"ecmaVersion": 2018,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"rules": {
+		"unused-imports/no-unused-imports-ts": "warn",
+		"@typescript-eslint/explicit-function-return-type": "off",
+		"@typescript-eslint/no-unused-vars": "off",
+		"@typescript-eslint/camelcase": "off",
+		"react/jsx-filename-extension": ["warn", {"extensions": [".jsx", ".tsx"]}],
+		"react/prop-types": "off",
+		"react/display-name": "off",
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "warn",
+		"react/jsx-uses-react": "off",
+    	"react/react-in-jsx-scope": "off",
+		"no-console": [
+			"warn",
+			{
+				"allow": ["warn", "error"]
+			}
+		],
+		"indent": [
+			"error",
+			"tab"
+		],
+		"quotes": [
+			"error",
+			"single"
+		],
+		"semi": [
+			"error",
+			"always"
+		]
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	}
+}

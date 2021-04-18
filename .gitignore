@@ -1,0 +1,40 @@
+npm-debug.log*
+/storybook-static
+
+# VS Code
+/.vscode
+
+# dependencies
+/node_modules
+
+# archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# logs and databases
+*.log
+*.sql
+*.sqlite
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
