@@ -36,18 +36,18 @@ import {FC, useState} from 'react';
 import {ComboBox} from 'ui-components';
 
 const App: FC = () => {
-	const [value, setValue] = useState(0);
+  const [value, setValue] = useState(0);
 
-	return <div>
-		<ComboBox
-			options={Array.from({length: 1000}, (v, i) => ({
-				value: i,
-				label: `Option ${i+1}`
-			}))}
-			value={value}
-			onChange={setValue}
-		/>
-	</div>;
+  return <div>
+    <ComboBox
+      options={Array.from({length: 1000}, (v, i) => ({
+        value: i,
+        label: `Option ${i+1}`
+      }))}
+      value={value}
+      onChange={setValue}
+    />
+  </div>;
 };
 
 export default App;
