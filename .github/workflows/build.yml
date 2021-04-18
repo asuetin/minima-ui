@@ -1,0 +1,21 @@
+name: Build distributable
+on:
+  push:
+    paths: ["src/index.tsx", "src/components/**", "src/utils/**", "src/__tests__/**"]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install and build
+        run: |
+          npm install
+          npm run build
+
+      - name: Commit
+        uses: EndBug/add-and-commit@v7
+        with:
+          message: Update distributable
+          add: dist
