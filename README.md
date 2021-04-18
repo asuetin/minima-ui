@@ -57,4 +57,4 @@ export default App;
 
 The library uses Storybook for documentation.
 
-The GitHub Page with the Storybook is available [here.](https://asuetin.github.io/ui-components/?path=/story/introduction--page)
+The GitHub Page with the Storybook is available [here.](https://asuetin.github.io/ui-components/?path=/docs/introduction--page)
