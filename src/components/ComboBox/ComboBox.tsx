@@ -15,8 +15,8 @@ export type ComboBoxProps = {
 		value: string | number;
 		label?: string;
 	}[],
-	value: string | number;
-	onChange: (v: string | number) => void;
+	value: string | number | (string | number)[];
+	onChange: (v: string | number | (string | number)[]) => void;
 	visibleOptionCount?: number;
 	arrowIcon?: typeof Icon | SVGSVGElement | HTMLImageElement;
 	labelledBy?: string;
@@ -51,6 +51,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 	const optionsFiltered = searchResults || options;
 	const rowCount = optionsFiltered.length;
 	const dropdownId = `${idRef.current}-dropdown`;
+	const isMultiselectable = Array.isArray(value);
 
 	useEvent('keydown', (e: KeyboardEvent) => {
 		switch (e.code){
@@ -140,22 +141,36 @@ const ComboBox: FC<ComboBoxProps> = ({
 	}, [selectedIndex, height, visibleOptionCount]);
 
 	const optionRenderer = (index, style) => {
-		const {value, label} = optionsFiltered[index] || {};
-		const optionId = `${dropdownId}-option-${index}`;
+		const option = optionsFiltered[index];
+		const indexOfOption = isMultiselectable ? (value as (string | number)[]).findIndex(v => v == option?.value) : -1;
 
 		return <Styled.Option
 			style={style}
-			key={`${index}-${value}`}
+			key={`${index}-${option?.value}`}
 			onClick={rowCount ? () => {
-				onChange(value);
-				setIsExpanded(false);
-			} : undefined}
+				if (isMultiselectable){
+					const valueNew = [...value as (string | number)[]];
 
+					if (indexOfOption == -1){
+						valueNew.unshift(option?.value);
+					}
+					else {
+						valueNew.splice(indexOfOption, 1);
+					}
+
+					onChange(valueNew);
+				}
+				else {
+					onChange(option?.value);
+					setIsExpanded(false);
+				}
+			} : undefined}
 			role='option'
-			id={optionId}
+			id={`${dropdownId}-option-${index}`}
+			aria-checked={rowCount && isMultiselectable ? indexOfOption != -1 : undefined}
 			aria-selected={rowCount && selectedIndex == index ? true : undefined}
 		>
-			{label || value || 'No results'}
+			{option.label || option.value || 'No results'}
 		</Styled.Option>;
 	};
 
@@ -174,14 +189,23 @@ const ComboBox: FC<ComboBoxProps> = ({
 			rowCount={rowCount || 1}
 			rowHeight={height}
 			rowRenderer={optionRenderer}
-			height={height*Math.min(visibleOptionCount, rowCount || 1)}
+			visibleOptionCount={visibleOptionCount}
 			id={dropdownId}
 			aria-labelledby={labelledBy}
+			aria-multiselectable={isMultiselectable}
 		/>}
 		<Styled.Input
 			ref={inputRef}
 			type='text'
-			value={!searchDisabled && isExpanded ? searchQuery : (options.find(o => o.value == value)?.label || value)}
+			value={!searchDisabled && isExpanded ? searchQuery : (() => {
+				if (isMultiselectable){
+					return (value as (string | number)[]).map(v => {
+						const optionSelected = options.find(o => o.value == v);
+						return optionSelected.label || optionSelected.value;
+					}).join(', ');
+				}
+				return options.find(o => o.value == value)?.label || value as string | number;
+			})()}
 			onChange={!searchDisabled ? e => setSearchQuery(e.target.value) : undefined}
 			onClick={isExpanded ? undefined : () => setIsExpanded(isExpandedPrev => !isExpandedPrev)}
 			readOnly={searchDisabled}

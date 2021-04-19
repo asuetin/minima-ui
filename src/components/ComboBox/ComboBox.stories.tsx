@@ -151,6 +151,29 @@ Basic.args = {
 	}))
 };
 
+const MultiselectableTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCount, searchDisabled}) => {
+	const [value, setValue] = useState([2, 4]);
+
+	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
+		<ComboBox
+			height={height || undefined}
+			visibleOptionCount={isUndef(visibleOptionCount) ? undefined : visibleOptionCount}
+			options={options}
+			value={value}
+			onChange={(v: number[]) => setValue(v)}
+			searchDisabled={searchDisabled}
+		/>
+	</div>;
+};
+
+export const Multiselectable = MultiselectableTemplate.bind({});
+Multiselectable.args = {
+	options: Array.from({length: 20}, (v, i) => ({
+		value: i,
+		label: `Option ${i+1}`
+	}))
+};
+
 const {Option} = ComboBoxStyles;
 const ComboBoxStyled = styled(ComboBox)`
 	--color-background: white;
