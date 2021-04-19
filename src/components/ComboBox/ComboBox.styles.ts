@@ -153,6 +153,7 @@ const Input = styled.input`
 
 const ComboBox = styled.div<{height: number}>`
 	--color-background: rgb(240,240,240);
+	--color-background-disabled: rgb(210,210,210);
 	--color-dropdown-background: rgb(230,230,230);
 	--color-option-background-hover: rgb(220,220,220);
 	--color-option-background-selected: rgb(210,210,210);
@@ -232,6 +233,11 @@ const ComboBox = styled.div<{height: number}>`
 				fill: var(--color-arrow-hover);
 			}
 		}
+	}
+
+	&[aria-disabled='true']{
+		background-color: var(--color-background-disabled);
+		pointer-events: none;
 	}
 `;
 

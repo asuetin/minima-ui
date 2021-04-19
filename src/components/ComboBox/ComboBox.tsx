@@ -21,6 +21,7 @@ export type ComboBoxProps = {
 	arrowIcon?: typeof Icon | SVGSVGElement | HTMLImageElement;
 	labelledBy?: string;
 	searchDisabled?: boolean;
+	disabled?: boolean;
 };
 
 const ComboBox: FC<ComboBoxProps> = ({
@@ -32,7 +33,8 @@ const ComboBox: FC<ComboBoxProps> = ({
 	visibleOptionCount = 5,
 	arrowIcon = <Icon presetName='down'/>,
 	labelledBy,
-	searchDisabled = false
+	searchDisabled = false,
+	disabled = false
 }) => {
 	const idRef = useRef(uniqueId('combobox-'));
 
@@ -54,36 +56,38 @@ const ComboBox: FC<ComboBoxProps> = ({
 	const isMultiselectable = Array.isArray(value);
 
 	useEvent('keydown', (e: KeyboardEvent) => {
-		switch (e.code){
-		case 'ArrowDown':
-			if (isExpanded){
-				setSelectedIndex(selectedIndexPrev => selectedIndexPrev < optionsFiltered.length - 1 ? selectedIndexPrev + 1 : 0);
-				e.preventDefault();
+		if (!disabled){
+			switch (e.code){
+			case 'ArrowDown':
+				if (isExpanded){
+					setSelectedIndex(selectedIndexPrev => selectedIndexPrev < optionsFiltered.length - 1 ? selectedIndexPrev + 1 : 0);
+					e.preventDefault();
+				}
+				break;
+			case 'ArrowUp':
+				if (isExpanded){
+					setSelectedIndex(selectedIndexPrev => selectedIndexPrev > 0 ? selectedIndexPrev - 1 : optionsFiltered.length - 1);
+					e.preventDefault();
+				}
+				break;
+			case 'Enter': {
+				if (isExpanded && rowCount){
+					onChange(optionsFiltered[selectedIndex].value);
+					componentRef.current.focus();
+				}
+				setIsExpanded(isExpandedPrev => !isExpandedPrev);
+				break;
 			}
-			break;
-		case 'ArrowUp':
-			if (isExpanded){
-				setSelectedIndex(selectedIndexPrev => selectedIndexPrev > 0 ? selectedIndexPrev - 1 : optionsFiltered.length - 1);
-				e.preventDefault();
+			case 'Escape': {
+				if (isExpanded){
+					componentRef.current.focus();
+				}
+				else {
+					componentRef.current.blur();
+				}
+				setIsExpanded(false);
 			}
-			break;
-		case 'Enter': {
-			if (isExpanded && rowCount){
-				onChange(optionsFiltered[selectedIndex].value);
-				componentRef.current.focus();
 			}
-			setIsExpanded(isExpandedPrev => !isExpandedPrev);
-			break;
-		}
-		case 'Escape': {
-			if (isExpanded){
-				componentRef.current.focus();
-			}
-			else {
-				componentRef.current.blur();
-			}
-			setIsExpanded(false);
-		}
 		}
 	});
 
@@ -179,10 +183,11 @@ const ComboBox: FC<ComboBoxProps> = ({
 		className={className}
 		height={height}
 		role='combobox'
-		tabIndex={isExpanded ? -1 : 0}
+		tabIndex={isExpanded || disabled ? -1 : 0}
 		aria-expanded={isExpanded}
 		aria-owns={dropdownId}
 		aria-haspopup='listbox'
+		aria-disabled={disabled || undefined}
 	>
 		{isExpanded && <Styled.Dropdown
 			ref={dropdownRef}

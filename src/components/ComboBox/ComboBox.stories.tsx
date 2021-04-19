@@ -117,6 +117,20 @@ export default {
 				},
 				category: 'Miscellaneous'
 			}
+		},
+		disabled: {
+			description: 'Disable the ComboBox',
+			type: {
+				summary: 'Boolean',
+			},
+			control: 'boolean',
+			defaultValue: false,
+			table: {
+				defaultValue: {
+					summary: false
+				},
+				category: 'Miscellaneous'
+			}
 		}
   	},
 	parameters: {
@@ -128,7 +142,7 @@ export default {
 	}
 } as Meta;
 
-const BasicTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCount, searchDisabled}) => {
+const BasicTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCount, searchDisabled, disabled}) => {
 	const [value, setValue] = useState(0);
 
 	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
@@ -139,6 +153,7 @@ const BasicTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCoun
 			value={value}
 			onChange={(v: number) => setValue(v)}
 			searchDisabled={searchDisabled}
+			disabled={disabled}
 		/>
 	</div>;
 };
@@ -151,7 +166,7 @@ Basic.args = {
 	}))
 };
 
-const MultiselectableTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCount, searchDisabled}) => {
+const MultiselectableTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCount, searchDisabled, disabled}) => {
 	const [value, setValue] = useState([2, 4]);
 
 	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
@@ -162,6 +177,7 @@ const MultiselectableTemplate: Story<ComboBoxProps> = ({options, height, visible
 			value={value}
 			onChange={(v: number[]) => setValue(v)}
 			searchDisabled={searchDisabled}
+			disabled={disabled}
 		/>
 	</div>;
 };
@@ -215,5 +231,12 @@ const StyledTemplate: Story<ComboBoxProps> = ({options}) => {
 
 export const Styled = StyledTemplate.bind({});
 Styled.args = {
-	...Basic.args
+	...Basic.args,
+};
+Styled.argTypes = {
+	disabled: {
+		control: {
+			disable: true
+		}
+	}
 };
