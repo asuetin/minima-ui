@@ -12,7 +12,7 @@ declare const _default: {
             [key: string]: string;
         }) => import("react").ReactElement<any, string | import("react").JSXElementConstructor<any>>;
     } & Partial<HTMLUListElement> & import("react").RefAttributes<HTMLUListElement>>, any, {
-        height: number;
+        visibleOptionCount: number;
     }, never>;
     Option: import("styled-components").StyledComponent<"li", any, {}, never>;
 };
