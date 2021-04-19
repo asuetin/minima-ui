@@ -19,7 +19,8 @@ export type ComboBoxProps = {
 	onChange: (v: string | number) => void;
 	visibleOptionCount?: number;
 	arrowIcon?: typeof Icon | SVGSVGElement | HTMLImageElement;
-	labelledBy?: string
+	labelledBy?: string;
+	searchDisabled?: boolean;
 };
 
 const ComboBox: FC<ComboBoxProps> = ({
@@ -30,12 +31,13 @@ const ComboBox: FC<ComboBoxProps> = ({
 	onChange,
 	visibleOptionCount = 5,
 	arrowIcon = <Icon presetName='down'/>,
-	labelledBy
+	labelledBy,
+	searchDisabled = false
 }) => {
 	const idRef = useRef(uniqueId('combobox-'));
 
 	const componentRef = useRef<HTMLDivElement>();
-	const searchFieldRef = useRef<HTMLInputElement>();
+	const inputRef = useRef<HTMLInputElement>();
 
 	const dropdownRef = useRef<HTMLUListElement>();
 
@@ -93,7 +95,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 	useEffect(() => {
 		if (isExpanded){
 			setSearchQuery('');
-			searchFieldRef.current.focus();
+			inputRef.current.focus();
 		}
 		setSelectedIndex(0);
 	}, [isExpanded]);
@@ -177,14 +179,15 @@ const ComboBox: FC<ComboBoxProps> = ({
 			aria-labelledby={labelledBy}
 		/>}
 		<Styled.Input
-			ref={searchFieldRef}
-			value={isExpanded ? searchQuery : (options.find(o => o.value == value)?.label || value)}
-			placeholder='Enter search query'
-			onChange={e => setSearchQuery(e.target.value)}
-			onClick={isExpanded ? undefined : () => setIsExpanded(isExpandedPrev => !isExpandedPrev)}
+			ref={inputRef}
 			type='text'
+			value={!searchDisabled && isExpanded ? searchQuery : (options.find(o => o.value == value)?.label || value)}
+			onChange={!searchDisabled ? e => setSearchQuery(e.target.value) : undefined}
+			onClick={isExpanded ? undefined : () => setIsExpanded(isExpandedPrev => !isExpandedPrev)}
+			readOnly={searchDisabled}
+			placeholder='Enter search query'
 			tabIndex={isExpanded ? 0 : -1}
-			aria-autocomplete='both'
+			aria-autocomplete={searchDisabled ? undefined : 'both'}
 			aria-controls={isExpanded ? dropdownId : undefined}
 			aria-activedescendant={isExpanded ? `${dropdownId}-option-${selectedIndex}` : undefined}
 			aria-labelledby={labelledBy}

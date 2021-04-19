@@ -103,6 +103,20 @@ export default {
 			table: {
 				category: 'Miscellaneous'
 			}
+		},
+		searchDisabled: {
+			description: 'Disable search functionality',
+			type: {
+				summary: 'Boolean',
+			},
+			control: 'boolean',
+			defaultValue: false,
+			table: {
+				defaultValue: {
+					summary: false
+				},
+				category: 'Miscellaneous'
+			}
 		}
   	},
 	parameters: {
@@ -114,7 +128,7 @@ export default {
 	}
 } as Meta;
 
-const BasicTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCount}) => {
+const BasicTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCount, searchDisabled}) => {
 	const [value, setValue] = useState(0);
 
 	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
@@ -124,6 +138,7 @@ const BasicTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCoun
 			options={options}
 			value={value}
 			onChange={(v: number) => setValue(v)}
+			searchDisabled={searchDisabled}
 		/>
 	</div>;
 };
