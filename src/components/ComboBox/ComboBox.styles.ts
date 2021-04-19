@@ -7,8 +7,11 @@ import List from 'components/List';
 const Option = styled.li`
 	cursor: pointer;
 
-	display: flex;
-	align-items: center;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+	overflow: hidden;
+
+	display: block;
 	padding: 0 0 0 var(--padding);
 
 	&:hover {
@@ -96,6 +99,9 @@ const Input = styled.input`
 	outline: none;
 	font: inherit;
 	transition: color 125ms ease-in-out;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 
 	display: flex;
 	align-items: center;
@@ -136,6 +142,12 @@ const ComboBox = styled.div<{height: number}>`
 
 	&, ${Input}{
 		color: var(--color-text);
+	}
+
+	${Dropdown}{
+		> * {
+			line-height: ${({height}) => pxToRem(height)}rem;
+		}
 	}
 
 	svg {
