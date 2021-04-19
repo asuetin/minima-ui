@@ -174,7 +174,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 			aria-checked={rowCount && isMultiselectable ? indexOfOption != -1 : undefined}
 			aria-selected={rowCount && selectedIndex == index ? true : undefined}
 		>
-			{option.label || option.value || 'No results'}
+			{option?.label || option?.value || 'No results'}
 		</Styled.Option>;
 	};
 
