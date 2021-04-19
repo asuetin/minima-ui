@@ -186,7 +186,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 			onClick={isExpanded ? undefined : () => setIsExpanded(isExpandedPrev => !isExpandedPrev)}
 			readOnly={searchDisabled}
 			placeholder='Enter search query'
-			tabIndex={isExpanded ? 0 : -1}
+			tabIndex={!searchDisabled && isExpanded ? 0 : -1}
 			aria-autocomplete={searchDisabled ? undefined : 'both'}
 			aria-controls={isExpanded ? dropdownId : undefined}
 			aria-activedescendant={isExpanded ? `${dropdownId}-option-${selectedIndex}` : undefined}
