@@ -24,7 +24,7 @@ describe('List', () => {
 		const {getByDisplayValue, findByText, rerender} = render(<ComboBox
 			options={options}
 			value={value}
-			onChange={v => value = v}
+			onChange={(v: string | number) => value = v}
 		/>);
 
 		fireEvent.click(getByDisplayValue('Option 1'));
@@ -33,7 +33,7 @@ describe('List', () => {
 		rerender(<ComboBox
 			options={options}
 			value={value}
-			onChange={v => value = v}
+			onChange={(v: string | number) => value = v}
 		/>);
 
 		expect(getByDisplayValue('Option 3')).toBeTruthy();
@@ -45,7 +45,7 @@ describe('List', () => {
 		const {getByDisplayValue, findByText, rerender} = render(<ComboBox
 			options={options}
 			value={value}
-			onChange={v => value = v}
+			onChange={(v: string | number) => value = v}
 		/>);
 
 		const inputElement = getByDisplayValue('Option 1');
@@ -60,7 +60,7 @@ describe('List', () => {
 		rerender(<ComboBox
 			options={options}
 			value={value}
-			onChange={v => value = v}
+			onChange={(v: string | number) => value = v}
 		/>);
 
 		expect(getByDisplayValue('Option 3')).toBeTruthy();
