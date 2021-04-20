@@ -179,6 +179,13 @@ const ComboBox: FC<ComboBoxProps> = ({
 		}
 	}, [isExpanded]);
 
+	//close on disable
+	useEffect(() => {
+		if (disabled){
+			setIsExpanded(false);
+		}
+	}, [disabled]);
+
 	//select first available option
 	useEffect(() => {
 		setSelectedIndex(optionsGrouped.findIndex(o => !o.isGroup));
