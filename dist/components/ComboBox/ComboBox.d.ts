@@ -7,11 +7,12 @@ export declare type ComboBoxProps = {
         value: string | number;
         label?: string;
     }[];
-    value: string | number;
-    onChange: (v: string | number) => void;
+    value: string | number | (string | number)[];
+    onChange: (v: string | number | (string | number)[]) => void;
     visibleOptionCount?: number;
     arrowIcon?: typeof Icon | SVGSVGElement | HTMLImageElement;
     labelledBy?: string;
+    searchDisabled?: boolean;
 };
 declare const ComboBox: FC<ComboBoxProps>;
 export default ComboBox;
