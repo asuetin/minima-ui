@@ -32,8 +32,8 @@ export type ComboBoxProps = {
 const ComboBox: FC<ComboBoxProps> = ({
 	className,
 	height = 32,
-	options = [],
-	groups = [],
+	options,
+	groups,
 	value,
 	onChange,
 	visibleOptionCount = 5,
@@ -61,6 +61,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 	const dropdownId = `${idRef.current}-dropdown`;
 	const isMultiselectable = Array.isArray(value);
 
+	//keyboard controls
 	useEvent('keydown', (e: KeyboardEvent) => {
 		if (!disabled){
 			switch (e.code){
@@ -103,12 +104,14 @@ const ComboBox: FC<ComboBoxProps> = ({
 		}
 	});
 
+	//close on click outside
 	useEvent('click', e => {
 		if (isExpanded && !isDescendantOf(e.target as Node, componentRef.current)){
 			setIsExpanded(false);
 		}
 	});
 
+	//filter options
 	useEffect(() => {
 		let searchResultsNew = null;
 		if (searchQuery != ''){
@@ -127,6 +130,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 		setSearchResults(searchResultsNew);
 	}, [searchQuery, options]);
 
+	//group options
 	useEffect(() => {
 		const groupValues = [];
 		const optionsGroupedNew: typeof optionsGrouped = [...(searchResults || options)].sort((a, b) => {
@@ -139,13 +143,14 @@ const ComboBox: FC<ComboBoxProps> = ({
 			optionsGroupedNew.splice(firstIndex, 0, {
 				isGroup: true,
 				value: v,
-				label: groups.find(g => g.value == v)?.label
+				label: groups?.find(g => g.value == v)?.label
 			});
 		});
 
 		setOptionsGrouped(optionsGroupedNew);
 	}, [searchResults, options, groups]);
 
+	//scroll to selected option
 	useEffect(() => {
 		if (dropdownRef.current){
 			let scrollTarget = height*selectedIndex;
@@ -166,6 +171,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 		}
 	}, [selectedIndex, height, visibleOptionCount]);
 
+	//clear search on open
 	useEffect(() => {
 		if (isExpanded){
 			setSearchQuery('');
@@ -173,6 +179,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 		}
 	}, [isExpanded]);
 
+	//select first available option
 	useEffect(() => {
 		setSelectedIndex(optionsGrouped.findIndex(o => !o.isGroup));
 	}, [isExpanded, optionsGrouped]);
