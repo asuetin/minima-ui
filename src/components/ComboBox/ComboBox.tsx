@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from 'react';
 import type {FC} from 'react';
 
-import {uniqueId, isDescendantOf} from 'utils/functions';
+import {uniqueId, isDescendantOf, isUndef, unique} from 'utils/functions';
 import {useEvent} from 'utils/hooks';
 
 import Icon from 'components/Icon';
@@ -12,6 +12,11 @@ export type ComboBoxProps = {
 	className?: string;
 	height?: number;
 	options: {
+		value: string | number;
+		label?: string;
+		group?: string | number;
+	}[],
+	groups?: {
 		value: string | number;
 		label?: string;
 	}[],
@@ -28,6 +33,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 	className,
 	height = 32,
 	options = [],
+	groups = [],
 	value,
 	onChange,
 	visibleOptionCount = 5,
@@ -47,11 +53,11 @@ const ComboBox: FC<ComboBoxProps> = ({
 
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults, setSearchResults] = useState<typeof options | null>();
+	const [optionsGrouped, setOptionsGrouped] = useState<(typeof options[number] & {isGroup?: boolean})[]>([]);
 
 	const [selectedIndex, setSelectedIndex] = useState(0);
 
-	const optionsFiltered = searchResults || options;
-	const rowCount = optionsFiltered.length;
+	const rowCount = optionsGrouped.length;
 	const dropdownId = `${idRef.current}-dropdown`;
 	const isMultiselectable = Array.isArray(value);
 
@@ -60,19 +66,25 @@ const ComboBox: FC<ComboBoxProps> = ({
 			switch (e.code){
 			case 'ArrowDown':
 				if (isExpanded){
-					setSelectedIndex(selectedIndexPrev => selectedIndexPrev < optionsFiltered.length - 1 ? selectedIndexPrev + 1 : 0);
+					setSelectedIndex(selectedIndexPrev => {
+						let indexNext = selectedIndexPrev < optionsGrouped.length - 1 ? selectedIndexPrev + 1 : 0;
+						return optionsGrouped[indexNext].isGroup ? ++indexNext : indexNext;
+					});
 					e.preventDefault();
 				}
 				break;
 			case 'ArrowUp':
 				if (isExpanded){
-					setSelectedIndex(selectedIndexPrev => selectedIndexPrev > 0 ? selectedIndexPrev - 1 : optionsFiltered.length - 1);
+					setSelectedIndex(selectedIndexPrev => {
+						let indexNext = selectedIndexPrev > 0 ? selectedIndexPrev - 1 : optionsGrouped.length - 1;
+						return optionsGrouped[indexNext].isGroup ? --indexNext : indexNext;
+					});
 					e.preventDefault();
 				}
 				break;
 			case 'Enter': {
 				if (isExpanded && rowCount){
-					onChange(optionsFiltered[selectedIndex].value);
+					onChange(optionsGrouped[selectedIndex].value);
 					componentRef.current.focus();
 				}
 				setIsExpanded(isExpandedPrev => !isExpandedPrev);
@@ -125,6 +137,25 @@ const ComboBox: FC<ComboBoxProps> = ({
 	}, [searchQuery, options]);
 
 	useEffect(() => {
+		const groupValues = [];
+		const optionsGroupedNew: typeof optionsGrouped = [...(searchResults || options)].sort((a, b) => {
+			groupValues.push(a.group, b.group);
+			return a.group < b.group ? -1 : 0;
+		});
+
+		unique(groupValues.filter(v => !isUndef(v))).forEach(v => {
+			const firstIndex = optionsGroupedNew.findIndex(o => o.group == v);
+			optionsGroupedNew.splice(firstIndex, 0, {
+				isGroup: true,
+				value: v,
+				label: groups.find(g => g.value == v)?.label
+			});
+		});
+
+		setOptionsGrouped(optionsGroupedNew);
+	}, [searchResults, options, groups]);
+
+	useEffect(() => {
 		if (dropdownRef.current){
 			let scrollTarget = height*selectedIndex;
 			const {scrollTop} = dropdownRef.current;
@@ -145,13 +176,13 @@ const ComboBox: FC<ComboBoxProps> = ({
 	}, [selectedIndex, height, visibleOptionCount]);
 
 	const optionRenderer = (index, style) => {
-		const option = optionsFiltered[index];
+		const option = optionsGrouped[index];
 		const indexOfOption = isMultiselectable ? (value as (string | number)[]).findIndex(v => v == option?.value) : -1;
 
 		return <Styled.Option
 			style={style}
 			key={`${index}-${option?.value}`}
-			onClick={rowCount ? () => {
+			onClick={rowCount && !option?.isGroup ? () => {
 				if (isMultiselectable){
 					const valueNew = [...value as (string | number)[]];
 
@@ -169,10 +200,10 @@ const ComboBox: FC<ComboBoxProps> = ({
 					setIsExpanded(false);
 				}
 			} : undefined}
-			role='option'
-			id={`${dropdownId}-option-${index}`}
-			aria-checked={rowCount && isMultiselectable ? indexOfOption != -1 : undefined}
-			aria-selected={rowCount && selectedIndex == index ? true : undefined}
+			role={option?.isGroup ? undefined : 'option'}
+			id={`${dropdownId}-row-${index}`}
+			aria-checked={rowCount && !option?.isGroup && isMultiselectable ? indexOfOption != -1 : undefined}
+			aria-selected={rowCount && !option?.isGroup && selectedIndex == index ? true : undefined}
 		>
 			{option?.label || option?.value || 'No results'}
 		</Styled.Option>;
@@ -218,7 +249,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 			tabIndex={!searchDisabled && isExpanded ? 0 : -1}
 			aria-autocomplete={searchDisabled ? undefined : 'both'}
 			aria-controls={isExpanded ? dropdownId : undefined}
-			aria-activedescendant={isExpanded ? `${dropdownId}-option-${selectedIndex}` : undefined}
+			aria-activedescendant={isExpanded ? `${dropdownId}-row-${selectedIndex}` : undefined}
 			aria-labelledby={labelledBy}
 		>
 		</Styled.Input>

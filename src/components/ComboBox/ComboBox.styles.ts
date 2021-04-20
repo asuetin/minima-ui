@@ -7,7 +7,6 @@ import List from 'components/List';
 const Option = styled.li`
 	position: relative;
 
-	cursor: pointer;
 	white-space: nowrap;
     text-overflow: ellipsis;
 	overflow: hidden;
@@ -17,8 +16,19 @@ const Option = styled.li`
 	padding-left: var(--padding);
 	transition: padding-left 125ms ease-in-out;
 
-	&:hover {
+	&[role='option']{
+		cursor: pointer;
+	}
+
+	&[role='option']:hover {
 		background-color: var(--color-option-background-hover);
+	}
+
+	&:not([role='option']){
+		font-size: 80%;
+		font-weight: bold;
+		text-align: center;
+		transform: translateY(20%);
 	}
 
 	&[aria-selected='true']{

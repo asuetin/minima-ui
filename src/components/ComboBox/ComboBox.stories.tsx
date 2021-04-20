@@ -184,9 +184,32 @@ const MultiselectableTemplate: Story<ComboBoxProps> = ({options, height, visible
 
 export const Multiselectable = MultiselectableTemplate.bind({});
 Multiselectable.args = {
+	...Basic.args
+};
+
+const GroupedTemplate: Story<ComboBoxProps> = ({options, groups}) => {
+	const [value, setValue] = useState(0);
+
+	return <div style={{height: '14rem'}}>
+		<ComboBox
+			options={options}
+			groups={groups}
+			value={value}
+			onChange={(v: number) => setValue(v)}
+		/>
+	</div>;
+};
+
+export const Grouped = GroupedTemplate.bind({});
+Grouped.args = {
 	options: Array.from({length: 20}, (v, i) => ({
 		value: i,
-		label: `Option ${i+1}`
+		label: `Option ${i+1}`,
+		group: i%4
+	})),
+	groups: Array.from({length: 4}, (v, i) => ({
+		value: i,
+		label: `Group ${i+1}`
 	}))
 };
 
@@ -231,7 +254,7 @@ const StyledTemplate: Story<ComboBoxProps> = ({options}) => {
 
 export const Styled = StyledTemplate.bind({});
 Styled.args = {
-	...Basic.args,
+	...Basic.args
 };
 Styled.argTypes = {
 	disabled: {

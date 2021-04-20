@@ -38,3 +38,15 @@ export const uniqueId = ((): ((prefix: string) => string) => {
 	let count = 0;
 	return (prefix: string): string => `${prefix}${++count}`;
 })();
+
+export const unique = <T>(array: T[], selector?: (el: typeof array[number]) => unknown): T[] => {
+	if (isUndef(selector)){
+		return array.filter((v, i, a) => a.indexOf(v) == i);
+	}
+	return array.filter((e, i) => array.findIndex((a) => {
+		if (selector) {
+			return selector(a) === selector(e);
+		}
+		return a === e;
+	}) === i);
+};
