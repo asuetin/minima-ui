@@ -110,14 +110,6 @@ const ComboBox: FC<ComboBoxProps> = ({
 	});
 
 	useEffect(() => {
-		if (isExpanded){
-			setSearchQuery('');
-			inputRef.current.focus();
-		}
-		setSelectedIndex(0);
-	}, [isExpanded]);
-
-	useEffect(() => {
 		let searchResultsNew = null;
 		if (searchQuery != ''){
 			searchResultsNew = options.filter(({label, value}) => {
@@ -133,7 +125,6 @@ const ComboBox: FC<ComboBoxProps> = ({
 			});
 		}
 		setSearchResults(searchResultsNew);
-		setSelectedIndex(0);
 	}, [searchQuery, options]);
 
 	useEffect(() => {
@@ -175,6 +166,17 @@ const ComboBox: FC<ComboBoxProps> = ({
 		}
 	}, [selectedIndex, height, visibleOptionCount]);
 
+	useEffect(() => {
+		if (isExpanded){
+			setSearchQuery('');
+			inputRef.current.focus();
+		}
+	}, [isExpanded]);
+
+	useEffect(() => {
+		setSelectedIndex(optionsGrouped.findIndex(o => !o.isGroup));
+	}, [isExpanded, optionsGrouped]);
+
 	const optionRenderer = (index, style) => {
 		const option = optionsGrouped[index];
 		const indexOfOption = isMultiselectable ? (value as (string | number)[]).findIndex(v => v == option?.value) : -1;
@@ -204,6 +206,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 			id={`${dropdownId}-row-${index}`}
 			aria-checked={rowCount && !option?.isGroup && isMultiselectable ? indexOfOption != -1 : undefined}
 			aria-selected={rowCount && !option?.isGroup && selectedIndex == index ? true : undefined}
+			as={option?.isGroup ? 'label' : undefined}
 		>
 			{option?.label || option?.value || 'No results'}
 		</Styled.Option>;
@@ -229,6 +232,7 @@ const ComboBox: FC<ComboBoxProps> = ({
 			id={dropdownId}
 			aria-labelledby={labelledBy}
 			aria-multiselectable={isMultiselectable}
+			aria-label={labelledBy ? undefined : 'Dropdown menu'}
 		/>}
 		<Styled.Input
 			ref={inputRef}

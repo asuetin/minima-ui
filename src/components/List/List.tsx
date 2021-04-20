@@ -1,4 +1,4 @@
-import {useState, useMemo, useEffect, forwardRef} from 'react';
+import {useState, useMemo, useEffect, forwardRef, HTMLAttributes} from 'react';
 import type {ReactElement} from 'react';
 
 import {pxToRem, debounce} from 'utils/functions';
@@ -11,13 +11,14 @@ export type ListProps = {
 	rowHeight?: number;
 	rowCount: number;
 	rowRenderer: (index: number, style: {[key: string]: string}) => ReactElement
-} & Partial<HTMLUListElement>;
+} & HTMLAttributes<HTMLUListElement>;
 
 const List = forwardRef<HTMLUListElement, ListProps>(({
 	className,
 	rowHeight = 32,
 	rowCount,
-	rowRenderer
+	rowRenderer,
+	...props
 }, forwardedRef) => {
 	const componentRef = useMergedRef<HTMLUListElement>(forwardedRef);
 
@@ -48,6 +49,7 @@ const List = forwardRef<HTMLUListElement, ListProps>(({
 		className={className}
 		ref={componentRef}
 		role='listbox'
+		{...props}
 	>
 		{Array.from({length: visibleBounds[1] - visibleBounds[0]}, (v, i) => rowRenderer(visibleBounds[0] + i, {
 			height: `${pxToRem(rowHeight)}rem`,
