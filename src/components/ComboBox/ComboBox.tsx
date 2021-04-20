@@ -18,7 +18,7 @@ export type ComboBoxProps = {
 	}[],
 	groups?: {
 		value: string | number;
-		label?: string;
+		label: string;
 	}[],
 	value: string | number | (string | number)[];
 	onChange: (v: string | number | (string | number)[]) => void;

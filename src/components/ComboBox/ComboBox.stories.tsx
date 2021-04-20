@@ -39,6 +39,17 @@ export default {
 				category: 'Core'
 			}
 		},
+		groups: {
+			description: 'Array of group objects',
+			type: {
+				summary: 'Array of objects',
+				detail: '{value: number | string; label: string}[]'
+			},
+			control: 'array',
+			table: {
+				category: 'Core'
+			}
+		},
 		value: {
 			description: 'Current value of the ComboBox',
 			type: {
@@ -142,18 +153,14 @@ export default {
 	}
 } as Meta;
 
-const BasicTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCount, searchDisabled, disabled}) => {
+const BasicTemplate: Story<ComboBoxProps> = ({height, visibleOptionCount, ...args}) => {
 	const [value, setValue] = useState(0);
 
 	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
 		<ComboBox
-			height={height || undefined}
-			visibleOptionCount={isUndef(visibleOptionCount) ? undefined : visibleOptionCount}
-			options={options}
 			value={value}
 			onChange={(v: number) => setValue(v)}
-			searchDisabled={searchDisabled}
-			disabled={disabled}
+			{...args}
 		/>
 	</div>;
 };
@@ -166,18 +173,14 @@ Basic.args = {
 	}))
 };
 
-const MultiselectableTemplate: Story<ComboBoxProps> = ({options, height, visibleOptionCount, searchDisabled, disabled}) => {
+const MultiselectableTemplate: Story<ComboBoxProps> = ({height, visibleOptionCount, ...args}) => {
 	const [value, setValue] = useState([2, 4]);
 
 	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
 		<ComboBox
-			height={height || undefined}
-			visibleOptionCount={isUndef(visibleOptionCount) ? undefined : visibleOptionCount}
-			options={options}
 			value={value}
 			onChange={(v: number[]) => setValue(v)}
-			searchDisabled={searchDisabled}
-			disabled={disabled}
+			{...args}
 		/>
 	</div>;
 };
@@ -187,20 +190,7 @@ Multiselectable.args = {
 	...Basic.args
 };
 
-const GroupedTemplate: Story<ComboBoxProps> = ({options, groups}) => {
-	const [value, setValue] = useState(0);
-
-	return <div style={{height: '14rem'}}>
-		<ComboBox
-			options={options}
-			groups={groups}
-			value={value}
-			onChange={(v: number) => setValue(v)}
-		/>
-	</div>;
-};
-
-export const Grouped = GroupedTemplate.bind({});
+export const Grouped = BasicTemplate.bind({});
 Grouped.args = {
 	options: Array.from({length: 20}, (v, i) => ({
 		value: i,
@@ -235,12 +225,11 @@ const ComboBoxStyled = styled(ComboBox)`
 	}
 `;
 
-const StyledTemplate: Story<ComboBoxProps> = ({options}) => {
+const StyledTemplate: Story<ComboBoxProps> = ({height, visibleOptionCount, ...args}) => {
 	const [value, setValue] = useState(0);
 
-	return <div style={{height: '14rem'}}>
+	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
 		<ComboBoxStyled
-			options={options}
 			value={value}
 			onChange={(v: number) => setValue(v)}
 			arrowIcon={
@@ -248,6 +237,7 @@ const StyledTemplate: Story<ComboBoxProps> = ({options}) => {
 					<path d="M0 3l6 7 6-7z" strokeOpacity="0"/>
 				</svg> as unknown as SVGSVGElement
 			}
+			{...args}
 		/>
 	</div>;
 };
