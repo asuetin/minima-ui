@@ -7,7 +7,7 @@ import type {Story, Meta} from '@storybook/react';
 import ComboBox, {ComboBoxStyles} from 'components/ComboBox';
 import type {ComboBoxProps} from 'components/ComboBox';
 
-import {isUndef, pxToRem} from 'utils/functions';
+import {pxToRem} from 'utils/functions';
 
 export default {
 	title: 'Components/ComboBox',

@@ -85,32 +85,32 @@ export default {
 	}
 } as Meta;
 
-const Template: Story<IconProps> = args => <Icon {...args}/>;
+const BasicTemplate: Story<IconProps> = args => <Icon {...args}/>;
 
-export const Basic = Template.bind({});
+export const Basic = BasicTemplate.bind({});
 Basic.args = {
 	presetName: 'user'
 };
 
-export const Thin = Template.bind({});
+export const Thin = BasicTemplate.bind({});
 Thin.args = {
 	...Basic.args,
 	strokeWidth: 1
 };
 
-export const Scaled = Template.bind({});
+export const Scaled = BasicTemplate.bind({});
 Scaled.args = {
 	...Basic.args,
 	size: 192
 };
 
-export const Recolored = Template.bind({});
+export const Recolored = BasicTemplate.bind({});
 Recolored.args = {
 	...Basic.args,
 	color: 'red'
 };
 
-export const Custom = Template.bind({});
+export const Custom = BasicTemplate.bind({});
 Custom.args = {
 	viewBoxSize: 24,
 	path: <g fillOpacity='0' transform="translate(0 -1098.52)">

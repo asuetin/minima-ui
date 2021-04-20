@@ -53,12 +53,12 @@ export default {
 	}
 } as Meta;
 
-const Template: Story<ListProps> = args =>
+const BasicTemplate: Story<ListProps> = args =>
 	<div style={{height: '10rem'}}>
 		<List {...args}/>
 	</div>;
 
-export const Basic = Template.bind({});
+export const Basic = BasicTemplate.bind({});
 Basic.args = {
 	rowCount: 1000,
 	rowRenderer: (index, style) =>
