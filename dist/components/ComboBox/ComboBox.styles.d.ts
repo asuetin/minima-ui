@@ -11,7 +11,7 @@ declare const _default: {
         rowRenderer: (index: number, style: {
             [key: string]: string;
         }) => import("react").ReactElement<any, string | import("react").JSXElementConstructor<any>>;
-    } & Partial<HTMLUListElement> & import("react").RefAttributes<HTMLUListElement>>, any, {
+    } & import("react").HTMLAttributes<HTMLUListElement> & import("react").RefAttributes<HTMLUListElement>>, any, {
         visibleOptionCount: number;
     }, never>;
     Option: import("styled-components").StyledComponent<"li", any, {}, never>;
