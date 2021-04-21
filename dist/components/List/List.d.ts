@@ -1,3 +1,4 @@
+import { HTMLAttributes } from 'react';
 import type { ReactElement } from 'react';
 export declare type ListProps = {
     className?: string;
@@ -6,7 +7,7 @@ export declare type ListProps = {
     rowRenderer: (index: number, style: {
         [key: string]: string;
     }) => ReactElement;
-} & Partial<HTMLUListElement>;
+} & HTMLAttributes<HTMLUListElement>;
 declare const List: import("react").ForwardRefExoticComponent<{
     className?: string;
     rowHeight?: number;
@@ -14,5 +15,5 @@ declare const List: import("react").ForwardRefExoticComponent<{
     rowRenderer: (index: number, style: {
         [key: string]: string;
     }) => ReactElement;
-} & Partial<HTMLUListElement> & import("react").RefAttributes<HTMLUListElement>>;
+} & HTMLAttributes<HTMLUListElement> & import("react").RefAttributes<HTMLUListElement>>;
 export default List;
