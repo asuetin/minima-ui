@@ -158,9 +158,9 @@ const BasicTemplate: Story<ComboBoxProps> = ({height, visibleOptionCount, ...arg
 
 	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
 		<ComboBox
+			{...args}
 			value={value}
 			onChange={(v: number) => setValue(v)}
-			{...args}
 		/>
 	</div>;
 };
@@ -178,9 +178,9 @@ const MultiselectableTemplate: Story<ComboBoxProps> = ({height, visibleOptionCou
 
 	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
 		<ComboBox
+			{...args}
 			value={value}
 			onChange={(v: number[]) => setValue(v)}
-			{...args}
 		/>
 	</div>;
 };
@@ -192,11 +192,7 @@ Multiselectable.args = {
 
 export const Grouped = BasicTemplate.bind({});
 Grouped.args = {
-	options: Array.from({length: 20}, (v, i) => ({
-		value: i,
-		label: `Option ${i+1}`,
-		group: i%4
-	})),
+	...Basic.args,
 	groups: Array.from({length: 4}, (v, i) => ({
 		value: i,
 		label: `Group ${i+1}`
@@ -230,6 +226,7 @@ const StyledTemplate: Story<ComboBoxProps> = ({height, visibleOptionCount, ...ar
 
 	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
 		<ComboBoxStyled
+			{...args}
 			value={value}
 			onChange={(v: number) => setValue(v)}
 			arrowIcon={
@@ -237,7 +234,6 @@ const StyledTemplate: Story<ComboBoxProps> = ({height, visibleOptionCount, ...ar
 					<path d="M0 3l6 7 6-7z" strokeOpacity="0"/>
 				</svg> as unknown as SVGSVGElement
 			}
-			{...args}
 		/>
 	</div>;
 };
