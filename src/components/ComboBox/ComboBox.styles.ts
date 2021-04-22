@@ -2,6 +2,11 @@ import styled, {css, keyframes} from 'styled-components';
 
 import {pxToRem} from 'utils/functions';
 
+import {size, radius, getShadow, focus} from 'utils/styleVars';
+
+import theme from 'utils/theme';
+const {background, accent, content} = theme;
+
 import List from 'components/List';
 
 const Option = styled.li`
@@ -56,7 +61,7 @@ const Option = styled.li`
 			height: var(--size-check-indicator);
 
 			border-radius: 50%;
-			background: var(--color-check-indicator);
+			background-color: var(--color-accent);
 
 			animation: ${keyframes`
 				0% {
@@ -83,6 +88,15 @@ const Dropdown = styled(List)<{visibleOptionCount: number}>(({rowHeight, rowCoun
 	border-radius: var(--border-radius);
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
+
+	animation: ${keyframes`
+		0% {
+			height: 0;
+		}
+		100% {
+			height: var(--height);
+		}
+	`} 125ms ease-in-out;
 
 	> * {
 		line-height: ${pxToRem(rowHeight)}rem;
@@ -111,25 +125,16 @@ const Dropdown = styled(List)<{visibleOptionCount: number}>(({rowHeight, rowCoun
 	::-webkit-scrollbar-corner {
 		display: none;
 	}
-
-	animation: ${keyframes`
-		0% {
-			height: 0;
-		}
-		100% {
-			height: var(--height);
-		}
-	`} 125ms ease-in-out;
 `);
 
 const Button = styled.button`
 	position: relative;
-	cursor: pointer;
-	border: none;
-	outline: none;
 
+	cursor: pointer;
 	background-color: inherit;
+	border: none;
 	border-radius: inherit;
+	outline: none;
 
 	display: flex;
 	align-items: center;
@@ -142,90 +147,93 @@ const Button = styled.button`
 
 const Input = styled.input`
 	position: relative;
-	width: 100%;
 	flex-grow: 1;
 	padding: 0 0 0 var(--padding);
 
-	color: var(--color-text);
+	color: var(--color-content);
 	background-color: inherit;
 	border: none;
 	border-radius: inherit;
 	outline: none;
 	font: inherit;
-	transition: color 125ms ease-in-out;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
+	transition: color 125ms ease-in-out;
 
 	display: flex;
 	align-items: center;
+
+	::placeholder {
+		color: var(--color-placeholder);
+	}
 `;
 
 const ComboBox = styled.div<{height: number}>`
-	--color-background: rgb(240,240,240);
-	--color-background-disabled: rgb(210,210,210);
-	--color-dropdown-background: rgb(230,230,230);
-	--color-option-background-hover: rgb(220,220,220);
-	--color-option-background-selected: rgb(210,210,210);
+	--border-radius: ${radius.M};
+	--padding: ${size.XS};
+	--width-scrollbar: ${size.XXS};
+	--size-check-indicator: ${size.XS};
 
-	--color-text: rgb(60,60,60);
-	--color-text-hover: rgb(140,140,140);
+	--color-background: ${background.M};
+	--color-background-light: ${background.L};
+	--color-background-disabled: ${background.XXD};
+	--color-dropdown-background: ${background.M};
+	--color-option-background-hover: ${background.D};
+	--color-option-background-selected: ${background.XD};
 
-	--color-arrow: rgb(60,60,60);
-	--color-arrow-hover: rgb(140,140,140);
+	--color-content: ${content.M};
+	--color-placeholder: ${content.XL};
+	--color-accent: ${accent.M};
+	--color-accent-light: ${accent.L};
 
-	--color-scrollbar: rgb(150,150,150);
-	--color-scrollbar-hover: rgb(160,160,160);
+	--color-scrollbar: ${content.L};
+	--color-scrollbar-hover: ${content.XL};
 
-	--color-check-indicator: rgb(130,160,230);
-
-	--box-shadow: 0 0.375rem 1.25rem 0 rgb(150,150,150);
-	--box-shadow-focus: 0 0.375rem 1.25rem 0 rgb(150,150,150),
-		0 0 0 0.125rem rgb(130,160,230);
-
-	--border-radius: 0.375rem;
-	--padding: 0.5rem;
-	--width-scrollbar: 0.25rem;
-	--size-check-indicator: 0.5rem;
+	--shadow: ${getShadow('M')};
+	--light: ${getShadow('L', accent.L)};
+	--focus: ${focus};
 
 	position: relative;
 	height: ${({height}) => pxToRem(height)}rem;
 
 	background-color: var(--color-background);
-	box-shadow: var(--box-shadow);
+	outline: none;
+	box-shadow: var(--shadow);
 	border-radius: var(--border-radius);
 	font-family: 'Open Sans', sans-serif;
+	color: var(--color-content);
+	transition: ${['background-color', 'box-shadow', 'border-radius'].map(v => `${v} 125ms ease-in-out`).join()};
 
 	display: flex;
 
-	color: var(--color-text);
-
 	svg {
-		stroke: var(--color-arrow);
-		fill: var(--color-arrow);
+		stroke: var(--color-content);
+		fill: var(--color-content);
 	}
 
-	*:focus {
-		outline: none;
+	&[aria-expanded='true'], &:hover, ${Dropdown}{
+		box-shadow: var(--light);
 	}
 
-	&:focus, &[aria-expanded='true']{
-		outline: none;
-		box-shadow: var(--box-shadow-focus);
-
-		${Dropdown}{
-			box-shadow: var(--box-shadow-focus);
-		}
+	&[aria-expanded='true'], &:hover {
+		background-color: var(--color-background-light);
 	}
 
-	&[aria-expanded='false']:hover {
-		&, ${Input}{
-			color: var(--color-text-hover);
+	&[aria-expanded='false']{
+		&:focus {
+			box-shadow: var(--shadow), var(--focus);
 		}
 
-		svg {
-			stroke: var(--color-arrow-hover);
-			fill: var(--color-arrow-hover);
+		&:hover {
+			${Input}{
+				color: var(--color-accent-light);
+			}
+
+			svg {
+				stroke: var(--color-accent-light);
+				fill: var(--color-accent-light);
+			}
 		}
 	}
 
@@ -239,8 +247,8 @@ const ComboBox = styled.div<{height: number}>`
 			}
 
 			&:hover svg {
-				stroke: var(--color-arrow-hover);
-				fill: var(--color-arrow-hover);
+				stroke: var(--color-accent-light);
+				fill: var(--color-accent-light);
 			}
 		}
 	}

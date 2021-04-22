@@ -204,24 +204,48 @@ Grouped.args = {
 	}))
 };
 
-const {Option} = ComboBoxStyles;
+const {Dropdown, Option} = ComboBoxStyles;
 const ComboBoxStyled = styled(ComboBox)`
 	--color-background: white;
+	--color-background-light: white;
 	--color-dropdown-background: white;
 	--color-option-background-hover: none;
 	--color-option-background-selected: rgb(237,231,246);
 
-	--color-arrow: rgb(126,87,194);
-	--color-arrow-hover: rgb(179,157,219);
+	--color-accent: rgb(126,87,194);
+	--color-accent-light: rgb(179,157,219);
 
 	--border-radius: 0;
 
-	--box-shadow: 0 0 0 0.125rem rgb(126,87,194);
-	--box-shadow-focus: 0 0 0 0.125rem rgb(126,87,194);
+	--shadow: none;
+	--light: none;
+	--focus: 0 0 0 ${1/16}rem rgb(126,87,194);
+
+	&, ${Dropdown}{
+		border: 0.125rem solid rgb(126,87,194);
+	}
+
+	${Dropdown}{
+		left: -0.125rem;
+	}
 
 	${Option}{
 		&:hover {
 			color: rgb(149,117,205);
+		}
+	}
+
+	&[aria-expanded='false']{
+		&:focus {
+			box-shadow: var(--focus);
+		}
+	}
+
+	&[aria-expanded='true']{
+		border-bottom: none;
+
+		${Dropdown}{
+			border-top: none;
 		}
 	}
 `;
