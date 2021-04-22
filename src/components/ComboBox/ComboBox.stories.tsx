@@ -193,6 +193,11 @@ Multiselectable.args = {
 export const Grouped = BasicTemplate.bind({});
 Grouped.args = {
 	...Basic.args,
+	options: Array.from({length: 20}, (v, i) => ({
+		value: i,
+		label: `Option ${i+1}`,
+		group: i%4
+	})),
 	groups: Array.from({length: 4}, (v, i) => ({
 		value: i,
 		label: `Group ${i+1}`
