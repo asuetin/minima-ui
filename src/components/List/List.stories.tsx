@@ -3,6 +3,10 @@ import type {Story, Meta} from '@storybook/react';
 import List from 'components/List';
 import type {ListProps} from 'components/List';
 
+import {remToPx} from 'utils/functions';
+
+import {size} from 'utils/styleVars';
+
 export default {
 	title: 'Components/List',
 	component: List,
@@ -13,11 +17,11 @@ export default {
 				summary: 'Positive integer'
 			},
 			control: 'number',
-			defaultValue: 32,
+			defaultValue: remToPx(size.M),
 			table: {
 				category: 'Geometry',
 				defaultValue: {
-					summary: 32
+					summary: remToPx(size.M)
 				}
 			}
 		},

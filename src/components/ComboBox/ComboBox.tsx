@@ -1,7 +1,9 @@
 import {forwardRef, useState, useEffect, useRef, HTMLAttributes} from 'react';
 
-import {uniqueId, isDescendantOf, isUndef, unique} from 'utils/functions';
+import {remToPx, uniqueId, isDescendantOf, isUndef, unique} from 'utils/functions';
 import {useMergedRef, useEvent} from 'utils/hooks';
+
+import {size} from 'utils/styleVars';
 
 import Icon from 'components/Icon';
 
@@ -30,7 +32,7 @@ export type ComboBoxProps = {
 
 const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	className,
-	height = 32,
+	height = remToPx(size.M),
 	options,
 	groups,
 	value,

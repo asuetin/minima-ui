@@ -1,4 +1,4 @@
-import {forwardRef, useState, useEffect, useRef, HTMLAttributes} from 'react';
+import {useState} from 'react';
 
 import type {Story, Meta} from '@storybook/react';
 

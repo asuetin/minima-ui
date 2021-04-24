@@ -1,8 +1,10 @@
 import {useState, useMemo, useEffect, forwardRef, HTMLAttributes} from 'react';
 import type {ReactElement} from 'react';
 
-import {pxToRem, debounce} from 'utils/functions';
+import {remToPx, pxToRem, debounce} from 'utils/functions';
 import {useEvent, useMergedRef} from 'utils/hooks';
+
+import {size} from 'utils/styleVars';
 
 import Styled from './List.styles';
 
@@ -15,7 +17,7 @@ export type ListProps = {
 
 const List = forwardRef<HTMLUListElement, ListProps>(({
 	className,
-	rowHeight = 32,
+	rowHeight = remToPx(size.M),
 	rowCount,
 	rowRenderer,
 	...props

@@ -7,7 +7,9 @@ import type {Story, Meta} from '@storybook/react';
 import ComboBox, {ComboBoxStyles} from 'components/ComboBox';
 import type {ComboBoxProps} from 'components/ComboBox';
 
-import {pxToRem} from 'utils/functions';
+import {size} from 'utils/styleVars';
+
+import {remToPx, pxToRem} from 'utils/functions';
 
 export default {
 	title: 'Components/ComboBox',
@@ -19,10 +21,10 @@ export default {
 				summary: 'Positive integer (px)'
 			},
 			control: 'number',
-			defaultValue: 32,
+			defaultValue: remToPx(size.M),
 			table: {
 				defaultValue: {
-					summary: 32
+					summary: remToPx(size.M)
 				},
 				category: 'Geometry'
 			}
@@ -156,7 +158,7 @@ export default {
 const BasicTemplate: Story<ComboBoxProps> = ({height, visibleOptionCount, ...args}) => {
 	const [value, setValue] = useState(0);
 
-	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
+	return <div style={{height: `${pxToRem(height*(visibleOptionCount+2))}rem`}}>
 		<ComboBox
 			{...args}
 			value={value}
@@ -176,7 +178,7 @@ Basic.args = {
 const MultiselectableTemplate: Story<ComboBoxProps> = ({height, visibleOptionCount, ...args}) => {
 	const [value, setValue] = useState([2, 4]);
 
-	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
+	return <div style={{height: `${pxToRem(height*(visibleOptionCount+2))}rem`}}>
 		<ComboBox
 			{...args}
 			value={value}
@@ -253,7 +255,7 @@ const ComboBoxStyled = styled(ComboBox)`
 const StyledTemplate: Story<ComboBoxProps> = ({height, visibleOptionCount, ...args}) => {
 	const [value, setValue] = useState(0);
 
-	return <div style={{height: `${pxToRem((height || 32)*(visibleOptionCount+2))}rem`}}>
+	return <div style={{height: `${pxToRem(height*(visibleOptionCount+2))}rem`}}>
 		<ComboBoxStyled
 			{...args}
 			value={value}

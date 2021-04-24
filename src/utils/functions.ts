@@ -1,8 +1,8 @@
 export const getBodyFontSize = (): number => parseFloat(window.getComputedStyle(document.body).getPropertyValue('font-size'));
 
-export const pxToRem = (v: string | number): number => parseFloat(String(v))/getBodyFontSize();
+export const pxToRem = (v: string | number): number => parseFloat(String(v))/(getBodyFontSize() || 16);
 
-export const remToPx = (v: string | number): number => parseFloat(String(v))*getBodyFontSize();
+export const remToPx = (v: string | number): number => parseFloat(String(v))*(getBodyFontSize() || 16);
 
 export const isUndef = (v: unknown): boolean => typeof v == 'undefined';
 
