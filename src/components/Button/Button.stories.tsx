@@ -1,6 +1,3 @@
-import {useState} from 'react';
-
-
 import type {Story, Meta} from '@storybook/react';
 
 import Button from 'components/Button';
@@ -79,7 +76,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: 'Search and select an option from an expandable dropdown menu'
+				component: 'A basic button with an icon, a label, or both'
 			}
 		}
 	}

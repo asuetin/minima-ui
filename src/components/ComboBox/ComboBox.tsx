@@ -1,8 +1,7 @@
-import {useState, useEffect, useRef} from 'react';
-import type {FC} from 'react';
+import {forwardRef, useState, useEffect, useRef, HTMLAttributes} from 'react';
 
 import {uniqueId, isDescendantOf, isUndef, unique} from 'utils/functions';
-import {useEvent} from 'utils/hooks';
+import {useMergedRef, useEvent} from 'utils/hooks';
 
 import Icon from 'components/Icon';
 
@@ -27,9 +26,9 @@ export type ComboBoxProps = {
 	labelledBy?: string;
 	searchDisabled?: boolean;
 	disabled?: boolean;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
-const ComboBox: FC<ComboBoxProps> = ({
+const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	className,
 	height = 32,
 	options,
@@ -41,10 +40,10 @@ const ComboBox: FC<ComboBoxProps> = ({
 	labelledBy,
 	searchDisabled = false,
 	disabled = false
-}) => {
+}, forwardedRef) => {
 	const idRef = useRef(uniqueId('combobox-'));
 
-	const componentRef = useRef<HTMLDivElement>();
+	const componentRef = useMergedRef<HTMLDivElement>(forwardedRef);
 	const inputRef = useRef<HTMLInputElement>();
 
 	const dropdownRef = useRef<HTMLUListElement>();
@@ -280,6 +279,6 @@ const ComboBox: FC<ComboBoxProps> = ({
 			{arrowIcon}
 		</Styled.Button>
 	</Styled.ComboBox>;
-};
+});
 
 export default ComboBox;
