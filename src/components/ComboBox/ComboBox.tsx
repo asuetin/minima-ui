@@ -26,7 +26,7 @@ export type ComboBoxProps = {
 	labelledBy?: string;
 	searchDisabled?: boolean;
 	disabled?: boolean;
-} & HTMLAttributes<HTMLDivElement>;
+} & Omit<HTMLAttributes<HTMLDivElement>, 'onChange'>;
 
 const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	className,
