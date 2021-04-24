@@ -30,4 +30,4 @@ export const getShadow = (size: keyof StyleVarType = 'M', color = 'rgb(160,160,1
 	return `${shadow[size]} ${color}`;
 };
 
-export const focus = `0 0 0 0.125rem ${theme.accent.M}`;
+export const focus = `0 0 0 0.125rem ${theme.accent.XD}`;
