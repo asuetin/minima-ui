@@ -8,6 +8,7 @@ export {IconProps} from 'components/Icon';
 export {ListProps} from 'components/List';
 export {ComboBoxProps} from 'components/ComboBox';
 export {ButtonProps} from 'components/Button';
+export {SwitchProps} from 'components/Switch';
 
 export {
 	Icon, IconStyles,
