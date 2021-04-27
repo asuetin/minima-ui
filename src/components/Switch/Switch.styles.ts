@@ -66,7 +66,7 @@ const Switch = styled.button`
 
 	&:active {
 		box-shadow: var(--light-pressed);
-		transform: scale(0.96);
+		transform: translateY(5%);
 	}
 
 	&[aria-checked='true']{
