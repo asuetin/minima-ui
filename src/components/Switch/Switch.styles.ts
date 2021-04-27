@@ -94,7 +94,7 @@ const Switch = styled.button`
 		}
 	}
 
-	&[aria-readonly='true']{
+	&[aria-disabled='true'], &[aria-readonly='true']{
 		pointer-events: none;
 	}
 `;
