@@ -86,6 +86,9 @@ const BasicTemplate: Story<ButtonProps> = args => <Button {...args}/>;
 
 export const Basic = BasicTemplate.bind({});
 Basic.args = {
-	icon: <Icon presetName='gear'/>,
+	icon: <Icon
+		preset='gear'
+		size={22}
+	/>,
 	label: 'Settings'
 };

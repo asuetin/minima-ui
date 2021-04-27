@@ -6,6 +6,7 @@ import theme from 'utils/theme';
 const {background, accent, content} = theme;
 
 const Button = styled.button`
+	--size: ${size.M};
 	--border-radius: ${radius.M};
 	--padding: ${size.XS};
 
@@ -23,6 +24,7 @@ const Button = styled.button`
 	--focus: ${focus};
 
 	position: relative;
+	height: var(--size);
 
 	cursor: pointer;
 	background-color: var(--color-background);
@@ -76,7 +78,7 @@ const Button = styled.button`
 
 	&:active {
 		box-shadow: var(--light-pressed);
-		transform: scale(0.96);
+		transform: translateY(5%);
 	}
 
 	&[aria-disabled='true']{

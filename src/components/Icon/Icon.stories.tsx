@@ -7,7 +7,7 @@ export default {
 	title: 'Components/Icon',
 	component: Icon,
 	argTypes: {
-		presetName: {
+		preset: {
 			description: 'Name of the preset icon to use',
 			control: 'select',
 			options: Object.keys(presetIcons),
@@ -89,7 +89,7 @@ const BasicTemplate: Story<IconProps> = args => <Icon {...args}/>;
 
 export const Basic = BasicTemplate.bind({});
 Basic.args = {
-	presetName: 'user'
+	preset: 'user'
 };
 
 export const Thin = BasicTemplate.bind({});

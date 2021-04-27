@@ -38,7 +38,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	value,
 	onChange,
 	visibleOptionCount = 5,
-	arrowIcon = <Icon presetName='down'/>,
+	arrowIcon = <Icon preset='down'/>,
 	labelledBy,
 	searchDisabled = false,
 	disabled = false

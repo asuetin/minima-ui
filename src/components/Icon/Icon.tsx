@@ -110,18 +110,18 @@ export type IconProps = {
 	color?: string;
 	strokeWidth?: number;
 } & ({
-	presetName: IconNameType;
+	preset: IconNameType;
 	viewBoxSize?: number;
 	path?: React.SVGProps<SVGElement>;
 } | {
-	presetName?: IconNameType;
+	preset?: IconNameType;
 	viewBoxSize: number;
 	path: React.SVGProps<SVGElement>;
 });
 
 const Icon: FC<IconProps> = ({
 	className,
-	presetName,
+	preset,
 	path,
 	viewBoxSize,
 	size,
@@ -130,8 +130,8 @@ const Icon: FC<IconProps> = ({
 }) => {
 	const isCustom = [path, viewBoxSize].every(v => !isUndef(v));
 
-	const viewBoxSizeActual = isCustom ? viewBoxSize : presetIcons[presetName].viewBoxSize;
-	const pathActual = isCustom ? path : presetIcons[presetName].path;
+	const viewBoxSizeActual = isCustom ? viewBoxSize : presetIcons[preset].viewBoxSize;
+	const pathActual = isCustom ? path : presetIcons[preset].path;
 
 	const multiplier = (size || viewBoxSizeActual)/viewBoxSizeActual;
 	const sizeMultiplied = `${pxToRem(viewBoxSizeActual*multiplier)}rem`;

@@ -4,7 +4,7 @@ import Icon from 'components/Icon';
 
 describe('Icon', () => {
 	test('render an svg icon', async () => {
-		const {rerender} = render(<Icon presetName='gear'/>);
+		const {rerender} = render(<Icon preset='gear'/>);
 		rerender(
 			<Icon
 				viewBoxSize={24}
