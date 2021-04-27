@@ -88,7 +88,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: 'A basic checkbox'
+				component: 'A text input that supports single- and multi-line modes'
 			}
 		}
 	}

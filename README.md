@@ -10,9 +10,11 @@ The library includes the following components:
 
 1. [Icon](https://asuetin.github.io/ui-components/?path=/docs/components-icon--basic) - an SVG icon component that is easily scalable and includes a few preset icons;
 2. [Button](https://asuetin.github.io/ui-components/?path=/docs/components-button--basic) - a basic button;
-3. [Switch](https://asuetin.github.io/ui-components/?path=/docs/components-switch--basic) - a button that allows the user to switch between "on" and "off" states;
-4. [List](https://asuetin.github.io/ui-components/?path=/docs/components-list--basic) - a basic virtualized list;
-5. [ComboBox](https://asuetin.github.io/ui-components/?path=/docs/components-combobox--basic) - a control allowing the user to search and select among a list of options.
+3. [CheckBox](https://asuetin.github.io/ui-components/?path=/docs/components-checkbox--basic) - a basic checkbox;
+4. [Switch](https://asuetin.github.io/ui-components/?path=/docs/components-switch--basic) - a button that allows the user to switch between "on" and "off" states;
+5. [TextInput](https://asuetin.github.io/ui-components/?path=/docs/components-textinput--basic) - a text input component that support single- and multi-line modes;
+6. [List](https://asuetin.github.io/ui-components/?path=/docs/components-list--basic) - a basic virtualized list;
+7. [ComboBox](https://asuetin.github.io/ui-components/?path=/docs/components-combobox--basic) - a control allowing the user to search and select among a list of options.
 
 Each component, in addition to the default export of the component itself, also exports the props type and all of its styled components:
 
