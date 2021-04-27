@@ -9,7 +9,7 @@ export default {
 	title: 'Components/Switch',
 	component: Switch,
 	argTypes: {
-		value: {
+		checked: {
 			description: 'Current state of the Switch',
 			type: {
 				summary: 'Boolean',
@@ -22,8 +22,8 @@ export default {
 				category: 'Core'
 			}
 		},
-		onClick: {
-			description: 'Click handler function',
+		onChange: {
+			description: 'State change handler function',
 			type: {
 				summary: 'Function',
 				detail: '() => void',
@@ -34,8 +34,7 @@ export default {
 			},
 			table: {
 				category: 'Core'
-			},
-			action: 'click'
+			}
 		},
 		labelledBy: {
 			description: 'id of the label element for the Switch',
@@ -98,8 +97,8 @@ const BasicTemplate: Story<SwitchProps> = args => {
 		<label id='label'>Power:</label>
 		<Switch
 			{...args}
-			value={enabled}
-			onClick={() => setEnabled(enabledPrev => !enabledPrev)}
+			checked={enabled}
+			onChange={() => setEnabled(enabledPrev => !enabledPrev)}
 			labelledBy='label'
 		/>
 	</div>;

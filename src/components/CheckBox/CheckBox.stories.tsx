@@ -34,8 +34,7 @@ export default {
 			},
 			table: {
 				category: 'Core'
-			},
-			action: 'click'
+			}
 		},
 		labelledBy: {
 			description: 'id of the label element for the CheckBox',

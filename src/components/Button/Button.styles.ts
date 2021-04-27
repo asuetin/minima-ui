@@ -81,7 +81,7 @@ const Button = styled.button`
 		transform: translateY(5%);
 	}
 
-	&[aria-disabled='true']{
+	&:disabled {
 		background-color: var(--color-background-disabled);
 		pointer-events: none;
 	}

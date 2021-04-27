@@ -10,7 +10,6 @@ export type ButtonProps = {
 	className?: string;
 	onClick: () => void;
 	labelledBy?: string;
-	disabled?: boolean;
 } & ({
 	label: string;
 	icon?: typeof Icon | SVGSVGElement | HTMLImageElement;
@@ -25,7 +24,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 	label,
 	icon,
 	labelledBy,
-	disabled,
 	...props
 }, forwardedRef) => {
 	const componentRef = useMergedRef<HTMLButtonElement>(forwardedRef);
@@ -34,11 +32,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 		className={className}
 		ref={componentRef}
 		onClick={onClick}
-		disabled={disabled}
-		role='button'
 		aria-labelledby={label ? undefined : labelledBy}
 		aria-label={label}
-		aria-disabled={disabled}
 		{...props}
 	>
 		{icon}

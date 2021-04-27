@@ -9,7 +9,6 @@ export type CheckBoxProps = {
 	checked: boolean;
 	onChange: () => void;
 	labelledBy: string;
-	disabled?: boolean;
 	readOnly?: boolean;
 	name?: string;
 	value?: number | string;
@@ -20,7 +19,6 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>(({
 	checked,
 	onChange,
 	labelledBy,
-	disabled,
 	readOnly,
 	...props
 }, forwardedRef) => {
@@ -30,13 +28,8 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>(({
 		className={className}
 		ref={componentRef}
 		onChange={onChange}
-		disabled={disabled}
 		type='checkbox'
-		role='checkbox'
-		checked={checked}
-		aria-checked={checked}
 		aria-labelledby={labelledBy}
-		aria-disabled={disabled}
 		aria-readonly={readOnly}
 		{...props}
 	/>;

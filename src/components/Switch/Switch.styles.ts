@@ -86,7 +86,7 @@ const Switch = styled.button`
 		}
 	}
 
-	&[aria-disabled='true']{
+	&:disabled {
 		background-color: var(--color-background-disabled);
 
 		&::after {
@@ -94,7 +94,7 @@ const Switch = styled.button`
 		}
 	}
 
-	&[aria-disabled='true'], &[aria-readonly='true']{
+	&:disabled, &[aria-readonly='true'] {
 		pointer-events: none;
 	}
 `;

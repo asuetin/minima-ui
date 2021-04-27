@@ -61,11 +61,11 @@ const TextInput = styled.input`
 		background-color: var(--color-background-light);
 	}
 
-	&[aria-disabled='true']{
+	&:disabled {
 		background-color: var(--color-background-disabled);
 	}
 
-	&[aria-disabled='true'], &[aria-readonly='true']{
+	&:disabled, &:read-only {
 		pointer-events: none;
 	}
 

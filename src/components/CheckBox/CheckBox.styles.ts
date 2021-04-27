@@ -97,11 +97,11 @@ const CheckBox = styled.input`
 		border-color: var(--color-accent-light);
 	}
 
-	&[aria-disabled='true']::before {
+	&:disabled::before {
 		background-color: var(--color-background-disabled);
 	}
 
-	&[aria-disabled='true'], &[aria-readonly='true']{
+	&:disabled, &[aria-readonly='true'] {
 		pointer-events: none;
 	}
 `;

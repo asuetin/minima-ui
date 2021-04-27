@@ -3,15 +3,15 @@ import {render, fireEvent} from '@testing-library/react';
 import Switch from 'components/Switch';
 
 describe('Switch', () => {
-	test('test click behavior', async () => {
+	test('test switch behavior', async () => {
 		let enabled = false;
 
 		const {getByRole} = render(
 			<>
 				<label id='label'>Power:</label>
 				<Switch
-					value={enabled}
-					onClick={() => enabled = !enabled}
+					checked={enabled}
+					onChange={() => enabled = !enabled}
 					labelledBy='label'
 				/>
 			</>

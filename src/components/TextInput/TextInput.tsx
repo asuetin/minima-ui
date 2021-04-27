@@ -10,8 +10,6 @@ export type TextInputProps = {
 	onChange: (v: string) => void;
 	multiline?: boolean;
 	labelledBy: string;
-	disabled?: boolean;
-	readOnly?: boolean;
 	name?: string;
 	required?: boolean;
 } & Omit<HTMLAttributes<HTMLInputElement & HTMLTextAreaElement>, 'onChange'>;
@@ -22,9 +20,6 @@ const TextInput = forwardRef<HTMLInputElement & HTMLTextAreaElement, TextInputPr
 	onChange,
 	multiline,
 	labelledBy,
-	disabled,
-	readOnly,
-	required,
 	...props
 }, forwardedRef) => {
 	const componentRef = useMergedRef<HTMLInputElement & HTMLTextAreaElement>(forwardedRef);
@@ -35,14 +30,9 @@ const TextInput = forwardRef<HTMLInputElement & HTMLTextAreaElement, TextInputPr
 		value={value}
 		onChange={e => onChange(e.target.value)}
 		as={multiline ? 'textarea' : undefined}
-		required={required}
-		disabled={disabled}
 		role='textbox'
 		aria-multiline={multiline ? true : undefined}
 		aria-labelledby={labelledBy}
-		aria-disabled={disabled}
-		aria-readonly={readOnly}
-		aria-required={required}
 		{...props}
 	/>;
 });
