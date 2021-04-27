@@ -4,7 +4,6 @@ export declare type ButtonProps = {
     className?: string;
     onClick: () => void;
     labelledBy?: string;
-    disabled?: boolean;
 } & ({
     label: string;
     icon?: typeof Icon | SVGSVGElement | HTMLImageElement;

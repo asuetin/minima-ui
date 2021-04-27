@@ -56,11 +56,11 @@ export declare type IconProps = {
     color?: string;
     strokeWidth?: number;
 } & ({
-    presetName: IconNameType;
+    preset: IconNameType;
     viewBoxSize?: number;
     path?: React.SVGProps<SVGElement>;
 } | {
-    presetName?: IconNameType;
+    preset?: IconNameType;
     viewBoxSize: number;
     path: React.SVGProps<SVGElement>;
 });
