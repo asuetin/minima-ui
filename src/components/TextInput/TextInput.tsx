@@ -8,7 +8,7 @@ export type TextInputProps = {
 	className?: string;
 	value: string;
 	onChange: (v: string) => void;
-	multiline: boolean;
+	multiline?: boolean;
 	labelledBy: string;
 	disabled?: boolean;
 	readOnly?: boolean;
