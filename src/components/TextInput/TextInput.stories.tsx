@@ -12,7 +12,8 @@ export default {
 		value: {
 			description: 'Current value of the TextInput',
 			type: {
-				summary: 'Boolean'
+				summary: 'String',
+				required: true
 			},
 			control: {
 				disable: true

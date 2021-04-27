@@ -12,7 +12,8 @@ export default {
 		value: {
 			description: 'Current state of the Switch',
 			type: {
-				summary: 'Boolean'
+				summary: 'Boolean',
+				required: true
 			},
 			control: {
 				disable: true

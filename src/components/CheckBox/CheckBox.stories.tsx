@@ -12,7 +12,8 @@ export default {
 		checked: {
 			description: 'Current state of the CheckBox',
 			type: {
-				summary: 'Boolean'
+				summary: 'Boolean',
+				required: true
 			},
 			control: {
 				disable: true
