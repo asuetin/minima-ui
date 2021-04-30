@@ -28,18 +28,18 @@ const CheckBox = styled.input`
 
 	position: relative;
 	width: var(--size);
-	height: var(--size);
+	height: 0;
 
 	cursor: pointer;
-	visibility: hidden;
+	outline: none;
 
-	margin: 0;
+	margin: calc(var(--size) / 2) 0 calc(var(--size) / 2) 0;
 
 	&::before {
 		content: '';
-		visibility: visible;
-		width: 100%;
-		height: 100%;
+		width: var(--size);
+		height: var(--size);
+		transform: translateY(-50%);
 
 		background-color: var(--color-background);
 		box-shadow: var(--shadow);
@@ -52,12 +52,11 @@ const CheckBox = styled.input`
 	&::after {
 		position: absolute;
 		content: '';
-		visibility: visible;
-		width: 30%;
-		height: 60%;
-		top: 8%;
-		left: 30%;
-		transform: rotate(45deg);
+		width: calc(var(--size) * 0.3);
+		height: calc(var(--size) * 0.6);
+		top: 0;
+		left: calc(var(--size) * 0.3);
+		transform: translateY(-58%) rotate(45deg);
 
 		border: var(--checkmark-thickness) solid transparent;
 		border-top: none;
@@ -71,30 +70,32 @@ const CheckBox = styled.input`
 		box-shadow: var(--shadow), var(--focus);
 	}
 
-	&:hover {
-		&::before {
-			box-shadow: var(--light);
-			background-color: var(--color-background-light);
-		}
-	}
-
-	&:active {
-		&::before {
-			transform: translateY(5%);
-			box-shadow: var(--light-pressed);
+	&:not([aria-readonly='true']):not(:disabled){
+		&:hover {
+			&::before {
+				box-shadow: var(--light);
+				background-color: var(--color-background-light);
+			}
 		}
 
-		&::after {
-			top: 12%;
+		&:active {
+			&::before {
+				transform: translateY(-45%);
+				box-shadow: var(--light-pressed);
+			}
+
+			&::after {
+				top: calc(var(--size) * 0.05);
+			}
+		}
+
+		&:checked:hover::after {
+			border-color: var(--color-accent-light);
 		}
 	}
 
 	&:checked::after {
 		border-color: var(--color-content);
-	}
-
-	&:checked:hover::after {
-		border-color: var(--color-accent-light);
 	}
 
 	&:disabled::before {
