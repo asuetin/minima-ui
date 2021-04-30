@@ -47,19 +47,6 @@ export default {
 				category: 'Core'
 			}
 		},
-		labelledBy: {
-			description: 'id of the label element for the TextInput',
-			type: {
-				summary: 'String',
-				required: true
-			},
-			control: {
-				disable: true
-			},
-			table: {
-				category: 'Core'
-			}
-		},
 		disabled: {
 			description: 'Disable the TextInput',
 			type: {
@@ -105,12 +92,12 @@ const BasicTemplate: Story<TextInputProps> = args => {
 			alignItems: 'center'
 		}}
 	>
-		<label id='label'>Message:</label>
+		<label htmlFor='input'>Message:</label>
 		<TextInput
 			{...args}
+			id='input'
 			value={value}
 			onChange={setValue}
-			labelledBy='label'
 			placeholder='Enter message text'
 		/>
 	</div>;

@@ -8,12 +8,11 @@ describe('CheckBox', () => {
 
 		const {getByLabelText} = render(
 			<>
-				<label id='label' htmlFor='checkbox'>Option:</label>
+				<label htmlFor='checkbox'>Option:</label>
 				<CheckBox
 					id='checkbox'
 					checked={enabled}
 					onChange={() => enabled = !enabled}
-					labelledBy='label'
 				/>
 			</>
 		);

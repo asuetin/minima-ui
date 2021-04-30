@@ -36,19 +36,6 @@ export default {
 				category: 'Core'
 			}
 		},
-		labelledBy: {
-			description: 'id of the label element for the CheckBox',
-			type: {
-				summary: 'String',
-				required: true
-			},
-			control: {
-				disable: true
-			},
-			table: {
-				category: 'Core'
-			}
-		},
 		disabled: {
 			description: 'Disable the CheckBox',
 			type: {
@@ -94,12 +81,12 @@ const BasicTemplate: Story<CheckBoxProps> = args => {
 			alignItems: 'center'
 		}}
 	>
-		<label id='label'>Option:</label>
+		<label htmlFor='checkbox'>Option:</label>
 		<CheckBox
 			{...args}
+			id='checkbox'
 			checked={enabled}
 			onChange={() => setEnabled(enabledPrev => !enabledPrev)}
-			labelledBy='label'
 		/>
 	</div>;
 };

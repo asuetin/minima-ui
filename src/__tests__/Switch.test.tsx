@@ -12,7 +12,7 @@ describe('Switch', () => {
 				<Switch
 					checked={enabled}
 					onChange={() => enabled = !enabled}
-					labelledBy='label'
+					aria-labelledby='label'
 				/>
 			</>
 		);

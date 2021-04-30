@@ -9,14 +9,12 @@ import {size} from 'utils/styleVars';
 import Styled from './List.styles';
 
 export type ListProps = {
-	className?: string;
 	rowHeight?: number;
 	rowCount: number;
 	rowRenderer: (index: number, style: {[key: string]: string}) => ReactElement
 } & HTMLAttributes<HTMLUListElement>;
 
 const List = forwardRef<HTMLUListElement, ListProps>(({
-	className,
 	rowHeight = remToPx(size.M),
 	rowCount,
 	rowRenderer,
@@ -48,10 +46,9 @@ const List = forwardRef<HTMLUListElement, ListProps>(({
 	}, [onScroll]);
 
 	return <Styled.List
-		className={className}
+		{...props}
 		ref={componentRef}
 		role='listbox'
-		{...props}
 	>
 		{Array.from({length: visibleBounds[1] - visibleBounds[0]}, (v, i) => rowRenderer(visibleBounds[0] + i, {
 			height: `${pxToRem(rowHeight)}rem`,

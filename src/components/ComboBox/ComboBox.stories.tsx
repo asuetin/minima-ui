@@ -105,18 +105,6 @@ export default {
 				category: 'Miscellaneous'
 			}
 		},
-		labelledBy: {
-			description: 'id of the label element for the ComboBox',
-			type: {
-				summary: 'String',
-			},
-			control: {
-				disable: true
-			},
-			table: {
-				category: 'Miscellaneous'
-			}
-		},
 		searchDisabled: {
 			description: 'Disable search functionality',
 			type: {

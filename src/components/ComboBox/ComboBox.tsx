@@ -10,7 +10,6 @@ import Icon from 'components/Icon';
 import Styled from './ComboBox.styles';
 
 export type ComboBoxProps = {
-	className?: string;
 	height?: number;
 	options: {
 		value: string | number;
@@ -25,13 +24,11 @@ export type ComboBoxProps = {
 	onChange: (v: string | number | (string | number)[]) => void;
 	visibleOptionCount?: number;
 	arrowIcon?: typeof Icon | SVGSVGElement | HTMLImageElement;
-	labelledBy?: string;
 	searchDisabled?: boolean;
 	disabled?: boolean;
 } & Omit<HTMLAttributes<HTMLDivElement>, 'onChange'>;
 
 const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
-	className,
 	height = remToPx(size.M),
 	options,
 	groups,
@@ -39,9 +36,9 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	onChange,
 	visibleOptionCount = 5,
 	arrowIcon = <Icon preset='down'/>,
-	labelledBy,
 	searchDisabled = false,
-	disabled = false
+	disabled = false,
+	...props
 }, forwardedRef) => {
 	const idRef = useRef(uniqueId('combobox-'));
 
@@ -228,8 +225,8 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	};
 
 	return <Styled.ComboBox
+		{...props}
 		ref={componentRef}
-		className={className}
 		height={height}
 		role='combobox'
 		tabIndex={isExpanded || disabled ? -1 : 0}
@@ -245,9 +242,9 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			rowRenderer={optionRenderer}
 			visibleOptionCount={visibleOptionCount}
 			id={dropdownId}
-			aria-labelledby={labelledBy}
+			aria-labelledby={props['aria-labelledby']}
 			aria-multiselectable={isMultiselectable}
-			aria-label={labelledBy ? undefined : 'Dropdown menu'}
+			aria-label={props['aria-label'] ? undefined : 'Dropdown menu'}
 		/>}
 		<Styled.Input
 			ref={inputRef}
@@ -269,7 +266,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			aria-autocomplete={searchDisabled ? undefined : 'both'}
 			aria-controls={isExpanded ? dropdownId : undefined}
 			aria-activedescendant={isExpanded ? `${dropdownId}-row-${selectedIndex}` : undefined}
-			aria-labelledby={labelledBy}
+			aria-labelledby={props['aria-labelledby']}
 		>
 		</Styled.Input>
 		<Styled.Button

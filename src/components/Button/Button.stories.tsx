@@ -46,18 +46,6 @@ export default {
 				category: 'Core'
 			}
 		},
-		labelledBy: {
-			description: 'id of the label element for the Button',
-			type: {
-				summary: 'String',
-			},
-			control: {
-				disable: true
-			},
-			table: {
-				category: 'Miscellaneous'
-			}
-		},
 		disabled: {
 			description: 'Disable the Button',
 			type: {

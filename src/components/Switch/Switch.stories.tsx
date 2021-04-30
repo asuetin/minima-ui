@@ -36,19 +36,6 @@ export default {
 				category: 'Core'
 			}
 		},
-		labelledBy: {
-			description: 'id of the label element for the Switch',
-			type: {
-				summary: 'String',
-				required: true
-			},
-			control: {
-				disable: true
-			},
-			table: {
-				category: 'Core'
-			}
-		},
 		disabled: {
 			description: 'Disable the Switch',
 			type: {
@@ -99,7 +86,7 @@ const BasicTemplate: Story<SwitchProps> = args => {
 			{...args}
 			checked={enabled}
 			onChange={() => setEnabled(enabledPrev => !enabledPrev)}
-			labelledBy='label'
+			aria-labelledby='label'
 		/>
 	</div>;
 };

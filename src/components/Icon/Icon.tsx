@@ -1,4 +1,4 @@
-import type {FC} from 'react';
+import type {FC, HTMLAttributes} from 'react';
 
 import {isUndef, pxToRem} from 'utils/functions';
 
@@ -105,7 +105,6 @@ const presetIcons = {
 type IconNameType = 'user' | 'logout' | 'gear' | 'forward' | 'down' | 'undo' | 'save' | 'reset' | 'order' | 'group' | 'plus' | 'search';
 
 export type IconProps = {
-	className?: string;
 	size?: number;
 	color?: string;
 	strokeWidth?: number;
@@ -117,16 +116,16 @@ export type IconProps = {
 	preset?: IconNameType;
 	viewBoxSize: number;
 	path: React.SVGProps<SVGElement>;
-});
+}) & HTMLAttributes<SVGSVGElement>;
 
 const Icon: FC<IconProps> = ({
-	className,
 	preset,
 	path,
 	viewBoxSize,
 	size,
 	color = 'black',
-	strokeWidth = 2
+	strokeWidth = 2,
+	...props
 }) => {
 	const isCustom = [path, viewBoxSize].every(v => !isUndef(v));
 
@@ -137,12 +136,10 @@ const Icon: FC<IconProps> = ({
 	const sizeMultiplied = `${pxToRem(viewBoxSizeActual*multiplier)}rem`;
 
 	return <Styled.Icon
-		className={className}
+		{...props}
 		width={sizeMultiplied}
 		height={sizeMultiplied}
-		xmlns="http://www.w3.org/2000/svg"
 		viewBox={`0 0 ${viewBoxSizeActual} ${viewBoxSizeActual}`}
-		xmlnsXlink="http://www.w3.org/1999/xlink"
 		fill={color}
 		stroke={color}
 		strokeWidth={`${pxToRem(strokeWidth)}rem`}

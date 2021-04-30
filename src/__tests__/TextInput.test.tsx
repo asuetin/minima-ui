@@ -8,12 +8,11 @@ describe('TextInput', () => {
 
 		const {getByRole} = render(
 			<>
-				<label id='label' htmlFor='checkbox'>Option:</label>
+				<label htmlFor='checkbox'>Option:</label>
 				<TextInput
 					id='checkbox'
 					value={value}
 					onChange={v => value = v}
-					labelledBy='label'
 				/>
 			</>
 		);
