@@ -13,6 +13,7 @@ export type CheckBoxProps = {
 } & HTMLAttributes<HTMLInputElement>;
 
 const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>(({
+	onChange,
 	readOnly,
 	...props
 }, forwardedRef) => {
@@ -22,6 +23,12 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>(({
 		{...props}
 		ref={componentRef}
 		type='checkbox'
+		onChange={readOnly ? undefined : onChange}
+		onKeyDown={readOnly ? undefined : e => {
+			if (e.code == 'Enter'){
+				onChange();
+			}
+		}}
 		aria-readonly={readOnly}
 	/>;
 });

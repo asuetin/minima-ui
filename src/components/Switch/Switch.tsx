@@ -21,7 +21,7 @@ const Switch = forwardRef<HTMLButtonElement, SwitchProps>(({
 	return <Styled.Switch
 		{...props}
 		ref={componentRef}
-		onClick={onChange}
+		onClick={readOnly ? undefined : onChange}
 		role='switch'
 		aria-checked={checked}
 		aria-readonly={readOnly}
