@@ -5,7 +5,9 @@ import {size, radius, getShadow, focus} from 'utils/styleVars';
 import theme from 'utils/theme';
 const {background, accent, content} = theme;
 
-const CheckBox = styled.input`
+const CheckBox = styled.input.attrs(() => ({
+	type: 'checkbox'
+}))`
 	--size: ${size.M};
 	--border-radius: ${radius.M};
 	--padding: ${size.XXS};

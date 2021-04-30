@@ -248,7 +248,6 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 		/>}
 		<Styled.Input
 			ref={inputRef}
-			type='text'
 			value={!searchDisabled && isExpanded ? searchQuery : (() => {
 				if (isMultiselectable){
 					return (value as (string | number)[]).map(v => {

@@ -22,7 +22,6 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>(({
 	return <Styled.CheckBox
 		{...props}
 		ref={componentRef}
-		type='checkbox'
 		onChange={readOnly ? undefined : onChange}
 		onKeyDown={readOnly ? undefined : e => {
 			if (e.code == 'Enter'){
