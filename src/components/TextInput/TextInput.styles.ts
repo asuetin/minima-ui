@@ -14,8 +14,6 @@ const TextInput = styled.input`
 	--color-background: ${background.M};
 	--color-background-light: ${background.L};
 	--color-background-disabled: ${background.XXD};
-	--color-handle: ${background.XXD};
-	--color-handle-light: ${background.XD};
 
 	--color-content: ${content.M};
 	--color-placeholder: ${content.XL};
