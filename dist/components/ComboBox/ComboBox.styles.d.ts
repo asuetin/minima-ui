@@ -5,7 +5,6 @@ declare const _default: {
     Input: import("styled-components").StyledComponent<"input", any, {}, never>;
     Button: import("styled-components").StyledComponent<"button", any, {}, never>;
     Dropdown: import("styled-components").StyledComponent<import("react").ForwardRefExoticComponent<{
-        className?: string;
         rowHeight?: number;
         rowCount: number;
         rowRenderer: (index: number, style: {

@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, HTMLAttributes } from 'react';
 declare const presetIcons: {
     user: {
         viewBoxSize: number;
@@ -51,7 +51,6 @@ declare const presetIcons: {
 };
 declare type IconNameType = 'user' | 'logout' | 'gear' | 'forward' | 'down' | 'undo' | 'save' | 'reset' | 'order' | 'group' | 'plus' | 'search';
 export declare type IconProps = {
-    className?: string;
     size?: number;
     color?: string;
     strokeWidth?: number;
@@ -63,7 +62,7 @@ export declare type IconProps = {
     preset?: IconNameType;
     viewBoxSize: number;
     path: React.SVGProps<SVGElement>;
-});
+}) & HTMLAttributes<SVGSVGElement>;
 declare const Icon: FC<IconProps>;
 export default Icon;
 export { presetIcons };
