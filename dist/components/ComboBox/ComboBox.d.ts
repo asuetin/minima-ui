@@ -1,7 +1,6 @@
 import { HTMLAttributes } from 'react';
 import Icon from 'components/Icon';
 export declare type ComboBoxProps = {
-    className?: string;
     height?: number;
     options: {
         value: string | number;
@@ -16,12 +15,10 @@ export declare type ComboBoxProps = {
     onChange: (v: string | number | (string | number)[]) => void;
     visibleOptionCount?: number;
     arrowIcon?: typeof Icon | SVGSVGElement | HTMLImageElement;
-    labelledBy?: string;
     searchDisabled?: boolean;
     disabled?: boolean;
 } & Omit<HTMLAttributes<HTMLDivElement>, 'onChange'>;
 declare const ComboBox: import("react").ForwardRefExoticComponent<{
-    className?: string;
     height?: number;
     options: {
         value: string | number;
@@ -36,7 +33,6 @@ declare const ComboBox: import("react").ForwardRefExoticComponent<{
     onChange: (v: string | number | (string | number)[]) => void;
     visibleOptionCount?: number;
     arrowIcon?: typeof Icon | SVGSVGElement | HTMLImageElement;
-    labelledBy?: string;
     searchDisabled?: boolean;
     disabled?: boolean;
 } & Omit<HTMLAttributes<HTMLDivElement>, "onChange"> & import("react").RefAttributes<HTMLDivElement>>;
