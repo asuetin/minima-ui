@@ -17,7 +17,7 @@ afterAll(() => {
 	Object.defineProperty(HTMLElement.prototype, 'offsetHeight', originalOffsetHeight);
 });
 
-describe('List', () => {
+describe('ComboBox', () => {
 	test('change the value of a combobox with a mouse', async () => {
 		let value: string | number = 0;
 

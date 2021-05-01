@@ -1,6 +1,6 @@
 import {forwardRef, useState, useEffect, useRef, HTMLAttributes} from 'react';
 
-import {remToPx, uniqueId, isDescendantOf, isUndef, unique} from 'utils/functions';
+import {remToPx, uniqueId, isDescendantOf, isUndef, unique, wrapInRange} from 'utils/functions';
 import {useMergedRef, useEvent} from 'utils/hooks';
 
 import {size} from 'utils/styleVars';
@@ -66,8 +66,8 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			case 'ArrowDown':
 				if (isExpanded){
 					setSelectedIndex(selectedIndexPrev => {
-						let indexNext = selectedIndexPrev < optionsGrouped.length - 1 ? selectedIndexPrev + 1 : 0;
-						return optionsGrouped[indexNext].isGroup ? ++indexNext : indexNext;
+						let indexNext = wrapInRange(selectedIndexPrev+1, [0, optionsGrouped.length-1]);
+						return optionsGrouped[indexNext].isGroup ? wrapInRange(++indexNext, [0, optionsGrouped.length-1]) : indexNext;
 					});
 					e.preventDefault();
 				}
@@ -75,8 +75,8 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			case 'ArrowUp':
 				if (isExpanded){
 					setSelectedIndex(selectedIndexPrev => {
-						let indexNext = selectedIndexPrev > 0 ? selectedIndexPrev - 1 : optionsGrouped.length - 1;
-						return optionsGrouped[indexNext].isGroup ? --indexNext : indexNext;
+						let indexNext = wrapInRange(selectedIndexPrev-1, [0, optionsGrouped.length-1]);
+						return optionsGrouped[indexNext].isGroup ? wrapInRange(--indexNext, [0, optionsGrouped.length-1]) : indexNext;
 					});
 					e.preventDefault();
 				}

@@ -50,3 +50,13 @@ export const unique = <T>(array: T[], selector?: (el: typeof array[number]) => u
 		return a === e;
 	}) === i);
 };
+
+export const wrapInRange = (v: number, range: [number, number]): number => {
+	if (v < range[0]){
+		return range[1];
+	}
+	if (v > range[1]){
+		return range[0];
+	}
+	return v;
+};
