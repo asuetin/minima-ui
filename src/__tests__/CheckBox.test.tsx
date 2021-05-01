@@ -19,6 +19,25 @@ describe('CheckBox', () => {
 
 		fireEvent.click(getByLabelText('Option:'));
 
-		expect(enabled).toEqual(true);
+		expect(enabled).toBeTruthy();
+	});
+
+	test('test "Enter" key behavior', async () => {
+		let enabled = false;
+
+		const {getByLabelText} = render(<>
+			<label htmlFor='checkbox'>Option:</label>
+			<CheckBox
+				id='checkbox'
+				checked={enabled}
+				onChange={() => enabled = !enabled}
+			/>
+		</>);
+
+		const checkBoxElement = getByLabelText('Option:');
+		checkBoxElement.focus();
+		fireEvent.keyDown(checkBoxElement, {code: 'Enter'});
+
+		expect(enabled).toBeTruthy();
 	});
 });
