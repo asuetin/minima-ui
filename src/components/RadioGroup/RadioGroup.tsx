@@ -1,7 +1,7 @@
 import {forwardRef, useRef, HTMLAttributes} from 'react';
 
-import {uniqueId} from 'utils/functions';
-import {useMergedRef} from 'utils/hooks';
+import {uniqueId, isDescendantOf, wrapInRange} from 'utils/functions';
+import {useMergedRef, useEvent} from 'utils/hooks';
 
 import Styled from './RadioGroup.styles';
 
@@ -26,6 +26,32 @@ const RadioGroup = forwardRef<HTMLUListElement, RadioGroupProps>(({
 
 	const componentRef = useMergedRef<HTMLUListElement>(forwardedRef);
 
+	//keyboard controls
+	const changeBy = (v: number) => {
+		if (isDescendantOf(document.activeElement, componentRef.current)){
+			let indexNext = options.findIndex(o => o.value == value) + v;
+			indexNext = wrapInRange(indexNext, [0, options.length-1]);
+			onChange(indexNext);
+			document.getElementById(`${idRef.current}-option-${indexNext}`).focus();
+		}
+	};
+
+	useEvent('keydown', (e: KeyboardEvent) => {
+		if (!disabled){
+			switch (e.code){
+			case 'ArrowDown':
+			case 'ArrowRight':
+				changeBy(1);
+				e.preventDefault();
+				break;
+			case 'ArrowUp':
+			case 'ArrowLeft':
+				changeBy(-1);
+				e.preventDefault();
+			}
+		}
+	});
+
 	return <Styled.RadioGroup
 		{...props}
 		ref={componentRef}
@@ -34,7 +60,10 @@ const RadioGroup = forwardRef<HTMLUListElement, RadioGroupProps>(({
 			const optionId = `${idRef.current}-option-${index}`;
 			const isChecked = value == o.value;
 
-			return <Styled.RadioGroupOption key={optionId}>
+			return <Styled.RadioGroupOption
+				key={optionId}
+				aria-checked={isChecked}
+			>
 				<Styled.RadioButton
 					id={optionId}
 					checked={isChecked}
