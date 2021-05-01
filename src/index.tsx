@@ -5,6 +5,7 @@ import Button, {ButtonStyles} from 'components/Button';
 import Switch, {SwitchStyles} from 'components/Switch';
 import CheckBox, {CheckBoxStyles} from 'components/CheckBox';
 import TextInput, {TextInputStyles} from 'components/TextInput';
+import RadioGroup, {RadioGroupStyles} from 'components/RadioGroup';
 
 export {IconProps} from 'components/Icon';
 export {ListProps} from 'components/List';
@@ -13,6 +14,7 @@ export {ButtonProps} from 'components/Button';
 export {SwitchProps} from 'components/Switch';
 export {CheckBoxProps} from 'components/CheckBox';
 export {TextInputProps} from 'components/TextInput';
+export {RadioGroupProps} from 'components/RadioGroup';
 
 export {
 	Icon, IconStyles,
@@ -21,5 +23,6 @@ export {
 	Button, ButtonStyles,
 	Switch, SwitchStyles,
 	CheckBox, CheckBoxStyles,
-	TextInput, TextInputStyles
+	TextInput, TextInputStyles,
+	RadioGroup, RadioGroupStyles
 };
