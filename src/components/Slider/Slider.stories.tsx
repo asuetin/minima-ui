@@ -76,6 +76,19 @@ export default {
 } as Meta;
 
 const BasicTemplate: Story<SliderProps> = args => {
+	const [value, setValue] = useState(33);
+
+	return <Slider
+		{...args}
+		value={value}
+		onChange={(v: number) => setValue(v)}
+		range={[-100, 100]}
+	/>;
+};
+
+export const Basic = BasicTemplate.bind({});
+
+const MultiThumbTemplate: Story<SliderProps> = args => {
 	const [value, setValue] = useState<[number, number]>([33, 66]);
 
 	return <Slider
@@ -86,4 +99,4 @@ const BasicTemplate: Story<SliderProps> = args => {
 	/>;
 };
 
-export const Basic = BasicTemplate.bind({});
+export const MultiThumb = MultiThumbTemplate.bind({});

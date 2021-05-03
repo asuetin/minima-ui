@@ -1,5 +1,6 @@
 import {forwardRef, useRef, HTMLAttributes} from 'react';
 
+import {limitInRange} from 'utils/functions';
 import {useMergedRef, useEvent} from 'utils/hooks';
 
 import Styled from './Slider.styles';
@@ -8,12 +9,14 @@ export type SliderProps = {
 	value: number | [number, number];
 	range: [number, number];
 	onChange: (v: number | [number, number]) => void;
+	disabled?: boolean;
 } & Omit<HTMLAttributes<HTMLDivElement>, 'onChange'>;
 
 const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 	value,
 	range,
 	onChange,
+	disabled,
 	...props
 }, forwardedRef) => {
 	const componentRef = useMergedRef<HTMLDivElement>(forwardedRef);
@@ -21,31 +24,44 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 	const isArray = Array.isArray(value);
 
 	const dragInfoRef = useRef<{
-		index: 0 | 1;
+		type: 'left' | 'right' | 'both';
 		valueStart: typeof value;
 		xStart: number;
-		x: number;
 		width: number;
 	}>();
 
 	useEvent('pointermove', ({clientX}: PointerEvent) => {
 		if (dragInfoRef.current){
-			const {index, valueStart, xStart, x, width} = dragInfoRef.current;
+			const {type, valueStart, xStart, width} = dragInfoRef.current;
 
 			const valueDiff = (clientX - xStart)/width*(range[1]-range[0]);
-			const valuePrev = isArray ? valueStart[index] : valueStart;
-			let valueNew = valuePrev + valueDiff;
-
-			valueNew = valueNew > range[0] ? valueNew : range[0];
-			valueNew = valueNew < range[1] ? valueNew : range[1];
 
 			if (isArray){
-				const valueRangeNew = [...valueStart as [number, number]];
-				valueRangeNew[index] = valueNew;
-				onChange(valueRangeNew as [number, number]);
+				switch (type){
+				case 'left':
+					onChange([
+						limitInRange(valueStart[0] + valueDiff, [range[0], valueStart[1]]),
+						valueStart[1]
+					]);
+					break;
+				case 'right':
+					onChange([
+						valueStart[0],
+						limitInRange(valueStart[1] + valueDiff, [valueStart[0], range[1]])
+					]);
+					break;
+				case 'both':
+					const valueSpan = valueStart[1] - valueStart[0];
+					const leftPos = limitInRange(valueStart[0] + valueDiff, [range[0], range[1] - valueSpan]);
+
+					onChange([
+						leftPos,
+						limitInRange(leftPos + valueSpan, [range[0], range[1]])
+					]);
+				}
 			}
 			else {
-				onChange(valueNew);
+				onChange(limitInRange(valueStart as number + valueDiff, range));
 			}
 		}
 	});
@@ -54,10 +70,10 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 		dragInfoRef.current = null;
 	});
 
-	const onDragStart = (e, index) => {
-		const {x, width} = componentRef.current.getBoundingClientRect();
+	const onDragStart = (e, type) => {
 		dragInfoRef.current = {
-			index, x, width,
+			type,
+			width: componentRef.current.getBoundingClientRect().width,
 			valueStart: isArray ? [...value as [number, number]] : value,
 			xStart: e.clientX
 		};
@@ -69,21 +85,28 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 	return <Styled.Slider
 		{...props}
 		ref={componentRef}
+		aria-disabled={disabled}
 	>
-		{isArray && <>
-			<Styled.Bar
-				left={leftThumbPos}
-				width={rightThumbPos - leftThumbPos}
-			/>
-			<Styled.Thumb
-				left={(value[1] - range[0])/(range[1] - range[0])}
-				onPointerDown={e => onDragStart(e, 1)}
-			/>
-		</>}
 		<Styled.Thumb
 			left={leftThumbPos}
-			onPointerDown={e => onDragStart(e, 0)}
+			onPointerDown={e => onDragStart(e, 'left')}
+			multi={isArray}
+			tabIndex={0}
 		/>
+		{isArray && <>
+			<Styled.Thumb
+				left={(value[1] - range[0])/(range[1] - range[0])}
+				onPointerDown={e => onDragStart(e, 'right')}
+				multi={isArray}
+				tabIndex={0}
+			/>
+			<Styled.Handle
+				left={leftThumbPos}
+				width={rightThumbPos - leftThumbPos}
+				onPointerDown={e => onDragStart(e, 'both')}
+				tabIndex={0}
+			/>
+		</>}
 	</Styled.Slider>;
 });
 
