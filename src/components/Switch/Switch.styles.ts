@@ -13,8 +13,8 @@ const Switch = styled.button`
 	--color-background: ${background.M};
 	--color-background-light: ${background.L};
 	--color-background-disabled: ${background.XXD};
-	--color-handle: ${background.XXD};
-	--color-handle-light: ${background.XD};
+	--color-thumb: ${background.XXD};
+	--color-thumb-light: ${background.XD};
 
 	--color-accent: ${accent.M};
 	--color-accent-light: ${accent.L};
@@ -47,7 +47,7 @@ const Switch = styled.button`
 		height: calc(100% - var(--padding) * 2);
 
 		border-radius: var(--border-radius);
-		background-color: var(--color-handle);
+		background-color: var(--color-thumb);
 		transition: left 125ms ease-in-out;
 	}
 
@@ -60,7 +60,7 @@ const Switch = styled.button`
 		background-color: var(--color-background-light);
 
 		&::after {
-			background-color: var(--color-handle-light);
+			background-color: var(--color-thumb-light);
 		}
 	}
 
@@ -90,7 +90,7 @@ const Switch = styled.button`
 		background-color: var(--color-background-disabled);
 
 		&::after {
-			background-color: var(--color-handle-light);
+			background-color: var(--color-thumb-light);
 		}
 	}
 
