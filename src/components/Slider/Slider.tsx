@@ -139,7 +139,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 			{...commonProps}
 			left={leftThumbPos}
 			onPointerDown={e => onDragStart(e, 'left')}
-			onKeyUp={e => onKeyDown(e, 'left')}
+			onKeyDown={e => onKeyDown(e, 'left')}
 			multi={isArray}
 			aria-valuenow={isArray ? value[0] : value}
 		/>
@@ -148,7 +148,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 				{...commonProps}
 				left={(value[1] - range[0])/rangeSpan}
 				onPointerDown={e => onDragStart(e, 'right')}
-				onKeyUp={e => onKeyDown(e, 'right')}
+				onKeyDown={e => onKeyDown(e, 'right')}
 				multi={isArray}
 				aria-valuenow={value[0]}
 			/>
@@ -157,7 +157,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 				left={leftThumbPos}
 				width={rightThumbPos - leftThumbPos}
 				onPointerDown={e => onDragStart(e, 'handle')}
-				onKeyUp={e => onKeyDown(e, 'handle')}
+				onKeyDown={e => onKeyDown(e, 'handle')}
 				aria-valuenow={value[1]}
 			/>
 		</>}

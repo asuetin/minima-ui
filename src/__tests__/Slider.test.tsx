@@ -61,7 +61,6 @@ describe('Slider', () => {
 
 		for (let i = 0; i < 2; ++i){
 			fireEvent.keyDown(leftThumbElement, {code: 'ArrowRight'});
-			fireEvent.keyUp(leftThumbElement, {code: 'ArrowRight'});
 
 			rerender(<Slider
 				range={[0, 100]}
