@@ -1,5 +1,6 @@
 npm-debug.log*
 /storybook-static
+/dist
 
 # VS Code
 /.vscode
