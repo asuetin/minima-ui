@@ -1,0 +1,18 @@
+import {Meta} from '@storybook/addon-docs/blocks';
+
+<Meta title="Styling"/>
+
+# Styling
+
+Each component, in addition to the default export of the component itself, also exports all of its styled components.
+
+They can then be used to easily customize the appearance of the core component.
+
+```tsx
+import ComboBox from './ComboBox';
+import Styles from './ComboBox.styles';
+
+export default ComboBox;
+export {ComboBoxProps} from './ComboBox';
+export {Styles as ComboBoxStyles};
+```

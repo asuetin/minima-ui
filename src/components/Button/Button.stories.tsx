@@ -6,7 +6,7 @@ import type {ButtonProps} from 'components/Button';
 import Icon from 'components/Icon';
 
 export default {
-	title: 'Components/Button',
+	title: 'Components/Inputs/Button',
 	component: Button,
 	argTypes: {
 		onClick: {

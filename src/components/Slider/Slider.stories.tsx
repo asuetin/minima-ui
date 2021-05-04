@@ -6,7 +6,7 @@ import Slider from 'components/Slider';
 import type {SliderProps} from 'components/Slider';
 
 export default {
-	title: 'Components/Slider',
+	title: 'Components/Inputs/Slider',
 	component: Slider,
 	argTypes: {
 		value: {

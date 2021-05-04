@@ -6,7 +6,7 @@ import TextInput from 'components/TextInput';
 import type {TextInputProps} from 'components/TextInput';
 
 export default {
-	title: 'Components/TextInput',
+	title: 'Components/Inputs/TextInput',
 	component: TextInput,
 	argTypes: {
 		value: {

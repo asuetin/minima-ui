@@ -10,7 +10,7 @@ import themeDefault from 'utils/theme';
 import {remToPx, pxToRem} from 'utils/functions';
 
 export default {
-	title: 'Components/ComboBox',
+	title: 'Components/Inputs/ComboBox',
 	component: ComboBox,
 	argTypes: {
 		height: {

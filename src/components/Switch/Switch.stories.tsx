@@ -6,7 +6,7 @@ import Switch from 'components/Switch';
 import type {SwitchProps} from 'components/Switch';
 
 export default {
-	title: 'Components/Switch',
+	title: 'Components/Inputs/Switch',
 	component: Switch,
 	argTypes: {
 		checked: {

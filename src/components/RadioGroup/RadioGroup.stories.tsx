@@ -6,7 +6,7 @@ import RadioGroup from 'components/RadioGroup';
 import type {RadioGroupProps} from 'components/RadioGroup';
 
 export default {
-	title: 'Components/RadioGroup',
+	title: 'Components/Inputs/RadioGroup',
 	component: RadioGroup,
 	argTypes: {
 		options: {

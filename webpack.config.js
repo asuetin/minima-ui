@@ -20,7 +20,7 @@ module.exports = env => ({
 		filename: 'index.js',
 		path: path.resolve(__dirname, './dist'),
 		library: {
-			name: 'ui-components',
+			name: 'minima-ui',
 			type: 'umd'
 		},
 	},

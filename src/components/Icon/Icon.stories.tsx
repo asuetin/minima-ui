@@ -4,7 +4,7 @@ import Icon, {presetIcons} from 'components/Icon';
 import type {IconProps} from 'components/Icon';
 
 export default {
-	title: 'Components/Icon',
+	title: 'Components/Display/Icon',
 	component: Icon,
 	argTypes: {
 		preset: {

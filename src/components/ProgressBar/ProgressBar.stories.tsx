@@ -9,7 +9,7 @@ import ProgressBar from 'components/ProgressBar';
 import type {ProgressBarProps} from 'components/ProgressBar';
 
 export default {
-	title: 'Components/ProgressBar',
+	title: 'Components/Display/ProgressBar',
 	component: ProgressBar,
 	argTypes: {
 		value: {

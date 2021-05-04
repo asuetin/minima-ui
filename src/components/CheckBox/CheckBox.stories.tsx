@@ -6,7 +6,7 @@ import CheckBox from 'components/CheckBox';
 import type {CheckBoxProps} from 'components/CheckBox';
 
 export default {
-	title: 'Components/CheckBox',
+	title: 'Components/Inputs/CheckBox',
 	component: CheckBox,
 	argTypes: {
 		checked: {

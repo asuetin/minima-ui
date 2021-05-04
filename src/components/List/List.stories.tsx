@@ -8,7 +8,7 @@ import {remToPx} from 'utils/functions';
 import themeDefault from 'utils/theme';
 
 export default {
-	title: 'Components/List',
+	title: 'Components/Utility/List',
 	component: List,
 	argTypes: {
 		rowHeight: {
