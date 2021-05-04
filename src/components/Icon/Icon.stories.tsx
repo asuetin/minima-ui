@@ -92,24 +92,6 @@ Basic.args = {
 	preset: 'user'
 };
 
-export const Thin = BasicTemplate.bind({});
-Thin.args = {
-	...Basic.args,
-	strokeWidth: 1
-};
-
-export const Scaled = BasicTemplate.bind({});
-Scaled.args = {
-	...Basic.args,
-	size: 192
-};
-
-export const Recolored = BasicTemplate.bind({});
-Recolored.args = {
-	...Basic.args,
-	color: 'red'
-};
-
 export const Custom = BasicTemplate.bind({});
 Custom.args = {
 	viewBoxSize: 24,
