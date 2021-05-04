@@ -3,7 +3,7 @@ import {forwardRef, useState, useEffect, useRef, HTMLAttributes} from 'react'
 import {remToPx, uniqueId, isDescendantOf, isUndef, unique, limitInRange} from 'utils/functions';
 import {useMergedRef, useEvent} from 'utils/hooks';
 
-import {size} from 'utils/styleVars';
+import themeDefault from 'utils/theme';
 
 import Icon from 'components/Icon';
 
@@ -29,7 +29,7 @@ export type ComboBoxProps = {
 } & Omit<HTMLAttributes<HTMLDivElement>, 'onChange'>;
 
 const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
-	height = remToPx(size.M),
+	height = remToPx(themeDefault.size[3]),
 	options,
 	groups,
 	value,

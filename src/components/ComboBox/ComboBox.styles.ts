@@ -2,10 +2,7 @@ import styled, {css, keyframes} from 'styled-components';
 
 import {pxToRem} from 'utils/functions';
 
-import {size, radius, getShadow, focus} from 'utils/styleVars';
-
-import theme from 'utils/theme';
-const {background, accent, content} = theme;
+import themeDefault from 'utils/theme';
 
 import List from 'components/List';
 
@@ -169,94 +166,98 @@ const Input = styled.input`
 	}
 `;
 
-const ComboBox = styled.div<{height: number}>`
-	--border-radius: ${radius.M};
-	--padding: ${size.XS};
-	--width-scrollbar: ${size.XXS};
-	--size-check-indicator: ${size.XS};
+const ComboBox = styled.div<{height: number}>(({theme, height}) => {
+	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = Object.keys(theme).length == 0 ? themeDefault : theme;
 
-	--color-background: ${background.M};
-	--color-background-light: ${background.L};
-	--color-background-disabled: ${background.XXD};
-	--color-dropdown-background: ${background.M};
-	--color-option-background-hover: ${background.D};
-	--color-option-background-selected: ${background.XD};
+	return css`
+		--border-radius: ${radius[2]};
+		--padding: ${size[1]};
+		--width-scrollbar: ${size[0]};
+		--size-check-indicator: ${size[1]};
 
-	--color-content: ${content.M};
-	--color-placeholder: ${content.XL};
-	--color-accent: ${accent.M};
-	--color-accent-light: ${accent.L};
+		--color-background: ${background[8]};
+		--color-background-light: ${background[9]};
+		--color-background-disabled: ${background[4]};
+		--color-dropdown-background: ${background[8]};
+		--color-option-background-hover: ${background[7]};
+		--color-option-background-selected: ${background[6]};
 
-	--color-scrollbar: ${content.L};
-	--color-scrollbar-hover: ${content.XL};
+		--color-content: ${content[3]};
+		--color-placeholder: ${content[9]};
+		--color-accent: ${accent[7]};
+		--color-accent-light: ${accent[9]};
 
-	--shadow: ${getShadow('M')};
-	--light: ${getShadow('L', accent.L)};
-	--focus: ${focus};
+		--color-scrollbar: ${content[8]};
+		--color-scrollbar-hover: ${content[9]};
 
-	position: relative;
-	height: ${({height}) => pxToRem(height)}rem;
+		--shadow-dark: ${shadow[0]};
+		--shadow-light: ${light[1]};
+		--shadow-focus: ${focus};
 
-	background-color: var(--color-background);
-	outline: none;
-	box-shadow: var(--shadow);
-	border-radius: var(--border-radius);
-	font-family: 'Open Sans', sans-serif;
-	color: var(--color-content);
-	transition: ${['background-color', 'box-shadow', 'border-radius'].map(v => `${v} 125ms ease-in-out`).join()};
+		position: relative;
+		height: ${pxToRem(height)}rem;
 
-	display: flex;
+		background-color: var(--color-background);
+		outline: none;
+		box-shadow: var(--shadow-dark);
+		border-radius: var(--border-radius);
+		font-family: ${fontFamily};
+		color: var(--color-content);
+		transition: ${['background-color', 'box-shadow', 'border-radius'].map(v => `${v} 125ms ease-in-out`).join()};
 
-	svg {
-		stroke: var(--color-content);
-		fill: var(--color-content);
-	}
+		display: flex;
 
-	&[aria-expanded='true'], &:hover, ${Dropdown}{
-		box-shadow: var(--light);
-	}
-
-	&[aria-expanded='true'], &:hover {
-		background-color: var(--color-background-light);
-	}
-
-	&[aria-expanded='false']{
-		&:focus {
-			box-shadow: var(--shadow), var(--focus);
+		svg {
+			stroke: var(--color-content);
+			fill: var(--color-content);
 		}
 
-		&:hover {
-			${Input}{
-				color: var(--color-accent-light);
+		&[aria-expanded='true'], &:hover, ${Dropdown}{
+			box-shadow: var(--shadow-light);
+		}
+
+		&[aria-expanded='true'], &:hover {
+			background-color: var(--color-background-light);
+		}
+
+		&[aria-expanded='false']{
+			&:focus {
+				box-shadow: var(--shadow-dark), var(--shadow-focus);
 			}
 
-			svg {
-				stroke: var(--color-accent-light);
-				fill: var(--color-accent-light);
+			&:hover {
+				${Input}{
+					color: var(--color-accent-light);
+				}
+
+				svg {
+					stroke: var(--color-accent-light);
+					fill: var(--color-accent-light);
+				}
 			}
 		}
-	}
 
-	&[aria-expanded='true']{
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
+		&[aria-expanded='true']{
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
 
-		${Button}{
-			> * {
-				transform: rotate(180deg);
-			}
+			${Button}{
+				> * {
+					transform: rotate(180deg);
+				}
 
-			&:hover svg {
-				stroke: var(--color-accent-light);
-				fill: var(--color-accent-light);
+				&:hover svg {
+					stroke: var(--color-accent-light);
+					fill: var(--color-accent-light);
+				}
 			}
 		}
-	}
 
-	&[aria-disabled='true']{
-		background-color: var(--color-background-disabled);
-		pointer-events: none;
-	}
-`;
+		&[aria-disabled='true']{
+			background-color: var(--color-background-disabled);
+			pointer-events: none;
+		}
+	`;
+});
 
 export default {ComboBox, Input, Button, Dropdown, Option};

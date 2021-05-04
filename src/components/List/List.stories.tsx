@@ -5,7 +5,7 @@ import type {ListProps} from 'components/List';
 
 import {remToPx} from 'utils/functions';
 
-import {size} from 'utils/styleVars';
+import themeDefault from 'utils/theme';
 
 export default {
 	title: 'Components/List',
@@ -17,11 +17,11 @@ export default {
 				summary: 'Positive integer'
 			},
 			control: 'number',
-			defaultValue: remToPx(size.M),
+			defaultValue: remToPx(themeDefault.size[3]),
 			table: {
 				category: 'Geometry',
 				defaultValue: {
-					summary: remToPx(size.M)
+					summary: remToPx(themeDefault.size[3])
 				}
 			}
 		},

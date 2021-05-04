@@ -1,9 +1,6 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
-import {size, getShadow, focus} from 'utils/styleVars';
-
-import theme from 'utils/theme';
-const {background, accent, content} = theme;
+import themeDefault from 'utils/theme';
 
 const RadioButton = styled.input.attrs(() => ({
 	type: 'radio'
@@ -23,7 +20,7 @@ const RadioButton = styled.input.attrs(() => ({
 		transform: translateY(-50%);
 
 		background-color: var(--color-background);
-		box-shadow: var(--shadow);
+		box-shadow: var(--shadow-dark);
 		border-radius: 50%;
 		transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
@@ -46,7 +43,7 @@ const RadioButton = styled.input.attrs(() => ({
 	}
 
 	&:focus::before {
-		box-shadow: var(--shadow), var(--focus);
+		box-shadow: var(--shadow-dark), var(--shadow-focus);
 	}
 
 	&:not(:disabled){
@@ -54,7 +51,7 @@ const RadioButton = styled.input.attrs(() => ({
 
 		&:hover {
 			&::before {
-				box-shadow: var(--light);
+				box-shadow: var(--shadow-light);
 				background-color: var(--color-background-light);
 			}
 		}
@@ -62,7 +59,7 @@ const RadioButton = styled.input.attrs(() => ({
 		&:active {
 			&::before {
 				transform: translateY(-45%);
-				box-shadow: var(--light-pressed);
+				box-shadow: var(--shadow-light-pressed);
 			}
 
 			&::after {
@@ -99,35 +96,39 @@ const RadioGroupOption = styled.li.attrs(() => ({
 
 const RadioGroup = styled.ul.attrs(() => ({
 	role: 'radiogroup' as string
-}))`
-	--size: ${size.M};
-	--padding: ${size.XS};
+}))(({theme}) => {
+	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = Object.keys(theme).length == 0 ? themeDefault : theme;
 
-	--color-background: ${background.M};
-	--color-background-light: ${background.L};
-	--color-background-disabled: ${background.XXD};
+	return css`
+		--size: ${size[3]};
+		--padding: ${size[1]};
 
-	--color-content: ${content.M};
-	--color-accent: ${accent.M};
-	--color-accent-light: ${accent.L};
+		--color-background: ${background[8]};
+		--color-background-light: ${background[9]};
+		--color-background-disabled: ${background[4]};
 
-	--shadow: ${getShadow('M')};
-	--light: ${getShadow('L', accent.L)};
-	--light-pressed: ${getShadow('M', accent.L)};
-	--focus: ${focus};
+		--color-content: ${content[3]};
+		--color-accent: ${accent[7]};
+		--color-accent-light: ${accent[9]};
 
-	font-family: 'Open Sans', sans-serif;
-	color: var(--color-content);
+		--shadow-dark: ${shadow[0]};
+		--shadow-light: ${light[1]};
+		--shadow-light-pressed: ${light[0]};
+		--shadow-focus: ${focus};
 
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-	grid-gap: calc(var(--padding) * 2);
-	padding: 0;
-	margin: 0;
+		font-family: ${fontFamily};
+		color: var(--color-content);
 
-	&:disabled {
-		pointer-events: none;
-	}
-`;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+		grid-gap: calc(var(--padding) * 2);
+		padding: 0;
+		margin: 0;
+
+		&:disabled {
+			pointer-events: none;
+		}
+	`;
+});
 
 export default {RadioGroup, RadioGroupOption, RadioButton};

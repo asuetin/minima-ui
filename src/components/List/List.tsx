@@ -4,7 +4,7 @@ import type {ReactElement} from 'react';
 import {remToPx, pxToRem, debounce} from 'utils/functions';
 import {useEvent, useMergedRef} from 'utils/hooks';
 
-import {size} from 'utils/styleVars';
+import themeDefault from 'utils/theme';
 
 import Styled from './List.styles';
 
@@ -15,7 +15,7 @@ export type ListProps = {
 } & HTMLAttributes<HTMLUListElement>;
 
 const List = forwardRef<HTMLUListElement, ListProps>(({
-	rowHeight = remToPx(size.M),
+	rowHeight = remToPx(themeDefault.size[3]),
 	rowCount,
 	rowRenderer,
 	...props

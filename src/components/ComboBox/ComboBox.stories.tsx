@@ -5,7 +5,7 @@ import type {Story, Meta} from '@storybook/react';
 import ComboBox from 'components/ComboBox';
 import type {ComboBoxProps} from 'components/ComboBox';
 
-import {size} from 'utils/styleVars';
+import themeDefault from 'utils/theme';
 
 import {remToPx, pxToRem} from 'utils/functions';
 
@@ -19,10 +19,10 @@ export default {
 				summary: 'Positive integer (px)'
 			},
 			control: 'number',
-			defaultValue: remToPx(size.M),
+			defaultValue: remToPx(themeDefault.size[3]),
 			table: {
 				defaultValue: {
-					summary: remToPx(size.M)
+					summary: remToPx(themeDefault.size[3])
 				},
 				category: 'Geometry'
 			}

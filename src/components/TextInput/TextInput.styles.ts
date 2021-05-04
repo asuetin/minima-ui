@@ -1,95 +1,95 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
-import {size, radius, getShadow, focus} from 'utils/styleVars';
+import themeDefault from 'utils/theme';
 
-import theme from 'utils/theme';
-const {background, accent, content} = theme;
+const TextInput = styled.input(({theme}) => {
+	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = Object.keys(theme).length == 0 ? themeDefault : theme;
 
-const TextInput = styled.input`
-	--size: ${size.M};
-	--border-radius: ${radius.M};
-	--padding: ${size.XS};
-	--checkmark-thickness: calc(${size.XXS} / 1.25);
+	return css`
+		--size: ${size[3]};
+		--border-radius: ${radius[2]};
+		--padding: ${size[1]};
+		--checkmark-thickness: calc(${size[0]} / 1.25);
 
-	--color-background: ${background.M};
-	--color-background-light: ${background.L};
-	--color-background-disabled: ${background.XXD};
+		--color-background: ${background[8]};
+		--color-background-light: ${background[9]};
+		--color-background-disabled: ${background[4]};
 
-	--color-content: ${content.M};
-	--color-placeholder: ${content.XL};
-	--color-accent: ${accent.M};
-	--color-accent-light: ${accent.L};
+		--color-content: ${content[3]};
+		--color-placeholder: ${content[9]};
+		--color-accent: ${accent[7]};
+		--color-accent-light: ${accent[9]};
 
-	--color-scrollbar: ${content.L};
-	--color-scrollbar-hover: ${content.XL};
+		--color-scrollbar: ${content[8]};
+		--color-scrollbar-hover: ${content[9]};
 
-	--shadow: ${getShadow('M')};
-	--light: ${getShadow('L', accent.L)};
-	--light-pressed: ${getShadow('M', accent.L)};
-	--focus: ${focus};
+		--shadow-dark: ${shadow[0]};
+		--shadow-light: ${light[1]};
+		--shadow-light-pressed: ${light[0]};
+		--shadow-focus: ${focus};
 
-	position: relative;
-	width: 20rem;
-	height: var(--size);
+		position: relative;
+		height: var(--size);
 
-	font-family: 'Open Sans', sans-serif;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	color: var(--color-content);
-	background-color: var(--color-background);
-	box-shadow: var(--shadow);
-	outline: none;
-	border: none;
-	border-radius: var(--border-radius);
-	transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
-
-	padding: 0 var(--padding) 0 var(--padding);
-
-	&[aria-multiline='true']{
-		padding: var(--padding);
-	}
-
-	&::placeholder {
-		color: var(--color-placeholder);
-	}
-
-	&:focus, &:hover {
-		box-shadow: var(--light);
-		background-color: var(--color-background-light);
-	}
-
-	&:disabled {
-		background-color: var(--color-background-disabled);
-	}
-
-	&:disabled, &:read-only {
-		pointer-events: none;
-	}
-
-	::-webkit-scrollbar {
-		width: var(--width-scrollbar);
-	}
-
-	::-webkit-scrollbar-button {
-		display: none;
-	}
-
-	::-webkit-scrollbar-thumb {
-		background-color: var(--color-scrollbar);
+		font-family: ${fontFamily};
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		color: var(--color-content);
+		background-color: var(--color-background);
+		box-shadow: var(--shadow-dark);
+		outline: none;
+		border: none;
 		border-radius: var(--border-radius);
-	}
+		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
-	::-webkit-scrollbar-thumb:hover {
-		background-color: var(--color-scrollbar-hover);
-	}
+		padding: 0 var(--padding) 0 var(--padding);
 
-	::-webkit-scrollbar-track,
-	::-webkit-scrollbar-track-piece,
-	::-webkit-resizer,
-	::-webkit-scrollbar-corner {
-		display: none;
-	}
-`;
+		&[aria-multiline='true']{
+			padding: var(--padding);
+		}
+
+		&::placeholder {
+			color: var(--color-placeholder);
+		}
+
+		&:focus, &:hover {
+			box-shadow: var(--shadow-light);
+			background-color: var(--color-background-light);
+		}
+
+		&:disabled {
+			background-color: var(--color-background-disabled);
+		}
+
+		&:disabled, &:read-only {
+			pointer-events: none;
+		}
+
+		::-webkit-scrollbar {
+			width: var(--width-scrollbar);
+		}
+
+		::-webkit-scrollbar-button {
+			display: none;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background-color: var(--color-scrollbar);
+			border-radius: var(--border-radius);
+		}
+
+		::-webkit-scrollbar-thumb:hover {
+			background-color: var(--color-scrollbar-hover);
+		}
+
+		::-webkit-scrollbar-track,
+		::-webkit-scrollbar-track-piece,
+		::-webkit-resizer,
+		::-webkit-scrollbar-corner {
+			display: none;
+		}
+	`;
+});
 
 export default {TextInput};
