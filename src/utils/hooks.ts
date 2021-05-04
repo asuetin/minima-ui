@@ -34,3 +34,23 @@ export const useMergedRef = <T>(...refs: ForwardedRef<T>[]): MutableRefObject<T>
 
 	return mergedRef;
 };
+
+export const useInterval = (
+	handler: () => void,
+	delay: number,
+	runOnMount = true
+): void => {
+	const handlerRef = useRef(handler);
+
+	useEffect(() => {
+		handlerRef.current = handler;
+	}, [handler]);
+
+	useEffect(() => {
+		if (runOnMount){
+			handlerRef.current();
+		}
+		const interval = setInterval(() => handlerRef.current(), delay);
+		return () => clearInterval(interval);
+	}, [delay, runOnMount]);
+};
