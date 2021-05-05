@@ -1,4 +1,6 @@
-import {Meta} from '@storybook/addon-docs/blocks';
+import {Meta, Story} from '@storybook/addon-docs/blocks';
+
+import StylingExample from 'stories/StylingExample';
 
 <Meta title="Styling"/>
 
@@ -16,3 +18,45 @@ export default ComboBox;
 export {ComboBoxProps} from './ComboBox';
 export {Styles as ComboBoxStyles};
 ```
+
+## Example
+
+A regular Slider looks like this:
+
+<StylingExample/>
+
+<br/>
+
+Let's create a Slider with a modified style:
+
+```tsx
+import styled from 'styled-components';
+import Slider, {SliderStyles} from 'components/Slider';
+
+const {Thumb} = SliderStyles;
+
+const SliderStyled = styled(Slider)`
+	&::before {
+		border-radius: 0;
+
+		box-sizing: border-box;
+		border: 0.125rem solid black;
+
+		background-color: white;
+		box-shadow: none;
+	}
+
+	${Thumb}{
+		border-radius: 0;
+		background-color: black;
+
+		&:hover, &:active {
+			background-color: grey;
+			box-shadow: none;
+		}
+	}
+`;
+```
+
+The result looks like this:
+<StylingExample styled={true}/>
