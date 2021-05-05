@@ -112,7 +112,7 @@ const Slider = styled.div(({theme}) => {
 		--thumb-shift: calc(var(--thumb-size) / 2 + var(--padding));
 
 		position: relative;
-		width: calc(var(--size) * 3);
+		width: calc(var(--size) * 5);
 		height: var(--size);
 		margin: 0 var(--thumb-shift) 0 var(--thumb-shift);
 
