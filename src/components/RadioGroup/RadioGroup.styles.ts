@@ -59,7 +59,7 @@ const RadioButton = styled.input.attrs(() => ({
 		&:active {
 			&::before {
 				transform: translateY(-45%);
-				box-shadow: var(--shadow-light-pressed);
+				box-shadow: var(--shadow-light-active);
 			}
 
 			&::after {
@@ -113,7 +113,7 @@ const RadioGroup = styled.ul.attrs(() => ({
 
 		--shadow-dark: ${shadow[0]};
 		--shadow-light: ${light[1]};
-		--shadow-light-pressed: ${light[0]};
+		--shadow-light-active: ${light[0]};
 		--shadow-focus: ${focus};
 
 		font-family: ${fontFamily};

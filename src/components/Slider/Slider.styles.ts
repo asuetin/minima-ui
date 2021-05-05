@@ -34,7 +34,7 @@ const Handle = styled.div.attrs<{left: number; width: number}>(({left, width}) =
 	}
 
 	&:hover, &:active {
-		box-shadow: var(--shadow-light-pressed);
+		box-shadow: var(--shadow-light-active);
 	}
 
 	&:active {
@@ -76,7 +76,7 @@ const Thumb = styled.div.attrs<{left: number}>(({left}) => ({
 	}
 
 	&:hover, &:active {
-		box-shadow: var(--shadow-light-pressed);
+		box-shadow: var(--shadow-light-active);
 	}
 
 	&:active {
@@ -106,7 +106,7 @@ const Slider = styled.div(({theme}) => {
 
 		--shadow-dark: ${shadow[0]};
 		--shadow-light: ${light[1]};
-		--shadow-light-pressed: ${light[0]};
+		--shadow-light-active: ${light[0]};
 		--shadow-focus: ${focus};
 
 		--thumb-shift: calc(var(--thumb-size) / 2 + var(--padding));

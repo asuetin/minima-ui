@@ -20,7 +20,7 @@ const Button = styled.button(({theme}) => {
 
 		--shadow-dark: ${shadow[0]};
 		--shadow-light: ${light[1]};
-		--shadow-light-pressed: ${light[0]};
+		--shadow-light-active: ${light[0]};
 		--shadow-focus: ${focus};
 
 		position: relative;
@@ -77,7 +77,7 @@ const Button = styled.button(({theme}) => {
 		}
 
 		&:active {
-			box-shadow: var(--shadow-light-pressed);
+			box-shadow: var(--shadow-light-active);
 			transform: translateY(5%);
 		}
 

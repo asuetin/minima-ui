@@ -25,7 +25,7 @@ const TextInput = styled.input(({theme}) => {
 
 		--shadow-dark: ${shadow[0]};
 		--shadow-light: ${light[1]};
-		--shadow-light-pressed: ${light[0]};
+		--shadow-light-active: ${light[0]};
 		--shadow-focus: ${focus};
 
 		position: relative;

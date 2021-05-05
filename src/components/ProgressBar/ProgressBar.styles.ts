@@ -17,8 +17,8 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 
 		--color-accent: ${accent[7]};
 
-		--color-text: ${content[3]};
-		--color-text-invert: ${background[9]};
+		--color-content: ${content[3]};
+		--color-content-invert: ${background[9]};
 
 		--shadow-dark: ${shadow[0]};
 
@@ -27,7 +27,7 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 		height: var(--size);
 
 		font-family: ${fontFamily};
-		color: var(--color-text);
+		color: var(--color-content);
 		background-color: var(--color-background);
 		box-shadow: var(--shadow-dark);
 		border-radius: var(--border-radius);
@@ -58,7 +58,7 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 
 		span:last-child {
 			clip-path: inset(0 calc((100 - var(--percentage)) * 1%) 0 0);
-			color: var(--color-text-invert);
+			color: var(--color-content-invert);
 			transition: clip-path 125ms ease-in-out;
 		}
 	`;
