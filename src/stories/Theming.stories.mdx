@@ -1,5 +1,11 @@
 import {Meta} from '@storybook/addon-docs/blocks';
 
+import {ThemeProvider} from 'styled-components';
+
+import themeDefault from 'utils/theme';
+
+import StylingExample from 'stories/StylingExample';
+
 <Meta title="Theming"/>
 
 # Theming
@@ -25,5 +31,69 @@ export type ThemeType = {
 	focus: CSSProperties['boxShadow'];
 };
 ```
+The default theme can be imported to create modified versions of it:
+```tsx
+import {themeDefault} from 'minima-ui';
+```
 
 The source code for the default theme can be viewed [here.](https://github.com/asuetin/minima-ui/blob/main/src/utils/theme.ts)
+
+## Example
+
+A regular Slider looks like this:
+
+<StylingExample/>
+
+<br/>
+
+Let's create a Slider with a custom theme that modifies the background color:
+
+```tsx
+import {FC, useState} from 'react';
+import {ThemeProvider} from 'styled-components';
+
+import {Slider, themeDefault} from 'minima-ui';
+
+const SliderThemed: FC = () => {
+	const [value, setValue] = useState(33);
+
+	return <ThemeProvider
+		theme={{
+			minima: {
+				...themeDefault,
+				background: Array.from({length: 10}, () => 'white')
+			}
+		}}
+	>
+		<div
+			style={{
+				display: 'grid',
+				alignItems: 'center',
+				gridTemplateColumns: '12rem 8rem',
+				gridGap: '0.5rem'
+			}}
+		>
+			<Slider
+				value={value}
+				range={[0, 100]}
+				onChange={(v: number) => setValue(v)}
+				aria-labelledby='label'
+			/>
+			<label id='label'>{value.toFixed(2)}</label>
+		</div>
+	</ThemeProvider>;
+};
+```
+
+The result looks like this:
+
+<ThemeProvider
+	theme={{
+		minima: {
+			...themeDefault,
+			background: Array.from({length: 10}, () => 'white')
+		}
+	}}
+>
+	<StylingExample/>
+</ThemeProvider>
