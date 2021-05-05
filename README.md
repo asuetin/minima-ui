@@ -28,7 +28,7 @@ The library includes the following components:
 
 To install minima-ui, use the following command:
 
-	npm i https://github.com/asuetin/minima-ui
+	npm i minima-ui
 
 To use the library in your app, import one or more of the included components:
 ```tsx
