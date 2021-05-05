@@ -1,3 +1,7 @@
+import themeDefault from 'utils/theme';
+export {ThemeType, ColorType, SizeType, ShadowType} from 'utils/theme';
+export {themeDefault};
+
 import Icon, {IconStyles} from 'components/Icon';
 export {IconProps} from 'components/Icon';
 export {Icon, IconStyles};
