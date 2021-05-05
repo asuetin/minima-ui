@@ -1,6 +1,6 @@
 import {render, fireEvent} from '@testing-library/react';
 
-import Slider from 'components/Slider';
+import {Slider} from '../';
 export default class PointerEventMocked extends Event {
 	constructor(type: string, props: {[key: string]: unknown}) {
 		super(type, props);

@@ -1,7 +1,7 @@
 import {render, fireEvent, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Button from 'components/Button';
+import {Button} from '../';
 
 describe('Button', () => {
 	test('test click behavior', async () => {

@@ -1,6 +1,6 @@
 import {render, fireEvent} from '@testing-library/react';
 
-import RadioGroup from 'components/RadioGroup';
+import {RadioGroup} from '../';
 
 const options = Array.from({length: 100}, (v, i) => ({
 	value: i,

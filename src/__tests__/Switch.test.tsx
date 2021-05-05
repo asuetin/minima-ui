@@ -1,7 +1,7 @@
 import {render, fireEvent} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Switch from 'components/Switch';
+import {Switch} from '../';
 
 describe('Switch', () => {
 	test('test switch behavior', async () => {

@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react';
 
-import ProgressBar from 'components/ProgressBar';
+import {ProgressBar} from '../';
 
 describe('ProgressBar', () => {
 	test('render a progress bar', async () => {

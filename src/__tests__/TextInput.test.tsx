@@ -1,6 +1,6 @@
 import {render, fireEvent} from '@testing-library/react';
 
-import TextInput from 'components/TextInput';
+import {TextInput} from '../';
 
 describe('TextInput', () => {
 	test('test value change behavior', async () => {

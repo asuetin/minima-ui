@@ -1,6 +1,6 @@
 import {render, fireEvent} from '@testing-library/react';
 
-import CheckBox from 'components/CheckBox';
+import {CheckBox} from '../';
 
 describe('CheckBox', () => {
 	test('test check behavior', async () => {

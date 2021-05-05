@@ -1,6 +1,6 @@
 import {render, fireEvent, waitFor} from '@testing-library/react';
 
-import List from 'components/List';
+import {List} from '../';
 
 const options = Array.from({length: 100}, (v, i) => ({
 	value: i,

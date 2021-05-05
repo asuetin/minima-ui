@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react';
 
-import Icon from 'components/Icon';
+import {Icon} from '../';
 
 describe('Icon', () => {
 	test('render an svg icon', async () => {
