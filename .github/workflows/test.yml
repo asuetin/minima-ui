@@ -1,8 +1,7 @@
 name: Run tests
 on:
   push:
-    paths: ["src/**"]
-    paths-ignore: ["src/stories/**"]
+    paths: ["src/**", "!src/stories/**"]
 jobs:
   install-and-test:
     runs-on: ubuntu-latest
