@@ -132,7 +132,7 @@ const Icon: FC<IconProps> = ({
 	const viewBoxSizeActual = isCustom ? viewBoxSize : presetIcons[preset].viewBoxSize;
 	const pathActual = isCustom ? path : presetIcons[preset].path;
 
-	const multiplier = (size || viewBoxSizeActual)/viewBoxSizeActual;
+	const multiplier = (size ?? viewBoxSizeActual)/viewBoxSizeActual;
 	const sizeMultiplied = `${pxToRem(viewBoxSizeActual*multiplier)}rem`;
 
 	return <Styled.Icon

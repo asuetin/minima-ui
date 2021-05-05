@@ -48,13 +48,13 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 			switch (type){
 			case 'left':
 				return [
-					limitInRange(valueCurr[0] + valueDiff, [range[0], valueCurr[1] - (minSpan || rangeSpan*0.1)]),
+					limitInRange(valueCurr[0] + valueDiff, [range[0], valueCurr[1] - (minSpan ?? rangeSpan*0.1)]),
 					valueCurr[1]
 				];
 			case 'right':
 				return [
 					valueCurr[0],
-					limitInRange(valueCurr[1] + valueDiff, [valueCurr[0] + (minSpan || rangeSpan*0.1), range[1]])
+					limitInRange(valueCurr[1] + valueDiff, [valueCurr[0] + (minSpan ?? rangeSpan*0.1), range[1]])
 				];
 			case 'handle':
 				const valueSpan = valueCurr[1] - valueCurr[0];
@@ -83,17 +83,17 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 		switch(e.code){
 		case 'ArrowLeft':
 		case 'ArrowDown':
-			valueDiff = -(step || rangeSpan/100);
+			valueDiff = -(step ?? rangeSpan/100);
 			break;
 		case 'ArrowRight':
 		case 'ArrowUp':
-			valueDiff = (step || rangeSpan/100);
+			valueDiff = (step ?? rangeSpan/100);
 			break;
 		case 'PageDown':
-			valueDiff = -(bigStep || rangeSpan/10);
+			valueDiff = -(bigStep ?? rangeSpan/10);
 			break;
 		case 'PageUp':
-			valueDiff = (bigStep || rangeSpan/10);
+			valueDiff = (bigStep ?? rangeSpan/10);
 			break;
 		case 'Home':
 			valueDiff = -rangeSpan;
@@ -133,7 +133,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 	return <Styled.Slider
 		{...props}
 		ref={componentRef}
-		aria-disabled={disabled}
+		aria-disabled={disabled || undefined}
 	>
 		<Styled.Thumb
 			{...commonProps}

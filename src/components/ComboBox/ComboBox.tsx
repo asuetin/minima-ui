@@ -131,7 +131,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	//group options
 	useEffect(() => {
 		const groupValues = [];
-		const optionsGroupedNew: typeof optionsGrouped = [...(searchResults || options)].sort((a, b) => {
+		const optionsGroupedNew: typeof optionsGrouped = [...(searchResults ?? options)].sort((a, b) => {
 			groupValues.push(a.group, b.group);
 			return a.group < b.group ? -1 : 0;
 		});
@@ -220,7 +220,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			aria-selected={rowCount && !option?.isGroup && selectedIndex == index ? true : undefined}
 			as={option?.isGroup ? 'label' : undefined}
 		>
-			{option?.label || option?.value || 'No results'}
+			{option?.label ?? option?.value ?? 'No results'}
 		</Styled.Option>;
 	};
 
@@ -252,10 +252,10 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 				if (isMultiselectable){
 					return (value as (string | number)[]).map(v => {
 						const optionSelected = options.find(o => o.value == v);
-						return optionSelected.label || optionSelected.value;
+						return optionSelected.label ?? optionSelected.value;
 					}).join(', ');
 				}
-				return options.find(o => o.value == value)?.label || value as string | number;
+				return options.find(o => o.value == value)?.label ?? value as string | number;
 			})()}
 			onChange={!searchDisabled ? e => setSearchQuery(e.target.value) : undefined}
 			onClick={isExpanded ? undefined : () => setIsExpanded(isExpandedPrev => !isExpandedPrev)}

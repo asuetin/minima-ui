@@ -28,7 +28,7 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>(({
 				onChange();
 			}
 		}}
-		aria-readonly={readOnly}
+		aria-readonly={readOnly || undefined}
 	/>;
 });
 

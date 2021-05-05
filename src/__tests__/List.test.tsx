@@ -8,7 +8,7 @@ const options = Array.from({length: 100}, (v, i) => ({
 }));
 
 const rowRenderer = (index, style) => {
-	const {value, label} = options[index] || {};
+	const {value, label} = options[index] ?? {};
 
 	return <div
 		style={style}

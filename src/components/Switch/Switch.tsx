@@ -24,7 +24,7 @@ const Switch = forwardRef<HTMLButtonElement, SwitchProps>(({
 		onClick={readOnly ? undefined : onChange}
 		role='switch'
 		aria-checked={checked}
-		aria-readonly={readOnly}
+		aria-readonly={readOnly || undefined}
 	/>;
 });
 

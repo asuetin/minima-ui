@@ -72,7 +72,7 @@ const RadioGroup = forwardRef<HTMLUListElement, RadioGroupProps>(({
 					disabled={disabled}
 				/>
 				<label htmlFor={optionId}>
-					{o.label || o.value}
+					{o.label ?? o.value}
 				</label>
 			</Styled.RadioGroupOption>;
 		})}
