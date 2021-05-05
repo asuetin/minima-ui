@@ -2,7 +2,11 @@ import styled, {css} from 'styled-components';
 
 import themeDefault from 'utils/theme';
 
-const ProgressBar = styled.div<{percentage: number}>(({theme, percentage}) => {
+const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
+	style: {
+		'--percentage': percentage*100
+	}
+}))<{percentage: number}>(({theme}) => {
 	const {fontFamily, background, accent, content, size, radius, shadow} = theme.minima ?? themeDefault;
 
 	return css`
@@ -13,7 +17,8 @@ const ProgressBar = styled.div<{percentage: number}>(({theme, percentage}) => {
 
 		--color-accent: ${accent[7]};
 
-		--color-content: ${content[3]};
+		--color-text: ${content[3]};
+		--color-text-invert: ${background[9]};
 
 		--shadow-dark: ${shadow[0]};
 
@@ -22,7 +27,7 @@ const ProgressBar = styled.div<{percentage: number}>(({theme, percentage}) => {
 		height: var(--size);
 
 		font-family: ${fontFamily};
-		color: var(--color-content);
+		color: var(--color-text);
 		background-color: var(--color-background);
 		box-shadow: var(--shadow-dark);
 		border-radius: var(--border-radius);
@@ -35,7 +40,7 @@ const ProgressBar = styled.div<{percentage: number}>(({theme, percentage}) => {
 			position: absolute;
 			left: 0;
 			top: 0;
-			width: ${percentage*100}%;
+			width: calc(var(--percentage) * 1%);
 			height: 100%;
 
 			border-radius: var(--border-radius);
@@ -52,8 +57,8 @@ const ProgressBar = styled.div<{percentage: number}>(({theme, percentage}) => {
 		}
 
 		span:last-child {
-			clip-path: inset(0 ${(1-percentage)*100}% 0 0);
-			color: white;
+			clip-path: inset(0 calc((100 - var(--percentage)) * 1%) 0 0);
+			color: var(--color-text-invert);
 			transition: clip-path 125ms ease-in-out;
 		}
 	`;
