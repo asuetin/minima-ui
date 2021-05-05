@@ -12,8 +12,7 @@ export default {
 		options: {
 			description: 'Array of option objects',
 			type: {
-				summary: 'Array of objects',
-				detail: '{value: number | string; label?: string}[]',
+				summary: '{value: number | string; label?: string}[]',
 				required: true
 			},
 			control: 'array',
@@ -24,7 +23,7 @@ export default {
 		value: {
 			description: 'Current value of the RadioGroup',
 			type: {
-				summary: 'String | Integer',
+				summary: 'number | string',
 				required: true
 			},
 			control: {
@@ -37,8 +36,7 @@ export default {
 		onChange: {
 			description: 'Value change handler function',
 			type: {
-				summary: 'Function',
-				detail: '(v: string | number) => void',
+				summary: '(v: string | number) => void',
 				required: true
 			},
 			control: {
@@ -51,7 +49,7 @@ export default {
 		disabled: {
 			description: 'Disable the RadioGroup',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean',
 			},
 			control: 'boolean',
 			defaultValue: false,

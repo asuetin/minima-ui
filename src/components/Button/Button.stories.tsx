@@ -12,8 +12,7 @@ export default {
 		onClick: {
 			description: 'Click handler function',
 			type: {
-				summary: 'Function',
-				detail: '() => void',
+				summary: '() => void',
 				required: true
 			},
 			control: {
@@ -27,7 +26,7 @@ export default {
 		icon: {
 			description: 'The button icon',
 			type: {
-				summary: 'Icon | SVGSVGElement | HTMLImageElement',
+				summary: 'Icon | SVGSVGElement | HTMLImageElement'
 			},
 			control: {
 				disable: true
@@ -39,7 +38,7 @@ export default {
 		label: {
 			description: 'The button label',
 			type: {
-				summary: 'String',
+				summary: 'string'
 			},
 			control: 'text',
 			table: {
@@ -49,7 +48,7 @@ export default {
 		disabled: {
 			description: 'Disable the Button',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean'
 			},
 			control: 'boolean',
 			defaultValue: false,

@@ -14,9 +14,9 @@ export default {
 	component: ComboBox,
 	argTypes: {
 		height: {
-			description: 'Height of the ComboBox and the option rows',
+			description: 'Height of the ComboBox and the option rows in px',
 			type: {
-				summary: 'Positive integer (px)'
+				summary: 'number'
 			},
 			control: 'number',
 			defaultValue: remToPx(themeDefault.size[3]),
@@ -30,8 +30,7 @@ export default {
 		options: {
 			description: 'Array of option objects',
 			type: {
-				summary: 'Array of objects',
-				detail: '{value: number | string; label?: string}[]',
+				summary: '{value: number | string; label?: string}[]',
 				required: true
 			},
 			control: 'array',
@@ -42,8 +41,7 @@ export default {
 		groups: {
 			description: 'Array of group objects',
 			type: {
-				summary: 'Array of objects',
-				detail: '{value: number | string; label: string}[]'
+				summary: '{value: number | string; label: string}[]'
 			},
 			control: 'array',
 			table: {
@@ -53,7 +51,7 @@ export default {
 		value: {
 			description: 'Current value of the ComboBox',
 			type: {
-				summary: 'String | Integer',
+				summary: 'number | string',
 				required: true
 			},
 			control: {
@@ -66,8 +64,7 @@ export default {
 		onChange: {
 			description: 'Value change handler function',
 			type: {
-				summary: 'Function',
-				detail: '(v: string | number) => void',
+				summary: '(v: string | number) => void',
 				required: true
 			},
 			control: {
@@ -80,7 +77,7 @@ export default {
 		visibleOptionCount: {
 			description: 'Number of visible options in the dropdown',
 			type: {
-				summary: 'Positive integer',
+				summary: 'number'
 			},
 			control: 'number',
 			defaultValue: 5,
@@ -106,7 +103,7 @@ export default {
 		searchDisabled: {
 			description: 'Disable search functionality',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean'
 			},
 			control: 'boolean',
 			defaultValue: false,
@@ -120,7 +117,7 @@ export default {
 		disabled: {
 			description: 'Disable the ComboBox',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean'
 			},
 			control: 'boolean',
 			defaultValue: false,

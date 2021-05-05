@@ -14,7 +14,7 @@ export default {
 		rowHeight: {
 			description: 'Height of rows in the list in pixels',
 			type: {
-				summary: 'Positive integer'
+				summary: 'number'
 			},
 			control: 'number',
 			defaultValue: remToPx(themeDefault.size[3]),
@@ -28,7 +28,7 @@ export default {
 		rowCount: {
 			description: 'Number of rows in the list',
 			type: {
-				summary: 'Positive integer',
+				summary: 'number',
 				required: true
 			},
 			control: 'number',
@@ -39,8 +39,7 @@ export default {
 		rowRenderer: {
 			description: 'Renderer function for the rows in the list. The rendered row must utilize the style argument as a prop and have a unique key prop.',
 			type: {
-				summary: 'Function',
-				detail: '(index: number, style: {[key: string]: string}) => ReactElement',
+				summary: '(index: number, style: {[key: string]: string}) => ReactElement',
 				required: true
 			},
 			table: {

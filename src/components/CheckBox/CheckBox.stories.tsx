@@ -12,7 +12,7 @@ export default {
 		checked: {
 			description: 'Current state of the CheckBox',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean',
 				required: true
 			},
 			control: {
@@ -25,8 +25,7 @@ export default {
 		onChange: {
 			description: 'State change handler function',
 			type: {
-				summary: 'Function',
-				detail: '() => void',
+				summary: '() => void',
 				required: true
 			},
 			control: {
@@ -39,7 +38,7 @@ export default {
 		disabled: {
 			description: 'Disable the CheckBox',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean'
 			},
 			control: 'boolean',
 			defaultValue: false,
@@ -53,7 +52,7 @@ export default {
 		readOnly: {
 			description: 'Make the CheckBox read-only',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean'
 			},
 			control: 'boolean',
 			table: {

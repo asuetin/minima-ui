@@ -39,8 +39,7 @@ export default {
 		onChange: {
 			description: 'Value change handler function',
 			type: {
-				summary: 'Function',
-				detail: '(v: number | [number, number]) => void',
+				summary: '(v: number | [number, number]) => void',
 				required: true
 			},
 			control: {
@@ -53,7 +52,7 @@ export default {
 		step: {
 			description: 'Step for changing the value with arrow keys',
 			type: {
-				summary: 'number',
+				summary: 'number'
 			},
 			control: 'number',
 			table: {
@@ -63,7 +62,7 @@ export default {
 		bigStep: {
 			description: 'Step for changing the value with page keys',
 			type: {
-				summary: 'number',
+				summary: 'number'
 			},
 			control: 'number',
 			table: {
@@ -83,7 +82,7 @@ export default {
 		disabled: {
 			description: 'Disable the Slider',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean',
 			},
 			control: 'boolean',
 			defaultValue: false,

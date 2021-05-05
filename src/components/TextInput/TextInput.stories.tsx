@@ -12,7 +12,7 @@ export default {
 		value: {
 			description: 'Current value of the TextInput',
 			type: {
-				summary: 'String',
+				summary: 'string',
 				required: true
 			},
 			control: {
@@ -25,8 +25,7 @@ export default {
 		onChange: {
 			description: 'Value change handler function',
 			type: {
-				summary: 'Function',
-				detail: '(v: string) => void',
+				summary: '(v: string) => void',
 				required: true
 			},
 			control: {
@@ -40,7 +39,7 @@ export default {
 		multiline: {
 			description: 'Enable multi-line mode',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean'
 			},
 			control: 'boolean',
 			table: {
@@ -50,7 +49,7 @@ export default {
 		disabled: {
 			description: 'Disable the TextInput',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean'
 			},
 			control: 'boolean',
 			defaultValue: false,
@@ -64,7 +63,7 @@ export default {
 		readOnly: {
 			description: 'Make the TextInput read-only',
 			type: {
-				summary: 'Boolean',
+				summary: 'boolean'
 			},
 			control: 'boolean',
 			table: {

@@ -23,7 +23,7 @@ export default {
 			table: {
 				type: {
 					summary: 'SVGElement',
-					detail: 'Excluding the core "svg" element'
+					detail: 'Excluding the core SVGSVGElement element'
 				},
 				category: 'Core'
 			}
@@ -32,7 +32,7 @@ export default {
 			description: 'Size of the viewbox for the custom SVG in pixels',
 			table: {
 				type: {
-					summary: 'Positive integer',
+					summary: 'number',
 				},
 				category: 'Core'
 			}
@@ -43,7 +43,7 @@ export default {
 			defaultValue: 'black',
 			table: {
 				type: {
-					summary: 'Color'
+					summary: 'string'
 				},
 				defaultValue: {
 					summary: 'black'
@@ -54,7 +54,7 @@ export default {
 		size: {
 			description: 'Size of the icon (overrides the default) in pixels',
 			type: {
-				summary: 'Positive integer'
+				summary: 'number'
 			},
 			control: 'number',
 			table: {
@@ -67,7 +67,7 @@ export default {
 			defaultValue: 2,
 			table: {
 				type: {
-					summary: 'Positive integer'
+					summary: 'number'
 				},
 				defaultValue: {
 					summary: 2
