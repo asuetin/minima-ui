@@ -167,7 +167,7 @@ const Input = styled.input`
 `;
 
 const ComboBox = styled.div<{height: number}>(({theme, height}) => {
-	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = Object.keys(theme).length == 0 ? themeDefault : theme;
+	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		--border-radius: ${radius[2]};

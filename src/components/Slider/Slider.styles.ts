@@ -85,7 +85,7 @@ const Thumb = styled.div.attrs<{left: number}>(({left}) => ({
 `);
 
 const Slider = styled.div(({theme}) => {
-	const {background, accent, size, radius, shadow, light, focus} = Object.keys(theme).length == 0 ? themeDefault : theme;
+	const {background, accent, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		--size: ${size[3]};

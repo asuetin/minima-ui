@@ -97,7 +97,7 @@ const RadioGroupOption = styled.li.attrs(() => ({
 const RadioGroup = styled.ul.attrs(() => ({
 	role: 'radiogroup' as string
 }))(({theme}) => {
-	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = Object.keys(theme).length == 0 ? themeDefault : theme;
+	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		--size: ${size[3]};

@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components';
 import themeDefault from 'utils/theme';
 
 const ProgressBar = styled.div<{percentage: number}>(({theme, percentage}) => {
-	const {fontFamily, background, accent, content, size, radius, shadow} = Object.keys(theme).length == 0 ? themeDefault : theme;
+	const {fontFamily, background, accent, content, size, radius, shadow} = theme.minima ?? themeDefault;
 
 	return css`
 		--size: ${size[3]};

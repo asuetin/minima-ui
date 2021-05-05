@@ -5,7 +5,7 @@ import themeDefault from 'utils/theme';
 const CheckBox = styled.input.attrs(() => ({
 	type: 'checkbox'
 }))(({theme}) => {
-	const {background, accent, content, size, radius, shadow, light, focus} = Object.keys(theme).length == 0 ? themeDefault : theme;
+	const {background, accent, content, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		--size: ${size[3]};

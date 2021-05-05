@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components';
 import themeDefault from 'utils/theme';
 
 const Button = styled.button(({theme}) => {
-	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = Object.keys(theme).length == 0 ? themeDefault : theme;
+	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		--size: ${size[3]};

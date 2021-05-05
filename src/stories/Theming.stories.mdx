@@ -4,9 +4,9 @@ import {Meta} from '@storybook/addon-docs/blocks';
 
 # Theming
 
-All components in the library support theming through the styled-components theme object.
+All of the library's components support theming. The Minima theme object is stored in a separate "minima" prop of the styled-components theme object to allow for seamless combination with your existing themes.
 
-The part of the theme object used by Minima has the following signature:
+The Minima theme object has the following signature:
 
 ```tsx
 export type ColorType = [CSSProperties['color'], ...CSSProperties['color'][]] & {length: 10};
@@ -25,3 +25,5 @@ export type ThemeType = {
 	focus: CSSProperties['boxShadow'];
 };
 ```
+
+The source code for the default theme can be viewed [here.](https://github.com/asuetin/minima-ui/blob/main/src/utils/theme.ts)

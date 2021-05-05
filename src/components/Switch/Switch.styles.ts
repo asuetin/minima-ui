@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components';
 import themeDefault from 'utils/theme';
 
 const Switch = styled.button(({theme}) => {
-	const {background, accent, size, radius, shadow, light, focus} = Object.keys(theme).length == 0 ? themeDefault : theme;
+	const {background, accent, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		--size: ${size[3]};
