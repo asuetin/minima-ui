@@ -1,7 +1,8 @@
 name: Run tests
 on:
   push:
-    paths: ["src/index.tsx", "src/components/**", "src/utils/**", "src/__tests__/**"]
+    paths: ["src/**"]
+    paths-ignore: ["src/stories/**"]
 jobs:
   install-and-test:
     runs-on: ubuntu-latest

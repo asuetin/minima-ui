@@ -1,7 +1,8 @@
 name: Build Storybook
 on:
   push:
-    paths: ["src/stories/**", "src/components/**", "src/utils/**"]
+    paths: ["src/**"]
+    paths-ignore: ["src/__tests__/**"]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
