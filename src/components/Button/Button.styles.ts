@@ -25,6 +25,7 @@ const Button = styled.button(({theme}) => {
 
 		position: relative;
 		height: var(--size);
+		box-sizing: border-box;
 
 		cursor: pointer;
 		background-color: var(--color-background);
@@ -32,9 +33,11 @@ const Button = styled.button(({theme}) => {
 		border: none;
 		border-radius: var(--border-radius);
 		outline: none;
+		font-size: 0.8rem;
 		font-family: ${fontFamily};
 		font-weight: bold;
 		color: var(--color-content);
+		text-decoration: none;
 		transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		display: flex;

@@ -23,6 +23,16 @@ export default {
 			},
 			action: 'click'
 		},
+		href: {
+			description: 'The link to use in hyperlink mode',
+			type: {
+				summary: 'string'
+			},
+			control: 'text',
+			table: {
+				category: 'Core'
+			}
+		},
 		icon: {
 			description: 'The button icon',
 			type: {
@@ -63,7 +73,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: 'A basic button with an icon, a label, or both'
+				component: 'A basic button with an option to act as a hyperlink'
 			}
 		}
 	}
