@@ -23,9 +23,12 @@ const Handle = styled.div.attrs<{left: number; width: number}>(({theme, left, wi
 		height: 100%;
 
 		cursor: grab;
+
+		background-color: ${accent[7]};
+
 		outline: none;
 		border-radius: ${radius[2]};
-		background-color: ${accent[7]};
+
 		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		&:hover {
@@ -66,12 +69,14 @@ const Thumb = styled.div.attrs<{left: number}>(({left}) => ({
 		top: ${size[0]};
 		width: ${size[2]};
 		height: calc(100% - ${size[1]});
+		transform: translateX(-50%);
 
 		cursor: grab;
+
+		background-color: ${multi ? background[8] : accent[7]};
+
 		outline: none;
 		border-radius: ${radius[2]};
-		background-color: ${multi ? background[8] : accent[7]};
-		transform: translateX(-50%);
 		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		&:hover {
@@ -119,8 +124,9 @@ const Slider = styled.div(({theme}) => {
 			height: 100%;
 
 			background-color: ${background[8]};
-			box-shadow: ${shadow[0]};
+
 			border-radius: ${radius[2]};
+			box-shadow: ${shadow[0]};
 		}
 
 		&[aria-disabled='true']{

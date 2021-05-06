@@ -8,24 +8,28 @@ const Button = styled.button(({theme}) => {
 	return css`
 		position: relative;
 		height: ${size[3]};
-		box-sizing: border-box;
 
 		cursor: pointer;
+
 		background-color: ${background[8]};
-		box-shadow: ${shadow[0]};
+
 		border: none;
 		border-radius: ${radius[2]};
 		outline: none;
+		box-shadow: ${shadow[0]};
+
 		font-size: 0.8rem;
 		font-family: ${fontFamily};
 		font-weight: bold;
 		color: ${content[0]};
 		text-decoration: none;
+
 		transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		display: flex;
 		align-items: center;
 		padding: ${size[1]};
+		box-sizing: border-box;
 
 		> * {
 			padding-right: ${size[1]};
@@ -49,8 +53,8 @@ const Button = styled.button(({theme}) => {
 		}
 
 		&:hover {
-			box-shadow: ${light[1]};
 			background-color: ${background[9]};
+			box-shadow: ${light[1]};
 
 			> span {
 				color: ${accent[9]};

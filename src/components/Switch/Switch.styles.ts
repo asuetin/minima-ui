@@ -11,11 +11,14 @@ const Switch = styled.button(({theme}) => {
 		height: ${size[3]};
 
 		cursor: pointer;
+
 		background-color: ${background[8]};
-		box-shadow: ${shadow[0]};
+
 		border: none;
 		border-radius: ${radius[2]};
 		outline: none;
+		box-shadow: ${shadow[0]};
+
 		transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		display: flex;
@@ -28,8 +31,10 @@ const Switch = styled.button(({theme}) => {
 			width: 30%;
 			height: calc(100% - ${size[1]});
 
-			border-radius: ${radius[2]};
 			background-color: ${background[4]};
+
+			border-radius: ${radius[2]};
+
 			transition: left 125ms ease-in-out;
 		}
 
@@ -38,8 +43,9 @@ const Switch = styled.button(({theme}) => {
 		}
 
 		&:hover {
-			box-shadow: ${light[1]};
 			background-color: ${background[9]};
+
+			box-shadow: ${light[1]};
 
 			&::after {
 				background-color: ${background[6]};
@@ -47,8 +53,9 @@ const Switch = styled.button(({theme}) => {
 		}
 
 		&:active {
-			box-shadow: ${light[0]};
 			transform: translateY(5%);
+
+			box-shadow: ${light[0]};
 		}
 
 		&[aria-checked='true']{
@@ -56,6 +63,7 @@ const Switch = styled.button(({theme}) => {
 
 			&::after {
 				left: calc(70% - ${size[0]});
+
 				background-color: ${background[8]};
 			}
 

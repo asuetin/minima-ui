@@ -14,12 +14,13 @@ const Option = styled.li(({theme}) => {
 
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		overflow: hidden;
+
+		transition: padding-left 125ms ease-in-out;
 
 		display: block;
 		padding: 0;
 		padding-left: ${size[1]};
-		transition: padding-left 125ms ease-in-out;
+		overflow: hidden;
 
 		&[role='option']{
 			cursor: pointer;
@@ -30,10 +31,11 @@ const Option = styled.li(({theme}) => {
 		}
 
 		&:not([role='option']){
+			transform: translateY(20%);
+
 			font-size: 80%;
 			font-weight: bold;
 			text-align: center;
-			transform: translateY(20%);
 		}
 
 		&[aria-selected='true']{
@@ -60,8 +62,9 @@ const Option = styled.li(({theme}) => {
 				width: ${size[1]};
 				height: ${size[1]};
 
-				border-radius: 50%;
 				background-color: ${accent[7]};
+
+				border-radius: 50%;
 
 				animation: ${keyframes`
 					0% {
@@ -88,10 +91,11 @@ const Dropdown = styled(List)<{visibleOptionCount: number}>(({theme, rowHeight, 
 		height: var(--height);
 
 		background-color: ${background[8]};
-		box-shadow: var(--box-shadow);
+
 		border-radius: ${radius[2]};
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
+		box-shadow: var(--box-shadow);
 
 		animation: ${keyframes`
 			0% {
@@ -116,6 +120,7 @@ const Dropdown = styled(List)<{visibleOptionCount: number}>(({theme, rowHeight, 
 
 		::-webkit-scrollbar-thumb {
 			background-color: ${content[8]};
+
 			border-radius: ${radius[2]};
 		}
 
@@ -139,7 +144,9 @@ const Button = styled.button(({theme}) => {
 		position: relative;
 
 		cursor: pointer;
+
 		background-color: inherit;
+
 		border: none;
 		border-radius: inherit;
 		outline: none;
@@ -160,21 +167,24 @@ const Input = styled.input(({theme}) => {
 	return css`
 		position: relative;
 		flex-grow: 1;
-		padding: 0 0 0 ${size[1]};
 
-		color: ${content[3]};
 		background-color: inherit;
+
 		border: none;
 		border-radius: inherit;
 		outline: none;
+
 		font: inherit;
+		color: ${content[3]};
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		overflow: hidden;
+
 		transition: color 125ms ease-in-out;
 
 		display: flex;
 		align-items: center;
+		overflow: hidden;
+		padding: 0 0 0 ${size[1]};
 
 		::placeholder {
 			color: ${content[9]};
@@ -190,11 +200,14 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 		height: ${pxToRem(height)}rem;
 
 		background-color: ${background[8]};
+
 		outline: none;
-		box-shadow: ${shadow[0]};
 		border-radius: ${radius[2]};
+		box-shadow: ${shadow[0]};
+
 		font-family: ${fontFamily};
 		color: ${content[3]};
+
 		transition: ${['background-color', 'box-shadow', 'border-radius'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		display: flex;

@@ -14,11 +14,13 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 		width: calc(${size[3]} * 3);
 		height: ${size[3]};
 
+		background-color: ${background[8]};
+
+		border-radius: ${radius[2]};
+		box-shadow: ${shadow[0]};
+
 		font-family: ${fontFamily};
 		color: ${content[3]};
-		background-color: ${background[8]};
-		box-shadow: ${shadow[0]};
-		border-radius: ${radius[2]};
 
 		display: flex;
 		align-items: center;
@@ -31,8 +33,10 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 			width: calc(var(--percentage) * 1%);
 			height: 100%;
 
-			border-radius: ${radius[2]};
 			background-color: ${accent[7]};
+
+			border-radius: ${radius[2]};
+
 			transition: width 125ms ease-in-out;
 		}
 
@@ -47,6 +51,7 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 		span:last-child {
 			clip-path: inset(0 calc((100 - var(--percentage)) * 1%) 0 0);
 			color: ${background[9]};
+
 			transition: clip-path 125ms ease-in-out;
 		}
 	`;

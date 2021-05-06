@@ -9,19 +9,22 @@ const TextInput = styled.input(({theme}) => {
 		position: relative;
 		height: ${size[3]};
 
+		background-color: ${background[8]};
+
 		font-family: ${fontFamily};
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		overflow: hidden;
 		color: ${content[3]};
-		background-color: ${background[8]};
-		box-shadow: ${shadow[0]};
+
 		outline: none;
 		border: none;
 		border-radius: ${radius[2]};
+		box-shadow: ${shadow[0]};
+
 		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		padding: 0 ${size[1]} 0 ${size[1]};
+		overflow: hidden;
 
 		&[aria-multiline='true']{
 			padding: ${size[1]};
@@ -32,8 +35,8 @@ const TextInput = styled.input(({theme}) => {
 		}
 
 		&:focus, &:hover {
-			box-shadow: ${light[1]};
 			background-color: ${background[9]};
+			box-shadow: ${light[1]};
 		}
 
 		&:disabled {

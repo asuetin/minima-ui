@@ -11,11 +11,11 @@ const CheckBox = styled.input.attrs(() => ({
 		position: relative;
 		width: ${size[3]};
 		height: 0;
+		margin: ${size[2]} 0 ${size[2]} 0;
 
 		cursor: pointer;
-		outline: none;
 
-		margin: ${size[2]} 0 ${size[2]} 0;
+		outline: none;
 
 		&::before {
 			content: '';
@@ -24,8 +24,10 @@ const CheckBox = styled.input.attrs(() => ({
 			transform: translateY(-50%);
 
 			background-color: ${background[8]};
-			box-shadow: ${shadow[0]};
+
 			border-radius: ${radius[2]};
+			box-shadow: ${shadow[0]};
+
 			transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
 			display: block;
@@ -55,8 +57,8 @@ const CheckBox = styled.input.attrs(() => ({
 		&:not([aria-readonly='true']):not(:disabled){
 			&:hover {
 				&::before {
-					box-shadow: ${light[1]};
 					background-color: ${background[9]};
+					box-shadow: ${light[1]};
 				}
 			}
 

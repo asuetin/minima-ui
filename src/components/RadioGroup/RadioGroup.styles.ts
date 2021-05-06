@@ -23,8 +23,10 @@ const RadioButton = styled.input.attrs(() => ({
 			transform: translateY(-50%);
 
 			background-color: ${background[8]};
-			box-shadow: ${shadow[0]};
+
 			border-radius: 50%;
+			box-shadow: ${shadow[0]};
+
 			transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
 			display: block;
@@ -40,6 +42,7 @@ const RadioButton = styled.input.attrs(() => ({
 			transform: translateY(-50%);
 
 			background-color: transparent;
+
 			border-radius: 50%;
 
 			transition: ${['background-color', 'top'].map(v => `${v} 125ms ease-in-out`).join()};
@@ -54,14 +57,16 @@ const RadioButton = styled.input.attrs(() => ({
 
 			&:hover {
 				&::before {
-					box-shadow: ${light[1]};
 					background-color: ${background[9]};
+
+					box-shadow: ${light[1]};
 				}
 			}
 
 			&:active {
 				&::before {
 					transform: translateY(-45%);
+
 					box-shadow: ${light[0]};
 				}
 
@@ -108,6 +113,8 @@ const RadioGroup = styled.ul.attrs(() => ({
 	const {fontFamily, content, size} = theme.minima ?? themeDefault;
 
 	return css`
+		margin: 0;
+
 		font-family: ${fontFamily};
 		color: ${content[3]};
 
@@ -115,7 +122,6 @@ const RadioGroup = styled.ul.attrs(() => ({
 		grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
 		grid-gap: ${size[2]};
 		padding: 0;
-		margin: 0;
 
 		&:disabled {
 			pointer-events: none;
