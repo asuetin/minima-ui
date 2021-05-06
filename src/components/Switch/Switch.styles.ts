@@ -38,7 +38,7 @@ const Switch = styled.button(({theme}) => {
 			transition: left 125ms ease-in-out;
 		}
 
-		&:focus {
+		&:focus-visible {
 			box-shadow: ${shadow[0]}, ${focus};
 		}
 

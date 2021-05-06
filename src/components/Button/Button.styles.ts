@@ -48,7 +48,7 @@ const Button = styled.button(({theme}) => {
 			fill: ${content[0]};
 		}
 
-		&:focus {
+		&:focus-visible {
 			box-shadow: ${shadow[0]}, ${focus};
 		}
 

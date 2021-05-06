@@ -31,7 +31,7 @@ const Handle = styled.div.attrs<{left: number; width: number}>(({theme, left, wi
 
 		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
-		&:focus {
+		&:focus-visible {
 			box-shadow: ${focus};
 		}
 
@@ -43,7 +43,7 @@ const Handle = styled.div.attrs<{left: number; width: number}>(({theme, left, wi
 			}
 		}
 
-		&:active, &:focus {
+		&:active, &:focus-visible {
 			background-color: ${accent[9]};
 		}
 
@@ -81,7 +81,7 @@ const Thumb = styled.div.attrs<{left: number}>(({left}) => ({
 		border-radius: ${radius[2]};
 		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
-		&:focus {
+		&:focus-visible {
 			box-shadow: ${focus};
 		}
 
@@ -93,7 +93,7 @@ const Thumb = styled.div.attrs<{left: number}>(({left}) => ({
 			}
 		}
 
-		&:active, &:focus {
+		&:active, &:focus-visible {
 			background-color: ${multi ? background[9] : accent[9]};
 		}
 

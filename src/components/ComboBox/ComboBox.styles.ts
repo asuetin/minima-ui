@@ -234,7 +234,7 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 		}
 
 		&[aria-expanded='false']{
-			&:focus {
+			&:focus-visible {
 				box-shadow: ${shadow[0]}, ${focus};
 			}
 

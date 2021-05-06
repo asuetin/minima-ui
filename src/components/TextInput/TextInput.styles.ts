@@ -34,7 +34,7 @@ const TextInput = styled.input(({theme}) => {
 			color: ${content[9]};
 		}
 
-		&:focus {
+		&:focus-visible {
 			background-color: ${background[9]};
 			box-shadow: ${light[1]};
 		}

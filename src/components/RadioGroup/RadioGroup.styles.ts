@@ -48,7 +48,7 @@ const RadioButton = styled.input.attrs(() => ({
 			transition: ${['background-color', 'top'].map(v => `${v} 125ms ease-in-out`).join()};
 		}
 
-		&:focus::before {
+		&:focus-visible::before {
 			box-shadow: ${shadow[0]}, ${focus};
 		}
 
