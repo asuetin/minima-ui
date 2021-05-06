@@ -42,13 +42,15 @@ const Switch = styled.button(({theme}) => {
 			box-shadow: ${shadow[0]}, ${focus};
 		}
 
-		&:hover {
-			background-color: ${background[9]};
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: ${background[9]};
 
-			box-shadow: ${light[1]};
+				box-shadow: ${light[1]};
 
-			&::after {
-				background-color: ${background[6]};
+				&::after {
+					background-color: ${background[6]};
+				}
 			}
 		}
 
@@ -67,11 +69,13 @@ const Switch = styled.button(({theme}) => {
 				background-color: ${background[8]};
 			}
 
-			&:hover {
-				background-color: ${accent[9]};
+			@media (hover: hover) and (pointer: fine) {
+				&:hover {
+					background-color: ${accent[9]};
 
-				&::after {
-					background-color: ${background[9]};
+					&::after {
+						background-color: ${background[9]};
+					}
 				}
 			}
 		}

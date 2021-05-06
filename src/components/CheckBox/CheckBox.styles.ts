@@ -55,10 +55,16 @@ const CheckBox = styled.input.attrs(() => ({
 		}
 
 		&:not([aria-readonly='true']):not(:disabled){
-			&:hover {
-				&::before {
-					background-color: ${background[9]};
-					box-shadow: ${light[1]};
+			@media (hover: hover) and (pointer: fine) {
+				&:hover {
+					&::before {
+						background-color: ${background[9]};
+						box-shadow: ${light[1]};
+					}
+
+					&:checked::after {
+						border-color: ${accent[9]};
+					}
 				}
 			}
 
@@ -71,10 +77,6 @@ const CheckBox = styled.input.attrs(() => ({
 				&::after {
 					top: calc(${size[3]} * 0.05);
 				}
-			}
-
-			&:checked:hover::after {
-				border-color: ${accent[9]};
 			}
 		}
 

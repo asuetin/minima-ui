@@ -55,11 +55,17 @@ const RadioButton = styled.input.attrs(() => ({
 		&:not(:disabled){
 			cursor: pointer;
 
-			&:hover {
-				&::before {
-					background-color: ${background[9]};
+			@media (hover: hover) and (pointer: fine) {
+				&:hover {
+					&::before {
+						background-color: ${background[9]};
 
-					box-shadow: ${light[1]};
+						box-shadow: ${light[1]};
+					}
+
+					&:checked::after {
+						background-color: ${accent[9]};
+					}
 				}
 			}
 
@@ -73,10 +79,6 @@ const RadioButton = styled.input.attrs(() => ({
 				&::after {
 					top: calc(${size[3]} * 0.05);
 				}
-			}
-
-			&:checked:hover::after {
-				background-color: ${accent[9]};
 			}
 		}
 

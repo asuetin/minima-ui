@@ -52,17 +52,19 @@ const Button = styled.button(({theme}) => {
 			box-shadow: ${shadow[0]}, ${focus};
 		}
 
-		&:hover {
-			background-color: ${background[9]};
-			box-shadow: ${light[1]};
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: ${background[9]};
+				box-shadow: ${light[1]};
 
-			> span {
-				color: ${accent[9]};
-			}
+				> span {
+					color: ${accent[9]};
+				}
 
-			svg {
-				stroke: ${accent[9]};
-				fill: ${accent[9]};
+				svg {
+					stroke: ${accent[9]};
+					fill: ${accent[9]};
+				}
 			}
 		}
 

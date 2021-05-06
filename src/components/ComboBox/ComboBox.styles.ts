@@ -26,8 +26,10 @@ const Option = styled.li(({theme}) => {
 			cursor: pointer;
 		}
 
-		&[role='option']:hover {
-			background-color: ${background[7]};
+		@media (hover: hover) and (pointer: fine) {
+			&[role='option']:hover {
+				background-color: ${background[7]};
+			}
 		}
 
 		&:not([role='option']){
@@ -124,8 +126,10 @@ const Dropdown = styled(List)<{visibleOptionCount: number}>(({theme, rowHeight, 
 			border-radius: ${radius[2]};
 		}
 
-		::-webkit-scrollbar-thumb:hover {
-			background-color: ${content[9]};
+		@media (hover: hover) and (pointer: fine) {
+			::-webkit-scrollbar-thumb:hover {
+				background-color: ${content[9]};
+			}
 		}
 
 		::-webkit-scrollbar-track,
@@ -217,12 +221,16 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 			fill: ${content[3]};
 		}
 
-		&[aria-expanded='true'], &:hover, ${Dropdown}{
+		&[aria-expanded='true'], ${Dropdown}{
 			box-shadow: ${light[1]};
 		}
 
-		&[aria-expanded='true'], &:hover {
-			background-color: ${background[9]};
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: ${background[9]};
+
+				box-shadow: ${light[1]};
+			}
 		}
 
 		&[aria-expanded='false']{
@@ -230,19 +238,23 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 				box-shadow: ${shadow[0]}, ${focus};
 			}
 
-			&:hover {
-				${Input}{
-					color: ${accent[9]};
-				}
+			@media (hover: hover) and (pointer: fine) {
+				&:hover {
+					${Input}{
+						color: ${accent[9]};
+					}
 
-				svg {
-					stroke: ${accent[9]};
-					fill: ${accent[9]};
+					svg {
+						stroke: ${accent[9]};
+						fill: ${accent[9]};
+					}
 				}
 			}
 		}
 
 		&[aria-expanded='true']{
+			background-color: ${background[9]};
+
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
 
@@ -251,9 +263,11 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 					transform: rotate(180deg);
 				}
 
-				&:hover svg {
-					stroke: ${accent[9]};
-					fill: ${accent[9]};
+				@media (hover: hover) and (pointer: fine) {
+					&:hover svg {
+						stroke: ${accent[9]};
+						fill: ${accent[9]};
+					}
 				}
 			}
 		}

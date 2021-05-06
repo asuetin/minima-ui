@@ -34,9 +34,16 @@ const TextInput = styled.input(({theme}) => {
 			color: ${content[9]};
 		}
 
-		&:focus, &:hover {
+		&:focus {
 			background-color: ${background[9]};
 			box-shadow: ${light[1]};
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: ${background[9]};
+				box-shadow: ${light[1]};
+			}
 		}
 
 		&:disabled {
@@ -60,8 +67,10 @@ const TextInput = styled.input(({theme}) => {
 			border-radius: ${radius[2]};
 		}
 
-		::-webkit-scrollbar-thumb:hover {
-			background-color: ${content[9]};
+		@media (hover: hover) and (pointer: fine) {
+			::-webkit-scrollbar-thumb:hover {
+				background-color: ${content[9]};
+			}
 		}
 
 		::-webkit-scrollbar-track,

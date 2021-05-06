@@ -31,24 +31,26 @@ const Handle = styled.div.attrs<{left: number; width: number}>(({theme, left, wi
 
 		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
-		&:hover {
-			box-shadow: ${light[1]};
-		}
-
 		&:focus {
 			box-shadow: ${focus};
 		}
 
-		&:hover, &:active, &:focus {
-			background-color: ${accent[9]};
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: ${accent[9]};
+
+				box-shadow: ${light[1]};
+			}
 		}
 
-		&:hover, &:active {
-			box-shadow: ${light[0]};
+		&:active, &:focus {
+			background-color: ${accent[9]};
 		}
 
 		&:active {
 			cursor: grabbing;
+
+			box-shadow: ${light[0]};
 		}
 	`;
 });
@@ -79,24 +81,26 @@ const Thumb = styled.div.attrs<{left: number}>(({left}) => ({
 		border-radius: ${radius[2]};
 		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
-		&:hover {
-			box-shadow: ${light[1]};
-		}
-
 		&:focus {
 			box-shadow: ${focus};
 		}
 
-		&:hover, &:active, &:focus {
-			background-color: ${multi ? background[9] : accent[9]};
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: ${multi ? background[9] : accent[9]};
+
+				box-shadow: ${light[1]};
+			}
 		}
 
-		&:hover, &:active {
-			box-shadow: ${light[0]};
+		&:active, &:focus {
+			background-color: ${multi ? background[9] : accent[9]};
 		}
 
 		&:active {
 			cursor: grabbing;
+
+			box-shadow: ${light[0]};
 		}
 	`;
 });
