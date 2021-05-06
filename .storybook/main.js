@@ -15,7 +15,6 @@ module.exports = {
 		builder: 'webpack5'
 	},
 	webpackFinal: async config => {
-		console.log(process.env);
 		const {resolve, plugins} = configMain(process.env);
 
 		config.module.rules.push({
