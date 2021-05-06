@@ -6,33 +6,15 @@ const Switch = styled.button(({theme}) => {
 	const {background, accent, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
-		--size: ${size[3]};
-		--border-radius: ${radius[2]};
-		--padding: ${size[0]};
-
-		--color-background: ${background[8]};
-		--color-background-light: ${background[9]};
-		--color-background-disabled: ${background[4]};
-		--color-thumb: ${background[4]};
-		--color-thumb-light: ${background[6]};
-
-		--color-accent: ${accent[7]};
-		--color-accent-light: ${accent[9]};
-
-		--shadow-dark: ${shadow[0]};
-		--shadow-light: ${light[1]};
-		--shadow-light-active: ${light[0]};
-		--shadow-focus: ${focus};
-
 		position: relative;
-		width: calc(var(--size) * 1.75);
-		height: var(--size);
+		width: calc(${size[3]} * 1.75);
+		height: ${size[3]};
 
 		cursor: pointer;
-		background-color: var(--color-background);
-		box-shadow: var(--shadow-dark);
+		background-color: ${background[8]};
+		box-shadow: ${shadow[0]};
 		border: none;
-		border-radius: var(--border-radius);
+		border-radius: ${radius[2]};
 		outline: none;
 		transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
@@ -41,56 +23,56 @@ const Switch = styled.button(({theme}) => {
 		&::after {
 			content: '';
 			position: absolute;
-			left: var(--padding);
-			top: var(--padding);
+			left: ${size[0]};
+			top: ${size[0]};
 			width: 30%;
-			height: calc(100% - var(--padding) * 2);
+			height: calc(100% - ${size[1]});
 
-			border-radius: var(--border-radius);
-			background-color: var(--color-thumb);
+			border-radius: ${radius[2]};
+			background-color: ${background[4]};
 			transition: left 125ms ease-in-out;
 		}
 
 		&:focus {
-			box-shadow: var(--shadow-dark), var(--shadow-focus);
+			box-shadow: ${shadow[0]}, ${focus};
 		}
 
 		&:hover {
-			box-shadow: var(--shadow-light);
-			background-color: var(--color-background-light);
+			box-shadow: ${light[1]};
+			background-color: ${background[9]};
 
 			&::after {
-				background-color: var(--color-thumb-light);
+				background-color: ${background[6]};
 			}
 		}
 
 		&:active {
-			box-shadow: var(--shadow-light-active);
+			box-shadow: ${light[0]};
 			transform: translateY(5%);
 		}
 
 		&[aria-checked='true']{
-			background-color: var(--color-accent);
+			background-color: ${accent[7]};
 
 			&::after {
-				left: calc(70% - var(--padding));
-				background-color: var(--color-background);
+				left: calc(70% - ${size[0]});
+				background-color: ${background[8]};
 			}
 
 			&:hover {
-				background-color: var(--color-accent-light);
+				background-color: ${accent[9]};
 
 				&::after {
-					background-color: var(--color-background-light);
+					background-color: ${background[9]};
 				}
 			}
 		}
 
 		&:disabled {
-			background-color: var(--color-background-disabled);
+			background-color: ${background[4]};
 
 			&::after {
-				background-color: var(--color-thumb-light);
+				background-color: ${background[6]};
 			}
 		}
 

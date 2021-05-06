@@ -4,124 +4,116 @@ import themeDefault from 'utils/theme';
 
 const RadioButton = styled.input.attrs(() => ({
 	type: 'radio'
-}))`
-	position: relative;
-	width: var(--size);
-	height: 0;
+}))(({theme}) => {
+	const {size, background, accent, content, shadow, light, focus} = theme.minima ?? themeDefault;
 
-	outline: none;
+	return css`
+		position: relative;
+		width: ${size[3]};
+		height: 0;
 
-	margin: calc(var(--size) / 2) 0 calc(var(--size) / 2) 0;
+		outline: none;
 
-	&::before {
-		content: '';
-		width: var(--size);
-		height: var(--size);
-		transform: translateY(-50%);
+		margin: ${size[2]} 0 ${size[2]} 0;
 
-		background-color: var(--color-background);
-		box-shadow: var(--shadow-dark);
-		border-radius: 50%;
-		transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
+		&::before {
+			content: '';
+			width: ${size[3]};
+			height: ${size[3]};
+			transform: translateY(-50%);
 
-		display: block;
-	}
+			background-color: ${background[8]};
+			box-shadow: ${shadow[0]};
+			border-radius: 50%;
+			transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
-	&::after {
-		position: absolute;
-		content: '';
-		width: calc(var(--size) * 0.5);
-		height: calc(var(--size) * 0.5);
-		top: 0;
-		left: calc(var(--size) * 0.25);
-		transform: translateY(-50%);
+			display: block;
+		}
 
-		background-color: transparent;
-		border-radius: 50%;
+		&::after {
+			position: absolute;
+			content: '';
+			width: calc(${size[3]} * 0.5);
+			height: calc(${size[3]} * 0.5);
+			top: 0;
+			left: calc(${size[3]} * 0.25);
+			transform: translateY(-50%);
 
-		transition: ${['background-color', 'top'].map(v => `${v} 125ms ease-in-out`).join()};
-	}
+			background-color: transparent;
+			border-radius: 50%;
 
-	&:focus::before {
-		box-shadow: var(--shadow-dark), var(--shadow-focus);
-	}
+			transition: ${['background-color', 'top'].map(v => `${v} 125ms ease-in-out`).join()};
+		}
 
-	&:not(:disabled){
-		cursor: pointer;
+		&:focus::before {
+			box-shadow: ${shadow[0]}, ${focus};
+		}
 
-		&:hover {
-			&::before {
-				box-shadow: var(--shadow-light);
-				background-color: var(--color-background-light);
+		&:not(:disabled){
+			cursor: pointer;
+
+			&:hover {
+				&::before {
+					box-shadow: ${light[1]};
+					background-color: ${background[9]};
+				}
+			}
+
+			&:active {
+				&::before {
+					transform: translateY(-45%);
+					box-shadow: ${light[0]};
+				}
+
+				&::after {
+					top: calc(${size[3]} * 0.05);
+				}
+			}
+
+			&:checked:hover::after {
+				background-color: ${accent[9]};
 			}
 		}
 
-		&:active {
-			&::before {
-				transform: translateY(-45%);
-				box-shadow: var(--shadow-light-active);
-			}
-
-			&::after {
-				top: calc(var(--size) * 0.05);
-			}
+		&:checked::after {
+			background-color: ${content[3]};
 		}
 
-		&:checked:hover::after {
-			background-color: var(--color-accent-light);
+		&:disabled::before {
+			background-color: ${background[4]};
 		}
-	}
-
-	&:checked::after {
-		background-color: var(--color-content);
-	}
-
-	&:disabled::before {
-		background-color: var(--color-background-disabled);
-	}
-`;
+	`;
+});
 
 const RadioGroupOption = styled.li.attrs(() => ({
 	role: 'radio'
-}))`
-	display: grid;
-	grid-template-columns: min-content 1fr;
-	align-items: center;
+}))(({theme}) => {
+	const {size} = theme.minima ?? themeDefault;
 
-	>:last-child {
-		line-height: var(--size);
-		padding-left: var(--padding);
-	}
-`;
+	return css`
+		display: grid;
+		grid-template-columns: min-content 1fr;
+		align-items: center;
+
+		>:last-child {
+			line-height: ${size[3]};
+			padding-left: ${size[1]};
+		}
+	`;
+});
 
 const RadioGroup = styled.ul.attrs(() => ({
 	role: 'radiogroup' as string
 }))(({theme}) => {
-	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+	const {fontFamily, content, size} = theme.minima ?? themeDefault;
 
 	return css`
-		--size: ${size[3]};
-		--padding: ${size[1]};
-
-		--color-background: ${background[8]};
-		--color-background-light: ${background[9]};
-		--color-background-disabled: ${background[4]};
-
-		--color-content: ${content[3]};
-		--color-accent: ${accent[7]};
-		--color-accent-light: ${accent[9]};
-
-		--shadow-dark: ${shadow[0]};
-		--shadow-light: ${light[1]};
-		--shadow-light-active: ${light[0]};
-		--shadow-focus: ${focus};
-
 		font-family: ${fontFamily};
-		color: var(--color-content);
+		color: ${content[3]};
 
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-		grid-gap: calc(var(--padding) * 2);
+		grid-gap: ${size[2]};
 		padding: 0;
 		margin: 0;
 

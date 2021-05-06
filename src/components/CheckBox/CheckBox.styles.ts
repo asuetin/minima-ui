@@ -8,42 +8,24 @@ const CheckBox = styled.input.attrs(() => ({
 	const {background, accent, content, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
-		--size: ${size[3]};
-		--border-radius: ${radius[2]};
-		--padding: ${size[0]};
-		--checkmark-thickness: calc(${size[0]} / 1.25);
-
-		--color-background: ${background[8]};
-		--color-background-light: ${background[9]};
-		--color-background-disabled: ${background[4]};
-
-		--color-content: ${content[3]};
-		--color-accent: ${accent[7]};
-		--color-accent-light: ${accent[9]};
-
-		--shadow-dark: ${shadow[0]};
-		--shadow-light: ${light[1]};
-		--shadow-light-active: ${light[0]};
-		--shadow-focus: ${focus};
-
 		position: relative;
-		width: var(--size);
+		width: ${size[3]};
 		height: 0;
 
 		cursor: pointer;
 		outline: none;
 
-		margin: calc(var(--size) / 2) 0 calc(var(--size) / 2) 0;
+		margin: calc(${size[3]} / 2) 0 calc(${size[3]} / 2) 0;
 
 		&::before {
 			content: '';
-			width: var(--size);
-			height: var(--size);
+			width: ${size[3]};
+			height: ${size[3]};
 			transform: translateY(-50%);
 
-			background-color: var(--color-background);
-			box-shadow: var(--shadow-dark);
-			border-radius: var(--border-radius);
+			background-color: ${background[8]};
+			box-shadow: ${shadow[0]};
+			border-radius: ${radius[2]};
 			transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
 			display: block;
@@ -52,54 +34,54 @@ const CheckBox = styled.input.attrs(() => ({
 		&::after {
 			position: absolute;
 			content: '';
-			width: calc(var(--size) * 0.3);
-			height: calc(var(--size) * 0.6);
+			width: calc(${size[3]} * 0.3);
+			height: calc(${size[3]} * 0.6);
 			top: 0;
-			left: calc(var(--size) * 0.3);
+			left: calc(${size[3]} * 0.3);
 			transform: translateY(-58%) rotate(45deg);
 
-			border: var(--checkmark-thickness) solid transparent;
+			border: calc(${size[0]} / 1.25) solid transparent;
 			border-top: none;
 			border-left: none;
-			border-radius: calc(var(--checkmark-thickness) / 2);
+			border-radius: calc(${size[0]} / 2.5);
 
 			transition: ${['border-color', 'top'].map(v => `${v} 125ms ease-in-out`).join()};
 		}
 
 		&:focus::before {
-			box-shadow: var(--shadow-dark), var(--shadow-focus);
+			box-shadow: ${shadow[0]}, ${focus};
 		}
 
 		&:not([aria-readonly='true']):not(:disabled){
 			&:hover {
 				&::before {
-					box-shadow: var(--shadow-light);
-					background-color: var(--color-background-light);
+					box-shadow: ${light[1]};
+					background-color: ${background[9]};
 				}
 			}
 
 			&:active {
 				&::before {
 					transform: translateY(-45%);
-					box-shadow: var(--shadow-light-active);
+					box-shadow: ${light[0]};
 				}
 
 				&::after {
-					top: calc(var(--size) * 0.05);
+					top: calc(${size[3]} * 0.05);
 				}
 			}
 
 			&:checked:hover::after {
-				border-color: var(--color-accent-light);
+				border-color: ${accent[9]};
 			}
 		}
 
 		&:checked::after {
-			border-color: var(--color-content);
+			border-color: ${content[3]};
 		}
 
 		&:disabled::before {
-			background-color: var(--color-background-disabled);
+			background-color: ${background[4]};
 		}
 
 		&:disabled, &[aria-readonly='true'] {

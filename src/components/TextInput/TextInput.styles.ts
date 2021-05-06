@@ -3,63 +3,41 @@ import styled, {css} from 'styled-components';
 import themeDefault from 'utils/theme';
 
 const TextInput = styled.input(({theme}) => {
-	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+	const {fontFamily, background, content, size, radius, shadow, light} = theme.minima ?? themeDefault;
 
 	return css`
-		--size: ${size[3]};
-		--border-radius: ${radius[2]};
-		--padding: ${size[1]};
-		--checkmark-thickness: calc(${size[0]} / 1.25);
-
-		--color-background: ${background[8]};
-		--color-background-light: ${background[9]};
-		--color-background-disabled: ${background[4]};
-
-		--color-content: ${content[3]};
-		--color-placeholder: ${content[9]};
-		--color-accent: ${accent[7]};
-		--color-accent-light: ${accent[9]};
-
-		--color-scrollbar: ${content[8]};
-		--color-scrollbar-hover: ${content[9]};
-
-		--shadow-dark: ${shadow[0]};
-		--shadow-light: ${light[1]};
-		--shadow-light-active: ${light[0]};
-		--shadow-focus: ${focus};
-
 		position: relative;
-		height: var(--size);
+		height: ${size[3]};
 
 		font-family: ${fontFamily};
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
-		color: var(--color-content);
-		background-color: var(--color-background);
-		box-shadow: var(--shadow-dark);
+		color: ${content[3]};
+		background-color: ${background[8]};
+		box-shadow: ${shadow[0]};
 		outline: none;
 		border: none;
-		border-radius: var(--border-radius);
+		border-radius: ${radius[2]};
 		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
-		padding: 0 var(--padding) 0 var(--padding);
+		padding: 0 ${size[1]} 0 ${size[1]};
 
 		&[aria-multiline='true']{
-			padding: var(--padding);
+			padding: ${size[1]};
 		}
 
 		&::placeholder {
-			color: var(--color-placeholder);
+			color: ${content[9]};
 		}
 
 		&:focus, &:hover {
-			box-shadow: var(--shadow-light);
-			background-color: var(--color-background-light);
+			box-shadow: ${light[1]};
+			background-color: ${background[9]};
 		}
 
 		&:disabled {
-			background-color: var(--color-background-disabled);
+			background-color: ${background[4]};
 		}
 
 		&:disabled, &:read-only {
@@ -75,12 +53,12 @@ const TextInput = styled.input(({theme}) => {
 		}
 
 		::-webkit-scrollbar-thumb {
-			background-color: var(--color-scrollbar);
-			border-radius: var(--border-radius);
+			background-color: ${content[8]};
+			border-radius: ${radius[2]};
 		}
 
 		::-webkit-scrollbar-thumb:hover {
-			background-color: var(--color-scrollbar-hover);
+			background-color: ${content[9]};
 		}
 
 		::-webkit-scrollbar-track,

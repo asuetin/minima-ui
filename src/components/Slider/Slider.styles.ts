@@ -2,45 +2,53 @@ import styled, {css} from 'styled-components';
 
 import themeDefault from 'utils/theme';
 
-const Handle = styled.div.attrs<{left: number; width: number}>(({left, width}) => ({
-	style: {
-		left: `calc(${left*100}% - var(--thumb-size) / 2 - var(--padding))`,
-		width: `calc(${width*100}% + var(--thumb-size) + var(--padding) * 2)`
-	}
-}))<{
+const Handle = styled.div.attrs<{left: number; width: number}>(({theme, left, width}) => {
+	const {size} = theme.minima ?? themeDefault;
+
+	return {
+		style: {
+			left: `calc(${left*100}% - ${size[1]} - ${size[0]})`,
+			width: `calc(${width*100}%  + ${size[1]} + ${size[2]})`
+		}
+	};
+})<{
 	left: number;
 	width: number;
-}>`
-	position: absolute;
-	top: 0;
-	height: 100%;
+}>(({theme}) => {
+	const {accent, radius, light, focus} = theme.minima ?? themeDefault;
 
-	cursor: grab;
-	outline: none;
-	border-radius: var(--border-radius);
-	background-color: var(--color-accent);
-	transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
+	return css`
+		position: absolute;
+		top: 0;
+		height: 100%;
 
-	&:hover {
-		box-shadow: var(--shadow-light);
-	}
+		cursor: grab;
+		outline: none;
+		border-radius: ${radius[2]};
+		background-color: ${accent[7]};
+		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
-	&:focus {
-		box-shadow: var(--shadow-focus);
-	}
+		&:hover {
+			box-shadow: ${light[1]};
+		}
 
-	&:hover, &:active, &:focus {
-		background-color: var(--color-accent-light);
-	}
+		&:focus {
+			box-shadow: ${focus};
+		}
 
-	&:hover, &:active {
-		box-shadow: var(--shadow-light-active);
-	}
+		&:hover, &:active, &:focus {
+			background-color: ${accent[9]};
+		}
 
-	&:active {
-		cursor: grabbing;
-	}
-`;
+		&:hover, &:active {
+			box-shadow: ${light[0]};
+		}
+
+		&:active {
+			cursor: grabbing;
+		}
+	`;
+});
 
 const Thumb = styled.div.attrs<{left: number}>(({left}) => ({
 	style: {
@@ -49,71 +57,54 @@ const Thumb = styled.div.attrs<{left: number}>(({left}) => ({
 }))<{
 	left: number;
 	multi: boolean;
-}>(({multi}) => css`
-	position: absolute;
-	z-index: 1;
-	top: var(--padding);
-	width: var(--thumb-size);
-	height: calc(100% - var(--padding) * 2);
-
-	cursor: grab;
-	outline: none;
-	border-radius: var(--border-radius);
-	background-color: ${multi ? 'var(--color-thumb)' : 'var(--color-accent)'};
-	transform: translateX(-50%);
-	transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
-
-	&:hover {
-		box-shadow: var(--shadow-light);
-	}
-
-	&:focus {
-		box-shadow: var(--shadow-focus);
-	}
-
-	&:hover, &:active, &:focus {
-		background-color: ${multi ? 'var(--color-thumb-light)' : 'var(--color-accent-light)'};
-	}
-
-	&:hover, &:active {
-		box-shadow: var(--shadow-light-active);
-	}
-
-	&:active {
-		cursor: grabbing;
-	}
-`);
-
-const Slider = styled.div(({theme}) => {
-	const {background, accent, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+}>(({theme, multi}) => {
+	const {background, accent, size, radius, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
-		--size: ${size[3]};
-		--thumb-size: ${size[2]};
-		--border-radius: ${radius[2]};
-		--padding: ${size[0]};
+		position: absolute;
+		z-index: 1;
+		top: ${size[0]};
+		width: ${size[2]};
+		height: calc(100% - ${size[1]});
 
-		--color-background: ${background[8]};
-		--color-background-light: ${background[9]};
-		--color-background-disabled: ${background[4]};
-		--color-thumb: ${background[8]};
-		--color-thumb-light: ${background[9]};
-		--color-thumb-disabled: ${background[6]};
-		--color-handle-disabled: ${background[7]};
+		cursor: grab;
+		outline: none;
+		border-radius: ${radius[2]};
+		background-color: ${multi ? background[8] : accent[7]};
+		transform: translateX(-50%);
+		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
 
-		--color-accent: ${accent[7]};
-		--color-accent-light: ${accent[9]};
+		&:hover {
+			box-shadow: ${light[1]};
+		}
 
-		--shadow-dark: ${shadow[0]};
-		--shadow-light: ${light[1]};
-		--shadow-light-active: ${light[0]};
-		--shadow-focus: ${focus};
+		&:focus {
+			box-shadow: ${focus};
+		}
 
-		--thumb-shift: calc(var(--thumb-size) / 2 + var(--padding));
+		&:hover, &:active, &:focus {
+			background-color: ${multi ? background[9] : accent[9]};
+		}
+
+		&:hover, &:active {
+			box-shadow: ${light[0]};
+		}
+
+		&:active {
+			cursor: grabbing;
+		}
+	`;
+});
+
+const Slider = styled.div(({theme}) => {
+	const {background, size, radius, shadow} = theme.minima ?? themeDefault;
+
+	return css`
+		--thumb-shift: calc(${size[1]} + ${size[0]});
 
 		position: relative;
-		width: calc(var(--size) * 5);
-		height: var(--size);
+		width: calc(${size[4]} * 3);
+		height: ${size[3]};
 		margin: 0 var(--thumb-shift) 0 var(--thumb-shift);
 
 		display: flex;
@@ -127,24 +118,24 @@ const Slider = styled.div(({theme}) => {
 			width: calc(100% + var(--thumb-shift) * 2);
 			height: 100%;
 
-			background-color: var(--color-background);
-			box-shadow: var(--shadow-dark);
-			border-radius: var(--border-radius);
+			background-color: ${background[8]};
+			box-shadow: ${shadow[0]};
+			border-radius: ${radius[2]};
 		}
 
 		&[aria-disabled='true']{
 			pointer-events: none;
 
 			&::before {
-				background-color: var(--color-background-disabled);
+				background-color: ${background[4]};
 			}
 
 			${Thumb}{
-				background-color: var(--color-thumb-disabled);
+				background-color: ${background[6]};
 			}
 
 			${Handle}{
-				background-color: var(--color-handle-disabled);
+				background-color: ${background[7]};
 			}
 		}
 	`;

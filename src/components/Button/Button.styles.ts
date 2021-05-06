@@ -6,46 +6,29 @@ const Button = styled.button(({theme}) => {
 	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
-		--size: ${size[3]};
-		--border-radius: ${radius[2]};
-		--padding: ${size[1]};
-
-		--color-background: ${background[8]};
-		--color-background-light: ${background[9]};
-		--color-background-disabled: ${background[4]};
-
-		--color-content: ${content[0]};
-		--color-accent: ${accent[7]};
-		--color-accent-light: ${accent[9]};
-
-		--shadow-dark: ${shadow[0]};
-		--shadow-light: ${light[1]};
-		--shadow-light-active: ${light[0]};
-		--shadow-focus: ${focus};
-
 		position: relative;
-		height: var(--size);
+		height: ${size[3]};
 		box-sizing: border-box;
 
 		cursor: pointer;
-		background-color: var(--color-background);
-		box-shadow: var(--shadow-dark);
+		background-color: ${background[8]};
+		box-shadow: ${shadow[0]};
 		border: none;
-		border-radius: var(--border-radius);
+		border-radius: ${radius[2]};
 		outline: none;
 		font-size: 0.8rem;
 		font-family: ${fontFamily};
 		font-weight: bold;
-		color: var(--color-content);
+		color: ${content[0]};
 		text-decoration: none;
 		transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		display: flex;
 		align-items: center;
-		padding: var(--padding);
+		padding: ${size[1]};
 
 		> * {
-			padding-right: var(--padding);
+			padding-right: ${size[1]};
 		}
 
 		>:last-child {
@@ -57,35 +40,35 @@ const Button = styled.button(({theme}) => {
 		}
 
 		svg {
-			stroke: var(--color-content);
-			fill: var(--color-content);
+			stroke: ${content[0]};
+			fill: ${content[0]};
 		}
 
 		&:focus {
-			box-shadow: var(--shadow-dark), var(--shadow-focus);
+			box-shadow: ${shadow[0]}, ${focus};
 		}
 
 		&:hover {
-			box-shadow: var(--shadow-light);
-			background-color: var(--color-background-light);
+			box-shadow: ${light[1]};
+			background-color: ${background[9]};
 
 			> span {
-				color: var(--color-accent-light);
+				color: ${accent[9]};
 			}
 
 			svg {
-				stroke: var(--color-accent-light);
-				fill: var(--color-accent-light);
+				stroke: ${accent[9]};
+				fill: ${accent[9]};
 			}
 		}
 
 		&:active {
-			box-shadow: var(--shadow-light-active);
+			box-shadow: ${light[0]};
 			transform: translateY(5%);
 		}
 
 		&:disabled {
-			background-color: var(--color-background-disabled);
+			background-color: ${background[4]};
 			pointer-events: none;
 		}
 	`;
