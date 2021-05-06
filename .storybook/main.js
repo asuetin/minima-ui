@@ -1,4 +1,5 @@
-const path = require('path');
+const configMain = require('../webpack.config.js');
+const package = require('../package.json');
 
 module.exports = {
 	stories: [
@@ -14,9 +15,38 @@ module.exports = {
 		builder: 'webpack5'
 	},
 	webpackFinal: async config => {
-		config.resolve.alias.components = path.resolve(__dirname, '../src/components');
-		config.resolve.alias.utils = path.resolve(__dirname, '../src/utils');
-		config.resolve.alias.stories = path.resolve(__dirname, '../src/stories');
+		console.log(process.env);
+		const {resolve, plugins} = configMain(process.env);
+
+		config.module.rules.push({
+			test: /^.*\.(mdx|MD)$/,
+			loader: 'string-replace-loader',
+			options: {
+				multiple: [
+					{
+						search: 'REPOSITORY_URL',
+						replace: package.repository.url.slice(0, -4),
+						flags: 'g'
+					}, {
+						search: 'PACKAGE_NAME',
+						replace: package.name,
+						flags: 'g'
+					}, {
+						search: 'LIBRARY_NAME',
+						replace: 'Minima UI',
+						flags: 'g'
+					}
+				]
+			}
+		});
+
+		config.resolve.alias = {
+			...config.resolve.alias,
+			...resolve.alias
+		}
+
+		config.plugins.push(plugins[0]);
+
 		return config
 	}
 }

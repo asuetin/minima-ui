@@ -58,5 +58,10 @@
 		"react": {
 			"version": "detect"
 		}
-	}
+	},
+    "globals": {
+		"LIBRARY_NAME": false,
+		"PACKAGE_NAME": false,
+        "REPOSITORY_URL": false
+    }
 }

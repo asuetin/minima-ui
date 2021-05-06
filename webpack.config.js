@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+const package = require('./package.json');
 
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -20,7 +22,7 @@ module.exports = env => ({
 		filename: 'index.js',
 		path: path.resolve(__dirname, './dist'),
 		library: {
-			name: 'minima-ui',
+			name: package.name,
 			type: 'umd'
 		},
 	},
@@ -67,6 +69,11 @@ module.exports = env => ({
 		]
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			LIBRARY_NAME: 'Minima UI',
+			PACKAGE_NAME: JSON.stringify(package.name),
+			REPOSITORY_URL: JSON.stringify(package.repository.url.slice(0, -4))
+		}),
 		new CleanWebpackPlugin(),
 		new ForkTsCheckerWebpackPlugin({
 			eslint: {

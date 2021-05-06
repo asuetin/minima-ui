@@ -33,10 +33,10 @@ export type ThemeType = {
 ```
 The default theme can be imported to create modified versions of it:
 ```tsx
-import {themeDefault} from 'minima-ui';
+import {themeDefault} from 'PACKAGE_NAME';
 ```
 
-The source code for the default theme can be viewed [here.](https://github.com/asuetin/minima-ui/blob/main/src/utils/theme.ts)
+The source code for the default theme can be viewed [here.](REPOSITORY_URL/blob/main/src/utils/theme.ts)
 
 ## Example
 
@@ -52,7 +52,7 @@ Let's create a Slider with a custom theme that modifies the background color:
 import {FC, useState} from 'react';
 import {ThemeProvider} from 'styled-components';
 
-import {Slider, themeDefault} from 'minima-ui';
+import {Slider, themeDefault} from 'PACKAGE_NAME';
 
 const ThemingExample: FC = () => {
 	const [value, setValue] = useState(33);

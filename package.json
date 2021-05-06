@@ -8,8 +8,17 @@
 		"type": "git",
 		"url": "https://github.com/asuetin/minima-ui.git"
 	},
-	"keywords": ["react", "typescript", "styled-components", "react-components", "jest", "storybook"],
-	"files": ["/dist"],
+	"keywords": [
+		"react",
+		"typescript",
+		"styled-components",
+		"react-components",
+		"jest",
+		"storybook"
+	],
+	"files": [
+		"/dist"
+	],
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
@@ -52,6 +61,7 @@
 		"jest": "^26.6.3",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
+		"string-replace-loader": "^3.0.1",
 		"styled-components": "^5.2.1",
 		"stylelint": "^13.12.0",
 		"stylelint-config-recommended": "^4.0.0",
