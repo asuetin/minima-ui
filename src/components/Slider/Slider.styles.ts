@@ -115,6 +115,7 @@ const Slider = styled.div(({theme}) => {
 		display: flex;
 		--webkit-user-drag: none;
 		user-select: none;
+		touch-action: none;
 
 		&::before {
 			position: absolute;
