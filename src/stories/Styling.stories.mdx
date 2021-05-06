@@ -56,6 +56,27 @@ const SliderStyled = styled(Slider)`
 		}
 	}
 `;
+
+const StylingExample: FC = () => {
+	const [value, setValue] = useState(33);
+
+	return <div
+		style={{
+			display: 'grid',
+			alignItems: 'center',
+			gridTemplateColumns: '12rem 8rem',
+			gridGap: '0.5rem'
+		}}
+	>
+		<SliderStyled
+			value={value}
+			range={[0, 100]}
+			onChange={(v: number) => setValue(v)}
+			aria-labelledby='label'
+		/>
+		<label id='label'>{value.toFixed(2)}</label>
+	</div>;
+};
 ```
 
 The result looks like this:
