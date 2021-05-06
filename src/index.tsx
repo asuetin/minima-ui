@@ -8,11 +8,11 @@ export {Icon, IconStyles};
 
 import List, {ListStyles} from 'components/List';
 export {ListProps} from 'components/List';
-export {ComboBox, ComboBoxStyles};
+export {List, ListStyles};
 
 import ComboBox, {ComboBoxStyles} from 'components/ComboBox';
 export {ComboBoxProps} from 'components/ComboBox';
-export {List, ListStyles};
+export {ComboBox, ComboBoxStyles};
 
 import Button, {ButtonStyles} from 'components/Button';
 export {ButtonProps} from 'components/Button';
