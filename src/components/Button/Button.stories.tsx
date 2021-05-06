@@ -14,8 +14,7 @@ export default {
 		onClick: {
 			description: 'Click handler function',
 			type: {
-				summary: '() => void',
-				required: true
+				summary: '() => void'
 			},
 			control: {
 				disable: true
