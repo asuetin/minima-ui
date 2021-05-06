@@ -3,6 +3,8 @@ import type {Story, Meta} from '@storybook/react';
 import Icon, {presetIcons} from 'components/Icon';
 import type {IconProps} from 'components/Icon';
 
+import DocsPage from 'stories/DocsPage';
+
 export default {
 	title: 'Components/Display/Icon',
 	component: Icon,
@@ -78,6 +80,17 @@ export default {
   	},
 	parameters: {
 		docs: {
+			page: () => <DocsPage
+				sourceLinks={[
+					{
+						path:'components/Icon/Icon.tsx',
+						label: 'Component source'
+					}, {
+						path:'components/Icon/Icon.styles.ts',
+						label: 'Styles source'
+					}
+				]}
+			/>,
 			description: {
 				component: 'Scalable and customizable SVG icon',
 			}

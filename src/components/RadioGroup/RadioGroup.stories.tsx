@@ -5,6 +5,8 @@ import type {Story, Meta} from '@storybook/react';
 import RadioGroup from 'components/RadioGroup';
 import type {RadioGroupProps} from 'components/RadioGroup';
 
+import DocsPage from 'stories/DocsPage';
+
 export default {
 	title: 'Components/Inputs/RadioGroup',
 	component: RadioGroup,
@@ -63,6 +65,17 @@ export default {
   	},
 	parameters: {
 		docs: {
+			page: () => <DocsPage
+				sourceLinks={[
+					{
+						path:'components/RadioGroup/RadioGroup.tsx',
+						label: 'Component source'
+					}, {
+						path:'components/RadioGroup/RadioGroup.styles.ts',
+						label: 'Styles source'
+					}
+				]}
+			/>,
 			description: {
 				component: 'Select an option from a set of radio buttons'
 			}

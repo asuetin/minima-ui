@@ -5,6 +5,8 @@ import type {ButtonProps} from 'components/Button';
 
 import Icon from 'components/Icon';
 
+import DocsPage from 'stories/DocsPage';
+
 export default {
 	title: 'Components/Inputs/Button',
 	component: Button,
@@ -72,6 +74,17 @@ export default {
   	},
 	parameters: {
 		docs: {
+			page: () => <DocsPage
+				sourceLinks={[
+					{
+						path:'components/Button/Button.tsx',
+						label: 'Component source'
+					}, {
+						path:'components/Button/Button.styles.ts',
+						label: 'Styles source'
+					}
+				]}
+			/>,
 			description: {
 				component: 'A basic button with an option to act as a hyperlink'
 			}

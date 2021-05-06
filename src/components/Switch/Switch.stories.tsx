@@ -5,6 +5,8 @@ import type {Story, Meta} from '@storybook/react';
 import Switch from 'components/Switch';
 import type {SwitchProps} from 'components/Switch';
 
+import DocsPage from 'stories/DocsPage';
+
 export default {
 	title: 'Components/Inputs/Switch',
 	component: Switch,
@@ -62,6 +64,17 @@ export default {
   	},
 	parameters: {
 		docs: {
+			page: () => <DocsPage
+				sourceLinks={[
+					{
+						path:'components/Switch/Switch.tsx',
+						label: 'Component source'
+					}, {
+						path:'components/Switch/Switch.styles.ts',
+						label: 'Styles source'
+					}
+				]}
+			/>,
 			description: {
 				component: 'Switch between two states'
 			}

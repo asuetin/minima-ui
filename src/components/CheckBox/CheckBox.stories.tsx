@@ -5,6 +5,8 @@ import type {Story, Meta} from '@storybook/react';
 import CheckBox from 'components/CheckBox';
 import type {CheckBoxProps} from 'components/CheckBox';
 
+import DocsPage from 'stories/DocsPage';
+
 export default {
 	title: 'Components/Inputs/CheckBox',
 	component: CheckBox,
@@ -62,6 +64,17 @@ export default {
   	},
 	parameters: {
 		docs: {
+			page: () => <DocsPage
+				sourceLinks={[
+					{
+						path:'components/CheckBox/CheckBox.tsx',
+						label: 'Component source'
+					}, {
+						path:'components/CheckBox/CheckBox.styles.ts',
+						label: 'Styles source'
+					}
+				]}
+			/>,
 			description: {
 				component: 'A basic checkbox'
 			}

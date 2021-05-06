@@ -8,6 +8,8 @@ import {useInterval} from 'utils/hooks';
 import ProgressBar from 'components/ProgressBar';
 import type {ProgressBarProps} from 'components/ProgressBar';
 
+import DocsPage from 'stories/DocsPage';
+
 export default {
 	title: 'Components/Display/ProgressBar',
 	component: ProgressBar,
@@ -42,6 +44,17 @@ export default {
   	},
 	parameters: {
 		docs: {
+			page: () => <DocsPage
+				sourceLinks={[
+					{
+						path:'components/ProgressBar/ProgressBar.tsx',
+						label: 'Component source'
+					}, {
+						path:'components/ProgressBar/ProgressBar.styles.ts',
+						label: 'Styles source'
+					}
+				]}
+			/>,
 			description: {
 				component: 'Display the progress of an operation'
 			}

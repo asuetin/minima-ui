@@ -9,6 +9,8 @@ import themeDefault from 'utils/theme';
 
 import {remToPx, pxToRem} from 'utils/functions';
 
+import DocsPage from 'stories/DocsPage';
+
 export default {
 	title: 'Components/Inputs/ComboBox',
 	component: ComboBox,
@@ -131,6 +133,17 @@ export default {
   	},
 	parameters: {
 		docs: {
+			page: () => <DocsPage
+				sourceLinks={[
+					{
+						path:'components/ComboBox/ComboBox.tsx',
+						label: 'Component source'
+					}, {
+						path:'components/ComboBox/ComboBox.styles.ts',
+						label: 'Styles source'
+					}
+				]}
+			/>,
 			description: {
 				component: 'Search and select an option from an expandable dropdown menu'
 			}

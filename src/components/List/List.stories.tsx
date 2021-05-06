@@ -7,6 +7,8 @@ import {remToPx} from 'utils/functions';
 
 import themeDefault from 'utils/theme';
 
+import DocsPage from 'stories/DocsPage';
+
 export default {
 	title: 'Components/Utility/List',
 	component: List,
@@ -49,6 +51,17 @@ export default {
   	},
 	parameters: {
 		docs: {
+			page: () => <DocsPage
+				sourceLinks={[
+					{
+						path:'components/List/List.tsx',
+						label: 'Component source'
+					}, {
+						path:'components/List/List.styles.ts',
+						label: 'Styles source'
+					}
+				]}
+			/>,
 			description: {
 				component: 'Virtualized list'
 			}

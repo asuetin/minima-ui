@@ -5,6 +5,8 @@ import { useState} from 'react';
 import Slider from 'components/Slider';
 import type {SliderProps} from 'components/Slider';
 
+import DocsPage from 'stories/DocsPage';
+
 export default {
 	title: 'Components/Inputs/Slider',
 	component: Slider,
@@ -96,6 +98,17 @@ export default {
   	},
 	parameters: {
 		docs: {
+			page: () => <DocsPage
+				sourceLinks={[
+					{
+						path:'components/Slider/Slider.tsx',
+						label: 'Component source'
+					}, {
+						path:'components/Slider/Slider.styles.ts',
+						label: 'Styles source'
+					}
+				]}
+			/>,
 			description: {
 				component: 'Choose either a single value or a range between min and max values'
 			}

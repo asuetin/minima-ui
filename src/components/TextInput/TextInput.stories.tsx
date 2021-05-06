@@ -5,6 +5,8 @@ import type {Story, Meta} from '@storybook/react';
 import TextInput from 'components/TextInput';
 import type {TextInputProps} from 'components/TextInput';
 
+import DocsPage from 'stories/DocsPage';
+
 export default {
 	title: 'Components/Inputs/TextInput',
 	component: TextInput,
@@ -73,6 +75,17 @@ export default {
   	},
 	parameters: {
 		docs: {
+			page: () => <DocsPage
+				sourceLinks={[
+					{
+						path:'components/TextInput/TextInput.tsx',
+						label: 'Component source'
+					}, {
+						path:'components/TextInput/TextInput.styles.ts',
+						label: 'Styles source'
+					}
+				]}
+			/>,
 			description: {
 				component: 'A text input that supports single- and multi-line modes'
 			}
