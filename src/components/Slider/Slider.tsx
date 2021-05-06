@@ -164,4 +164,6 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 	</Styled.Slider>;
 });
 
+Slider.displayName = 'Slider';
+
 export default Slider;

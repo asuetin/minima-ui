@@ -148,5 +148,7 @@ const Icon: FC<IconProps> = ({
 	</Styled.Icon>;
 };
 
+Icon.displayName = 'Icon';
+
 export default Icon;
 export {presetIcons};

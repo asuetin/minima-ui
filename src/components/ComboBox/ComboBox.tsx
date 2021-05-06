@@ -279,4 +279,6 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	</Styled.ComboBox>;
 });
 
+ComboBox.displayName = 'ComboBox';
+
 export default ComboBox;

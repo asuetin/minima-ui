@@ -58,4 +58,6 @@ const List = forwardRef<HTMLUListElement, ListProps>(({
 	</Styled.List>;
 });
 
+List.displayName = 'List';
+
 export default List;

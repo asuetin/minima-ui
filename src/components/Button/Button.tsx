@@ -42,4 +42,6 @@ const Button = forwardRef<HTMLButtonElement & HTMLAnchorElement, ButtonProps>(({
 	</Styled.Button>;
 });
 
+Button.displayName = 'Button';
+
 export default Button;

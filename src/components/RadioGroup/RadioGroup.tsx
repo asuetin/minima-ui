@@ -79,4 +79,6 @@ const RadioGroup = forwardRef<HTMLUListElement, RadioGroupProps>(({
 	</Styled.RadioGroup>;
 });
 
+RadioGroup.displayName = 'RadioGroup';
+
 export default RadioGroup;

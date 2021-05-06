@@ -34,4 +34,6 @@ const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(({
 	</Styled.ProgressBar>;
 });
 
+ProgressBar.displayName = 'ProgressBar';
+
 export default ProgressBar;

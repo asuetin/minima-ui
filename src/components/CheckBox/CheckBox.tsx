@@ -32,4 +32,6 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>(({
 	/>;
 });
 
+CheckBox.displayName = 'CheckBox';
+
 export default CheckBox;
