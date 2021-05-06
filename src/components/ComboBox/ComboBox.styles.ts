@@ -55,8 +55,8 @@ const Option = styled.li(({theme}) => {
 			&::before {
 				position: absolute;
 				content: '';
-				top: calc(50% - ${size[1]} / 2);
-				left: calc((${size[1]} + ${size[1]}) / 2);
+				top: calc(50% - ${size[0]});
+				left: ${size[1]};
 				width: ${size[1]};
 				height: ${size[1]};
 

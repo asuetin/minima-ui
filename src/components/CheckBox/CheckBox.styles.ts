@@ -15,7 +15,7 @@ const CheckBox = styled.input.attrs(() => ({
 		cursor: pointer;
 		outline: none;
 
-		margin: calc(${size[3]} / 2) 0 calc(${size[3]} / 2) 0;
+		margin: ${size[2]} 0 ${size[2]} 0;
 
 		&::before {
 			content: '';
