@@ -90,7 +90,7 @@ export default {
 				category: 'Geometry'
 			}
 		},
-		arrowIcon: {
+		chevron: {
 			description: 'Custom icon to replace the default arrow',
 			type: {
 				summary: 'Icon | SVGSVGElement | HTMLImageElement',

@@ -23,7 +23,7 @@ export type ComboBoxProps = {
 	value: string | number | (string | number)[];
 	onChange: (v: string | number | (string | number)[]) => void;
 	visibleOptionCount?: number;
-	arrowIcon?: typeof Icon | SVGSVGElement | HTMLImageElement;
+	chevron?: typeof Icon | SVGSVGElement | HTMLImageElement;
 	searchDisabled?: boolean;
 	disabled?: boolean;
 } & Omit<HTMLAttributes<HTMLDivElement>, 'onChange'>;
@@ -35,7 +35,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	value,
 	onChange,
 	visibleOptionCount = 5,
-	arrowIcon = <Icon preset='down'/>,
+	chevron = <Icon preset='down'/>,
 	searchDisabled = false,
 	disabled = false,
 	...props
@@ -274,7 +274,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			tabIndex={-1}
 			aria-label='Expand dropdown menu'
 		>
-			{arrowIcon}
+			{chevron}
 		</Styled.Button>
 	</Styled.ComboBox>;
 });
