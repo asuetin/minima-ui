@@ -11,7 +11,7 @@ import type {ModalProps} from 'components/Modal';
 import DocsPage from 'stories/DocsPage';
 
 export default {
-	title: 'Components/Display/Modal',
+	title: 'Components/Utility/Modal',
 	component: Modal,
 	argTypes: {
 		onClose: {
