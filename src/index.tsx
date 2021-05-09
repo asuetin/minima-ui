@@ -1,51 +1,38 @@
-import themeDefault from 'utils/theme';
-export {ThemeType, ColorType, SizeType, ShadowType} from 'utils/theme';
-export {themeDefault};
+export {default as themeDefault} from 'utils/theme';
+export * from 'utils/theme';
 
-import Icon, {IconStyles} from 'components/Icon';
-export {IconProps} from 'components/Icon';
-export {Icon, IconStyles};
+export {default as Icon} from 'components/Icon';
+export * from 'components/Icon';
 
-import List, {ListStyles} from 'components/List';
-export {ListProps} from 'components/List';
-export {List, ListStyles};
+export {default as List} from 'components/List';
+export * from 'components/List';
 
-import ComboBox, {ComboBoxStyles} from 'components/ComboBox';
-export {ComboBoxProps} from 'components/ComboBox';
-export {ComboBox, ComboBoxStyles};
+export {default as ComboBox} from 'components/ComboBox';
+export * from 'components/ComboBox';
 
-import Button, {ButtonStyles} from 'components/Button';
-export {ButtonProps} from 'components/Button';
-export {Button, ButtonStyles};
+export {default as Button} from 'components/Button';
+export * from 'components/Button';
 
-import Switch, {SwitchStyles} from 'components/Switch';
-export {SwitchProps} from 'components/Switch';
-export {Switch, SwitchStyles};
+export {default as Switch} from 'components/Switch';
+export * from 'components/Switch';
 
-import CheckBox, {CheckBoxStyles} from 'components/CheckBox';
-export {CheckBoxProps} from 'components/CheckBox';
-export {CheckBox, CheckBoxStyles};
+export {default as CheckBox} from 'components/CheckBox';
+export * from 'components/CheckBox';
 
-import TextInput, {TextInputStyles} from 'components/TextInput';
-export {TextInputProps} from 'components/TextInput';
-export {TextInput, TextInputStyles};
+export {default as TextInput} from 'components/TextInput';
+export * from 'components/TextInput';
 
-import RadioGroup, {RadioGroupStyles} from 'components/RadioGroup';
-export {RadioGroupProps} from 'components/RadioGroup';
-export {RadioGroup, RadioGroupStyles};
+export {default as RadioGroup} from 'components/RadioGroup';
+export * from 'components/RadioGroup';
 
-import Slider, {SliderStyles} from 'components/Slider';
-export {SliderProps} from 'components/Slider';
-export {Slider, SliderStyles};
+export {default as Slider} from 'components/Slider';
+export * from 'components/Slider';
 
-import ProgressBar, {ProgressBarStyles} from 'components/ProgressBar';
-export {ProgressBarProps} from 'components/ProgressBar';
-export {ProgressBar, ProgressBarStyles};
+export {default as ProgressBar} from 'components/ProgressBar';
+export * from 'components/ProgressBar';
 
-import Tooltip, {TooltipStyles} from 'components/Tooltip';
-export {TooltipProps} from 'components/Tooltip';
-export {Tooltip, TooltipStyles};
+export {default as Tooltip} from 'components/Tooltip';
+export * from 'components/Tooltip';
 
-import Modal, {ModalStyles} from 'components/Modal';
-export {ModalProps} from 'components/Modal';
-export {Modal, ModalStyles};
+export {default as Modal} from 'components/Modal';
+export * from 'components/Modal';
