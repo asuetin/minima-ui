@@ -23,17 +23,6 @@ export const debounce = (
 	};
 };
 
-export const isDescendantOf = (descendant: Node, target: Node): boolean => {
-	let element = descendant;
-	while (element){
-		element = element.parentNode;
-		if (element == target){
-			return true;
-		}
-	}
-	return false;
-};
-
 export const uniqueId = ((): ((prefix: string) => string) => {
 	let count = 0;
 	return (prefix: string): string => `${prefix}${++count}`;

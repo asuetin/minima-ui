@@ -1,6 +1,6 @@
 import {forwardRef, useRef, HTMLAttributes} from 'react';
 
-import {uniqueId, isDescendantOf, limitInRange} from 'utils/functions';
+import {uniqueId, limitInRange} from 'utils/functions';
 import {useMergedRef, useEvent} from 'utils/hooks';
 
 import Styled from './RadioGroup.styles';
@@ -28,7 +28,7 @@ const RadioGroup = forwardRef<HTMLUListElement, RadioGroupProps>(({
 
 	//keyboard controls
 	const changeBy = (v: number) => {
-		if (isDescendantOf(document.activeElement, componentRef.current)){
+		if (componentRef.current.contains(document.activeElement)){
 			let indexNext = options.findIndex(o => o.value == value) + v;
 			indexNext = limitInRange(indexNext, [0, options.length-1], true);
 			onChange(indexNext);

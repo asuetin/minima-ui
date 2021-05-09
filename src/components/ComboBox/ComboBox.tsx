@@ -1,6 +1,6 @@
 import {forwardRef, useState, useEffect, useRef, HTMLAttributes} from 'react';
 
-import {remToPx, uniqueId, isDescendantOf, isUndef, unique, limitInRange} from 'utils/functions';
+import {remToPx, uniqueId, isUndef, unique, limitInRange} from 'utils/functions';
 import {useMergedRef, useEvent} from 'utils/hooks';
 
 import themeDefault from 'utils/theme';
@@ -104,7 +104,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 
 	//close on click outside
 	useEvent('click', e => {
-		if (isExpanded && !isDescendantOf(e.target as Node, componentRef.current)){
+		if (isExpanded && !componentRef.current.contains(e.target as Node)){
 			setIsExpanded(false);
 		}
 	});
