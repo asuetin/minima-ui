@@ -33,14 +33,23 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({
 			<Styled.Modal
 				{...props}
 				ref={componentRef}
-				aria-modal={true}
 				onClick={e => {
 					if (!contentRef.current.contains(e.target as Node)){
 						onClose();
 					}
 				}}
+				tabIndex={-1}
+				onKeyDown={e => {
+					if (e.code == 'Escape'){
+						onClose();
+					}
+				}}
 			>
-				<Styled.Content ref={contentRef}>
+				<Styled.Content
+					ref={contentRef}
+					role='dialog'
+					aria-modal={true}
+				>
 					{children}
 				</Styled.Content>
 			</Styled.Modal>,

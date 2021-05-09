@@ -67,7 +67,7 @@ const BasicTemplate: Story<ModalProps> = args => {
 				preset='gear'
 				size={22}
 			/>}
-			label='Settings'
+			label='Show modal'
 			onClick={() => setShowModal(true)}
 		/>
 		{showModal &&
