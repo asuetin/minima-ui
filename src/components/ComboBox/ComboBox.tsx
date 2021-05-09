@@ -23,7 +23,7 @@ export type ComboBoxProps = {
 	value: string | number | (string | number)[];
 	onChange: (v: string | number | (string | number)[]) => void;
 	visibleOptionCount?: number;
-	chevron?: typeof Icon | SVGSVGElement | HTMLImageElement;
+	chevron?: JSX.Element;
 	searchDisabled?: boolean;
 	disabled?: boolean;
 } & Omit<HTMLAttributes<HTMLDivElement>, 'onChange'>;

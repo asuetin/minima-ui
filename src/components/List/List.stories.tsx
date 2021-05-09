@@ -41,7 +41,7 @@ export default {
 		rowRenderer: {
 			description: 'Renderer function for the rows in the list. The rendered row must utilize the style argument as a prop and have a unique key prop.',
 			type: {
-				summary: '(index: number, style: {[key: string]: string}) => ReactElement',
+				summary: '(index: number, style: {[key: string]: string}) => JSX.Element',
 				required: true
 			},
 			table: {

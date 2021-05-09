@@ -2,8 +2,6 @@ import {forwardRef, HTMLAttributes} from 'react';
 
 import {useMergedRef} from 'utils/hooks';
 
-import Icon from 'components/Icon';
-
 import Styled from './Button.styles';
 
 export type ButtonProps = ({
@@ -14,10 +12,10 @@ export type ButtonProps = ({
 	href: string;
 }) & ({
 	label: string;
-	icon?: typeof Icon | SVGSVGElement | HTMLImageElement;
+	icon?: JSX.Element;
 } | {
 	label?: string;
-	icon: typeof Icon | SVGSVGElement | HTMLImageElement;
+	icon: JSX.Element;
 }) & HTMLAttributes<HTMLButtonElement & HTMLAnchorElement>;
 
 const Button = forwardRef<HTMLButtonElement & HTMLAnchorElement, ButtonProps>(({

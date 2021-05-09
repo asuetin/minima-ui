@@ -1,4 +1,4 @@
-import type {FC, HTMLAttributes} from 'react';
+import type {SVGAttributes} from 'react';
 
 import {isUndef, pxToRem} from 'utils/functions';
 
@@ -111,14 +111,14 @@ export type IconProps = {
 } & ({
 	preset: IconNameType;
 	viewBoxSize?: number;
-	path?: React.SVGProps<SVGElement>;
+	path?: SVGElement;
 } | {
 	preset?: IconNameType;
 	viewBoxSize: number;
-	path: React.SVGProps<SVGElement>;
-}) & HTMLAttributes<SVGSVGElement>;
+	path: SVGElement;
+}) & SVGAttributes<SVGSVGElement>;
 
-const Icon: FC<IconProps> = ({
+const Icon = ({
 	preset,
 	path,
 	viewBoxSize,
@@ -126,7 +126,7 @@ const Icon: FC<IconProps> = ({
 	color = 'black',
 	strokeWidth = 2,
 	...props
-}) => {
+}: IconProps): JSX.Element => {
 	const isCustom = [path, viewBoxSize].every(v => !isUndef(v));
 
 	const viewBoxSizeActual = isCustom ? viewBoxSize : presetIcons[preset].viewBoxSize;

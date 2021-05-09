@@ -1,5 +1,4 @@
 import {useState, useMemo, useEffect, forwardRef, HTMLAttributes} from 'react';
-import type {ReactElement} from 'react';
 
 import {remToPx, pxToRem, debounce} from 'utils/functions';
 import {useEvent, useMergedRef} from 'utils/hooks';
@@ -11,7 +10,7 @@ import Styled from './List.styles';
 export type ListProps = {
 	rowHeight?: number;
 	rowCount: number;
-	rowRenderer: (index: number, style: {[key: string]: string}) => ReactElement
+	rowRenderer: (index: number, style: {[key: string]: string}) => JSX.Element
 } & HTMLAttributes<HTMLUListElement>;
 
 const List = forwardRef<HTMLUListElement, ListProps>(({
