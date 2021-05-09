@@ -45,3 +45,7 @@ export {ProgressBar, ProgressBarStyles};
 import Tooltip, {TooltipStyles} from 'components/Tooltip';
 export {TooltipProps} from 'components/Tooltip';
 export {Tooltip, TooltipStyles};
+
+import Modal, {ModalStyles} from 'components/Modal';
+export {ModalProps} from 'components/Modal';
+export {Modal, ModalStyles};
