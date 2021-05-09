@@ -41,3 +41,7 @@ export {Slider, SliderStyles};
 import ProgressBar, {ProgressBarStyles} from 'components/ProgressBar';
 export {ProgressBarProps} from 'components/ProgressBar';
 export {ProgressBar, ProgressBarStyles};
+
+import Tooltip, {TooltipStyles} from 'components/Tooltip';
+export {TooltipProps} from 'components/Tooltip';
+export {Tooltip, TooltipStyles};
