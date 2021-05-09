@@ -111,12 +111,12 @@ export type IconProps = {
 } & ({
 	preset: IconNameType;
 	viewBoxSize?: number;
-	path?: SVGElement;
+	path?: JSX.Element;
 } | {
 	preset?: IconNameType;
 	viewBoxSize: number;
-	path: SVGElement;
-}) & SVGAttributes<SVGSVGElement>;
+	path: JSX.Element;
+}) & Omit<SVGAttributes<SVGSVGElement>, 'path'>;
 
 const Icon = ({
 	preset,
