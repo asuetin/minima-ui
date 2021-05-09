@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
 
 import Slider, {SliderStyles} from 'components/Slider';
@@ -28,7 +28,7 @@ const SliderStyled = styled(Slider)`
 	}
 `;
 
-const StylingExample: FC<{styled?: boolean}> = ({styled = false}) => {
+const StylingExample = ({styled = false}: {styled?: boolean}): JSX.Element => {
 	const [value, setValue] = useState(33);
 
 	const Component = styled ? SliderStyled : Slider;

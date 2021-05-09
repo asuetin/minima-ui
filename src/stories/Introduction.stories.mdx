@@ -38,11 +38,11 @@ To install LIBRARY_NAME, use the following command:
 To use the library in your app, import one or more of the included components:
 
 ```tsx
-import {FC, useState} from 'react';
+import {useState} from 'react';
 
 import {ComboBox} from 'PACKAGE_NAME';
 
-const App: FC = () => {
+const App = (): JSX.Element => {
 	const [value, setValue] = useState(0);
 
 	return <div>

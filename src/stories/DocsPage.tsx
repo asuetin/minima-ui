@@ -1,4 +1,3 @@
-import {FC} from 'react';
 import styled from 'styled-components';
 
 import {
@@ -26,13 +25,12 @@ const Links = styled.div`
 	}
 `;
 
-const DocsPage: FC<{
+const DocsPage = ({sourceLinks}: {
 	sourceLinks: {
 		path: string;
 		label: string;
 	}[]
-
-}> = ({sourceLinks}) => {
+}): JSX.Element => {
 	return <>
 		<Title/>
 		<Subtitle/>

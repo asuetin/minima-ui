@@ -49,12 +49,12 @@ A regular Slider looks like this:
 Let's create a Slider with a custom theme that modifies the background color:
 
 ```tsx
-import {FC, useState} from 'react';
+import {useState} from 'react';
 import {ThemeProvider} from 'styled-components';
 
 import {Slider, themeDefault} from 'PACKAGE_NAME';
 
-const ThemingExample: FC = () => {
+const ThemingExample = (): JSX.Element => {
 	const [value, setValue] = useState(33);
 
 	return <ThemeProvider
