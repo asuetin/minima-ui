@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import type {Story, Meta} from '@storybook/react';
 
 import Button from 'components/Button';
-import Icon from 'components/Icon';
 
 import Modal, {ModalStyles} from 'components/Modal';
 import type {ModalProps} from 'components/Modal';
@@ -63,10 +62,6 @@ const BasicTemplate: Story<ModalProps> = args => {
 
 	return <>
 		<Button
-			icon={<Icon
-				preset='gear'
-				size={22}
-			/>}
 			label='Show modal'
 			onClick={() => setShowModal(true)}
 		/>
