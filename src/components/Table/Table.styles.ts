@@ -7,7 +7,7 @@ import themeDefault from 'utils/theme';
 import List from 'components/List';
 import {IconStyles} from 'components/Icon';
 
-const Cell = styled.div(({theme}) => {
+const Cell = styled.td(({theme}) => {
 	const {fontFamily, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
@@ -18,7 +18,7 @@ const Cell = styled.div(({theme}) => {
 	`;
 });
 
-const Row = styled.div<{gridTemplateColumns: string}>(({theme, gridTemplateColumns}) => {
+const Row = styled.tr<{gridTemplateColumns: string}>(({theme, gridTemplateColumns}) => {
 	const {fontFamily, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
@@ -29,7 +29,7 @@ const Row = styled.div<{gridTemplateColumns: string}>(({theme, gridTemplateColum
 	`;
 });
 
-const HeaderElement = styled.h4<{sort: 'asc' | 'desc' | undefined | 'disabled'}>(({theme, sort}) => {
+const HeaderElement = styled.th<{sort: 'asc' | 'desc' | undefined | 'disabled'}>(({theme, sort}) => {
 	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
@@ -57,19 +57,18 @@ const HeaderElement = styled.h4<{sort: 'asc' | 'desc' | undefined | 'disabled'}>
 	`;
 });
 
-const Header = styled.div<{gridTemplateColumns: string}>(({theme, gridTemplateColumns}) => {
+const Header = styled.tr<{gridTemplateColumns: string}>(({theme, gridTemplateColumns}) => {
 	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
-		margin-right: ${size[0]};
 
 		display: grid;
 		grid-template-columns: ${gridTemplateColumns};
 	`;
 });
 
-const Content = styled(List)<{visibleRowCount: number}>(({theme, rowHeight, rowCount, visibleRowCount}) => {
+const Content = styled(List).attrs({tagName: 'tbody'})<{visibleRowCount: number}>(({theme, rowHeight, rowCount, visibleRowCount}) => {
 	const {background, content, size, radius} = theme.minima ?? themeDefault;
 
 	return css`
@@ -108,7 +107,7 @@ const Content = styled(List)<{visibleRowCount: number}>(({theme, rowHeight, rowC
 		}
 	`;
 });
-const Table = styled.div(({theme}) => {
+const Table = styled.table(({theme}) => {
 	const {fontFamily, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`

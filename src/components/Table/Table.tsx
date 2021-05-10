@@ -40,9 +40,9 @@ export type TableProps = {
 	onCellHover?: (v: TableCellType) => void;
 	rowHeight?: number;
 	visibleRowCount?: number;
-} & HTMLAttributes<HTMLDivElement>;
+} & HTMLAttributes<HTMLTableElement>;
 
-const Table = forwardRef<HTMLDivElement, TableProps>(({
+const Table = forwardRef<HTMLTableElement, TableProps>(({
 	refreshTrigger,
 	columns,
 	data,
@@ -55,7 +55,7 @@ const Table = forwardRef<HTMLDivElement, TableProps>(({
 }, forwardedRef) => {
 	const idRef = useRef(uniqueId('table-'));
 
-	const componentRef = useMergedRef<HTMLDivElement>(forwardedRef);
+	const componentRef = useMergedRef<HTMLTableElement>(forwardedRef);
 
 	const [sortState, setSortState] = useState(defaultSortState);
 	const [sortIndexes, setSortIndexes] = useState<number[]>([]);
@@ -96,7 +96,6 @@ const Table = forwardRef<HTMLDivElement, TableProps>(({
 			style={style}
 			key={rowId}
 			gridTemplateColumns={gridTemplateColumns}
-			role='row'
 		>
 			{columns.map(({dataKey, renderer, getter}, i) =>
 				<Styled.Cell
@@ -121,43 +120,44 @@ const Table = forwardRef<HTMLDivElement, TableProps>(({
 	return <Styled.Table
 		{...props}
 		ref={componentRef}
-		role='table'
 	>
-		<Styled.Header gridTemplateColumns={gridTemplateColumns}>
-			{columns.map(({dataKey, sortable = true, header}, i) => {
-				const keySortIndex = sortable ? sortState.findIndex(el => el.dataKey == dataKey) : -1;
-				const sortValue = sortState[keySortIndex]?.value;
+		<thead>
+			<Styled.Header gridTemplateColumns={gridTemplateColumns}>
+				{columns.map(({dataKey, sortable = true, header}, i) => {
+					const keySortIndex = sortable ? sortState.findIndex(el => el.dataKey == dataKey) : -1;
+					const sortValue = sortState[keySortIndex]?.value;
 
-				return <Styled.HeaderElement
-					key={`${idRef.current}-header-${i}`}
-					sort={sortable ? sortValue : 'disabled'}
-					onClick={sortable ? e => {
-						const isShiftKey = e.shiftKey;
-						setSortState(sortStatePrev => {
-							const sortStateNew = [...sortStatePrev];
+					return <Styled.HeaderElement
+						key={`${idRef.current}-header-${i}`}
+						sort={sortable ? sortValue : 'disabled'}
+						onClick={sortable ? e => {
+							const isShiftKey = e.shiftKey;
+							setSortState(sortStatePrev => {
+								const sortStateNew = [...sortStatePrev];
 
-							if (keySortIndex != -1){
-								sortStateNew.splice(keySortIndex, 1);
-							}
-
-							return [
-								...isShiftKey ? sortStateNew : [],
-								{
-									dataKey,
-									value: sortValue == 'desc' ? 'asc' : 'desc'
+								if (keySortIndex != -1){
+									sortStateNew.splice(keySortIndex, 1);
 								}
-							];
-						});
-					} : undefined}
-				>
-					{header}
-					{sortable && <Icon
-						preset='forward'
-						size={12}
-					/>}
-				</Styled.HeaderElement>;
-			})}
-		</Styled.Header>
+
+								return [
+									...isShiftKey ? sortStateNew : [],
+									{
+										dataKey,
+										value: sortValue == 'desc' ? 'asc' : 'desc'
+									}
+								];
+							});
+						} : undefined}
+					>
+						{header}
+						{sortable && <Icon
+							preset='forward'
+							size={12}
+						/>}
+					</Styled.HeaderElement>;
+				})}
+			</Styled.Header>
+		</thead>
 		<Styled.Content
 			rowCount={data.length}
 			rowHeight={rowHeight}
