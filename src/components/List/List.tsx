@@ -1,6 +1,6 @@
 import {useState, useMemo, useEffect, forwardRef, HTMLAttributes} from 'react';
 
-import {remToPx, pxToRem, debounce} from 'utils/functions';
+import {remToPx, pxToRem, debounce, limitInRange} from 'utils/functions';
 import {useEvent, useMergedRef} from 'utils/hooks';
 
 import themeDefault from 'utils/theme';
@@ -27,13 +27,10 @@ const List = forwardRef<HTMLUListElement, ListProps>(({
 		if (componentRef.current){
 			const {scrollTop, offsetHeight} = componentRef.current;
 
-			const lowerBound = Math.floor((scrollTop - offsetHeight)/rowHeight);
-			const upperBound = Math.ceil((scrollTop + 2*offsetHeight)/rowHeight);
+			const lowerBound = limitInRange(Math.floor(scrollTop/rowHeight) - 1, [0, rowCount]);
+			const upperBound = limitInRange(Math.ceil((scrollTop + offsetHeight)/rowHeight) + 1, [0, rowCount]);
 
-			setVisibleBounds([
-				lowerBound > 0 ? lowerBound : 0,
-				upperBound > rowCount ? rowCount : upperBound
-			]);
+			setVisibleBounds([lowerBound, upperBound]);
 		}
 	}), [rowHeight, rowCount, componentRef]);
 
