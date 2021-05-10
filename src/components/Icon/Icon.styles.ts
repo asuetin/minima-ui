@@ -1,14 +1,20 @@
 import styled, {css} from 'styled-components';
 
 const Icon = styled.svg<{
-	stroke?: string;
-	fill?: string;
+	size: string;
+	color?: string;
 }>(({
-	stroke = 'rgb(0,0,0)',
-	fill = 'rgb(0,0,0)'
+	size,
+	color
 }) => css`
-	stroke: ${stroke};
-	fill: ${fill};
+	min-width: ${size};
+	min-height: ${size};
+
+	width: ${size};
+	height: ${size};
+
+	stroke: ${color};
+	fill: ${color};
 
 	transition: ${['stroke', 'fill'].map(v => `${v} 125ms ease-in-out`).join()};
 `);

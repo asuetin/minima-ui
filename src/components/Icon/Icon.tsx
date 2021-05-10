@@ -137,11 +137,9 @@ const Icon = ({
 
 	return <Styled.Icon
 		{...props}
-		width={sizeMultiplied}
-		height={sizeMultiplied}
 		viewBox={`0 0 ${viewBoxSizeActual} ${viewBoxSizeActual}`}
-		fill={color}
-		stroke={color}
+		size={sizeMultiplied}
+		color={color}
 		strokeWidth={`${pxToRem(strokeWidth)}rem`}
 	>
 		{pathActual}
