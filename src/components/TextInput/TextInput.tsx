@@ -1,4 +1,4 @@
-import {forwardRef, HTMLAttributes} from 'react';
+import {forwardRef, HTMLAttributes, MutableRefObject} from 'react';
 
 import {useMergedRef} from 'utils/hooks';
 
@@ -7,23 +7,36 @@ import Styled from './TextInput.styles';
 export type TextInputProps = {
 	value: string;
 	onChange: (v: string) => void;
-	multiline?: boolean;
 	name?: string;
 	required?: boolean;
-} & Omit<HTMLAttributes<HTMLInputElement & HTMLTextAreaElement>, 'onChange'>;
+} & (
+	(
+		{
+			multiline?: false;
+		} & Omit<HTMLAttributes<HTMLInputElement>, 'onChange'>
+	) | (
+		{
+			multiline: true
+		} & Omit<HTMLAttributes<HTMLTextAreaElement>, 'onChange'>
+	)
+);
 
-const TextInput = forwardRef<HTMLInputElement & HTMLTextAreaElement, TextInputProps>(({
+const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputProps>(({
 	onChange,
 	multiline,
 	...props
 }, forwardedRef) => {
-	const componentRef = useMergedRef<HTMLInputElement & HTMLTextAreaElement>(forwardedRef);
+	const componentRef = useMergedRef(forwardedRef);
 
 	return <Styled.TextInput
 		{...props}
-		ref={componentRef}
+		as={multiline ? 'textarea' : 'input'}
+		ref={
+			multiline ?
+			componentRef as MutableRefObject<HTMLTextAreaElement> :
+			componentRef as MutableRefObject<HTMLInputElement>
+		}
 		onChange={e => onChange(e.target.value)}
-		as={multiline ? 'textarea' : undefined}
 		role='textbox'
 		aria-multiline={multiline ? true : undefined}
 	/>;

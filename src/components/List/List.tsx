@@ -7,20 +7,20 @@ import themeDefault from 'utils/theme';
 
 import Styled from './List.styles';
 
-type CommonProps = {
+export type ListProps = {
 	rowHeight?: number;
 	rowCount: number;
 	rowRenderer: (index: number, style: {[key: string]: string}) => JSX.Element;
-};
-
-export type ListProps = (
-	CommonProps & {
-		tagName?: 'ul'
-	} & HTMLAttributes<HTMLUListElement>
-) | (
-	CommonProps & {
-		tagName: 'tbody'
-	} & HTMLAttributes<HTMLTableSectionElement>
+} & (
+	(
+		{
+			tagName?: 'ul'
+		} & HTMLAttributes<HTMLUListElement>
+	) | (
+		{
+			tagName: 'tbody'
+		} & HTMLAttributes<HTMLTableSectionElement>
+	)
 );
 
 const List = forwardRef<HTMLUListElement | HTMLTableSectionElement, ListProps>(({
@@ -30,11 +30,7 @@ const List = forwardRef<HTMLUListElement | HTMLTableSectionElement, ListProps>((
 	tagName,
 	...props
 }, forwardedRef) => {
-	const componentRef = useMergedRef<HTMLUListElement | HTMLTableSectionElement>(
-		tagName == 'tbody' ?
-		forwardedRef as ForwardedRef<HTMLTableSectionElement> :
-		forwardedRef as ForwardedRef<HTMLUListElement>
-	);
+	const componentRef = useMergedRef(forwardedRef);
 
 	const [visibleBounds, setVisibleBounds] = useState([0, 0]);
 
