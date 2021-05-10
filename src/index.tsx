@@ -36,3 +36,6 @@ export * from 'components/Tooltip';
 
 export {default as Modal} from 'components/Modal';
 export * from 'components/Modal';
+
+export {default as Table} from 'components/Table';
+export * from 'components/Table';
