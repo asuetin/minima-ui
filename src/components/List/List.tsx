@@ -1,4 +1,4 @@
-import {useState, useMemo, useEffect, forwardRef, HTMLAttributes} from 'react';
+import {useState, useMemo, useEffect, forwardRef, ForwardedRef, MutableRefObject, HTMLAttributes} from 'react';
 
 import {remToPx, pxToRem, debounce, limitInRange} from 'utils/functions';
 import {useEvent, useMergedRef} from 'utils/hooks';
@@ -7,19 +7,34 @@ import themeDefault from 'utils/theme';
 
 import Styled from './List.styles';
 
-export type ListProps = {
+type CommonProps = {
 	rowHeight?: number;
 	rowCount: number;
-	rowRenderer: (index: number, style: {[key: string]: string}) => JSX.Element
-} & HTMLAttributes<HTMLUListElement>;
+	rowRenderer: (index: number, style: {[key: string]: string}) => JSX.Element;
+};
 
-const List = forwardRef<HTMLUListElement, ListProps>(({
+export type ListProps = (
+	CommonProps & {
+		tagName?: 'ul'
+	} & HTMLAttributes<HTMLUListElement>
+) | (
+	CommonProps & {
+		tagName: 'tbody'
+	} & HTMLAttributes<HTMLTableSectionElement>
+);
+
+const List = forwardRef<HTMLUListElement | HTMLTableSectionElement, ListProps>(({
 	rowHeight = remToPx(themeDefault.size[3]),
 	rowCount,
 	rowRenderer,
+	tagName,
 	...props
 }, forwardedRef) => {
-	const componentRef = useMergedRef<HTMLUListElement>(forwardedRef);
+	const componentRef = useMergedRef<HTMLUListElement | HTMLTableSectionElement>(
+		tagName == 'tbody' ?
+		forwardedRef as ForwardedRef<HTMLTableSectionElement> :
+		forwardedRef as ForwardedRef<HTMLUListElement>
+	);
 
 	const [visibleBounds, setVisibleBounds] = useState([0, 0]);
 
@@ -43,7 +58,12 @@ const List = forwardRef<HTMLUListElement, ListProps>(({
 
 	return <Styled.List
 		{...props}
-		ref={componentRef}
+		as={tagName}
+		ref={
+			tagName == 'tbody' ?
+			componentRef as MutableRefObject<HTMLTableSectionElement> :
+			componentRef as MutableRefObject<HTMLUListElement>
+		}
 	>
 		{Array.from({length: visibleBounds[1] - visibleBounds[0]}, (v, i) => rowRenderer(visibleBounds[0] + i, {
 			height: `${pxToRem(rowHeight)}rem`,
