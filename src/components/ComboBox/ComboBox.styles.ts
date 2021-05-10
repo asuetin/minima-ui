@@ -81,7 +81,7 @@ const Option = styled.li(({theme}) => {
 	`;
 });
 
-const Dropdown = styled(List)<{visibleOptionCount: number}>(({theme, rowHeight, rowCount, visibleOptionCount}) => {
+const Dropdown = styled(List).attrs({role: 'listbox'})<{visibleOptionCount: number}>(({theme, rowHeight, rowCount, visibleOptionCount}) => {
 	const {background, content, size, radius} = theme.minima ?? themeDefault;
 
 	return css`

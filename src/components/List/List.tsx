@@ -44,7 +44,6 @@ const List = forwardRef<HTMLUListElement, ListProps>(({
 	return <Styled.List
 		{...props}
 		ref={componentRef}
-		role='listbox'
 	>
 		{Array.from({length: visibleBounds[1] - visibleBounds[0]}, (v, i) => rowRenderer(visibleBounds[0] + i, {
 			height: `${pxToRem(rowHeight)}rem`,
