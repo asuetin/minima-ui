@@ -2,9 +2,7 @@ import styled, {css} from 'styled-components';
 
 import themeDefault from 'utils/theme';
 
-const RadioButton = styled.input.attrs(() => ({
-	type: 'radio'
-}))(({theme}) => {
+const RadioButton = styled.input.attrs({type: 'radio'})(({theme}) => {
 	const {size, background, accent, content, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
@@ -92,9 +90,7 @@ const RadioButton = styled.input.attrs(() => ({
 	`;
 });
 
-const RadioGroupOption = styled.li.attrs(() => ({
-	role: 'radio'
-}))(({theme}) => {
+const RadioGroupOption = styled.li.attrs({role: 'radio'})(({theme}) => {
 	const {size} = theme.minima ?? themeDefault;
 
 	return css`
@@ -109,9 +105,7 @@ const RadioGroupOption = styled.li.attrs(() => ({
 	`;
 });
 
-const RadioGroup = styled.ul.attrs(() => ({
-	role: 'radiogroup' as string
-}))(({theme}) => {
+const RadioGroup = styled.ul.attrs({role: 'radiogroup' as string})(({theme}) => {
 	const {fontFamily, content, size} = theme.minima ?? themeDefault;
 
 	return css`
