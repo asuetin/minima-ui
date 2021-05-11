@@ -164,7 +164,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 					const cellIndex = Number(elementIdSplit[5]);
 
 					//move focus between cells or resize columns if Ctrl is pressed
-					if (['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].some(v => e.code == v)){
+					if (['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End', 'PageDown', 'PageUp'].some(v => e.code == v)){
 						e.preventDefault();
 						let elementIdNext = activeElement.id;
 
@@ -190,9 +190,36 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 							break;
 						case 'ArrowUp':
 							elementIdNext = `${idRef.current}-${rowIndex == 0 ? 'header' : 'row'}-${limitInRange(rowIndex-1, [0, null])}-cell-${cellIndex}`;
+							break;
+						case 'Home':
+							if (e.ctrlKey){
+								contentRef.current.scrollTop = 0;
+								elementIdNext = `${idRef.current}-header-0-cell-0`;
+							}
+							else {
+								elementIdNext = `${idRef.current}-${elementType}-${rowIndex}-cell-0`;
+							}
+							break;
+						case 'End':
+							if (e.ctrlKey){
+								contentRef.current.scrollTop = contentRef.current.scrollHeight;
+								elementIdNext = `${idRef.current}-row-${data.length-1}-cell-${columns.length-1}`;
+							}
+							else {
+								elementIdNext = `${idRef.current}-${elementType}-${rowIndex}-cell-${columns.length-1}`;
+							}
+							break;
+						case 'PageDown':
+							contentRef.current.scrollTop += visibleRowCount*rowHeight;
+							elementIdNext = `${idRef.current}-row-${limitInRange(rowIndex+visibleRowCount, [0, data.length-1])}-cell-${cellIndex}`;
+							break;
+						case 'PageUp':
+							contentRef.current.scrollTop -= visibleRowCount*rowHeight;
+							elementIdNext = `${idRef.current}-row-${limitInRange(rowIndex-visibleRowCount, [0, data.length-1])}-cell-${cellIndex}`;
+							break;
 						}
 
-						document.getElementById(elementIdNext)?.focus();
+						setTimeout(() => document.getElementById(elementIdNext)?.focus(), 25);
 					}
 					else {
 						switch (e.code){
@@ -281,10 +308,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 					return <Styled.HeaderCell
 						id={headerCellId}
 						key={headerCellId}
-						onFocus={isGrid ? () => {
-							contentRef.current.scrollTop = 0;
-							onCellFocus && onCellFocus(null);
-						} : undefined}
+						onFocus={isGrid && onCellFocus ? () => onCellFocus(null) : undefined}
 						tabIndex={isGrid && i == 0 ? 0 : -1}
 					>
 						<Styled.Header
