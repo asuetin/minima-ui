@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 import type {Story, Meta} from '@storybook/react';
@@ -18,6 +18,16 @@ export default {
 	title: 'Components/Utility/Table',
 	component: Table,
 	argTypes: {
+		refreshTrigger: {
+			description: 'Changing this value causes the table to rerender',
+			type: {
+				summary: 'string | number | boolean'
+			},
+			control: 'number',
+			table: {
+				category: 'Core'
+			}
+		},
 		columns: {
 			description: 'Array of column objects',
 			type: {
@@ -63,7 +73,9 @@ export default {
 		},
 		defaultSortState: {
 			description: 'Array of sort objects representing the default sort state',
-			control: 'array',
+			control: {
+				disable: true
+			},
 			type: {
 				summary: 'SortStateType[]',
 				detail: dedent(`
@@ -92,7 +104,7 @@ export default {
 			}
 		},
 		visibleRowCount: {
-			description: 'Number of visible rows',
+			description: 'Number of visible rows. Causes the table to rerender when changed.',
 			type: {
 				summary: 'number'
 			},
@@ -138,7 +150,7 @@ export default {
 		onCellFocus: {
 			description: 'Callback function on cell click',
 			type: {
-				summary: '(cell: CellType) => void',
+				summary: '(cell: CellType | null) => void',
 				detail: dedent(`
 					type CellType = {
 						rowIndex: number;
@@ -156,7 +168,7 @@ export default {
 		onCellHover: {
 			description: 'Callback function on cell hover',
 			type: {
-				summary: '(cell: CellType) => void',
+				summary: '(cell: CellType | null) => void',
 				detail: dedent(`
 					type CellType = {
 						rowIndex: number;
@@ -236,14 +248,26 @@ const TextInputStyled = styled(TextInput)`
 
 	font-size: inherit;
 	font-family: inherit;
+	font-weight: inherit;
 	color: inherit;
 
-	box-shadow: none !important;
+	border-radius: 0;
+	outline: none;
+	box-shadow: none;
 
 	padding: 0;
+
+	&:hover {
+		box-shadow: inset 0 0 0 0.125rem lightgrey;
+	}
+
+	&:focus-visible {
+		box-shadow: inset ${themeDefault.focus};
+	}
 `;
 
 const EditableTemplate: Story<TableProps> = args => {
+	const [refreshTrigger, setRefreshTrigger] = useState(false);
 	const [data, setData] = useState(Basic.args.data);
 
 	const [hovered, setHovered] = useState<CellType | null>(null);
@@ -251,6 +275,10 @@ const EditableTemplate: Story<TableProps> = args => {
 
 	const [focused, setFocused] = useState<CellType | null>(null);
 	const {rowIndex: rowIndexFocused, dataKey: dataKeyFocused} = focused ?? {};
+
+	useEffect(() => {
+		setRefreshTrigger(refreshTriggerPrev => !refreshTriggerPrev);
+	}, [hovered, focused, data]);
 
 	const textFieldRenderer = dataObj => {
 		const {__rowIndex, __dataKey} = dataObj;
@@ -274,6 +302,7 @@ const EditableTemplate: Story<TableProps> = args => {
 	return <div style={{height: `${pxToRem((args.visibleRowCount+2)*args.rowHeight)}rem`}}>
 		<Table
 			{...args}
+			refreshTrigger={refreshTrigger}
 			data={data}
 			columns={Basic.args.columns.map(columnObj => ({
 				...columnObj,
@@ -290,6 +319,11 @@ export const Editable = EditableTemplate.bind({});
 
 Editable.args = {...Basic.args};
 Editable.argTypes = {
+	refreshTrigger: {
+		control: {
+			disable: true
+		}
+	},
 	columns: {
 		control: {
 			disable: true
