@@ -189,6 +189,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	return <Styled.Table
 		{...props}
 		ref={componentRef}
+		aria-rowcount={data.length}
 	>
 		<thead>
 			<Styled.HeaderRow gridTemplateColumns={gridTemplateColumns}>
