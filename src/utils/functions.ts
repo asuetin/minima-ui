@@ -23,6 +23,35 @@ export const debounce = (
 	};
 };
 
+export const throttle = (
+	delay: number,
+	f: (...args: unknown[]) => void,
+	runOnFinish = true
+): typeof f => {
+	let lastCall = 0, timerId;
+
+	return (...args) => {
+		const now = (new Date).getTime();
+
+		if (runOnFinish && timerId) {
+			clearTimeout(timerId);
+		}
+
+		if (now - lastCall < delay) {
+			return;
+		}
+		lastCall = now;
+
+		if (runOnFinish){
+			timerId = setTimeout(() => {
+				f(...args);
+				timerId = null;
+			}, delay);
+		}
+		return f(...args);
+	};
+};
+
 export const uniqueId = ((): ((prefix: string) => string) => {
 	let count = 0;
 	return (prefix: string): string => `${prefix}${++count}`;
@@ -40,11 +69,11 @@ export const unique = <T>(array: T[], selector?: (el: typeof array[number]) => u
 	}) === i);
 };
 
-export const limitInRange = (v: number, range: [number, number], wrap = false): number => {
-	if (v < range[0]){
+export const limitInRange = (v: number, range: [number | null, number | null], wrap = false): number => {
+	if (range[0] !== null && v < range[0]){
 		return wrap ? range[1] : range[0];
 	}
-	if (v > range[1]){
+	if (range[1] !== null && v > range[1]){
 		return wrap ? range[0] : range[1];
 	}
 	return v;
