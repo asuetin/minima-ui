@@ -7,6 +7,7 @@ const Tooltip = styled.div<{text: string; delay: number}>(({theme, text, delay})
 
 	return css`
 		position: relative;
+		width: min-content;
 
 		@media (hover: hover) and (pointer: fine) {
 			&::after {
