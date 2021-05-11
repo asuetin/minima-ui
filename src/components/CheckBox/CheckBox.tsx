@@ -24,7 +24,7 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>(({
 		ref={componentRef}
 		onChange={readOnly ? undefined : onChange}
 		onKeyDown={readOnly ? undefined : e => {
-			if (e.code == 'Enter'){
+			if (['Enter', 'Space'].some(v => e.code == v)){
 				onChange();
 			}
 		}}
