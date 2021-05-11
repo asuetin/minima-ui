@@ -23,8 +23,9 @@ The library includes the following components:
 
 #### Utility
 1. [List](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-list--basic) - a basic virtualized list;
-2. [Tooltip](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-tooltip--basic) - a wrapper around an element that shows a tooltip on hover;
-3. [Modal](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-modal--basic) - a modal dialog.
+2. [Table](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-table--basic) - a virtualized table with sorting and column resizing that allows custom cell renderers;
+3. [Tooltip](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-tooltip--basic) - a wrapper around an element that shows a tooltip on hover;
+4. [Modal](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-modal--basic) - a modal dialog.
 
 ## Installation and usage
 

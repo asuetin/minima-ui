@@ -1,24 +1,45 @@
 import {useState} from 'react';
+import styled from 'styled-components';
 
 import type {Story, Meta} from '@storybook/react';
 
-import Table from 'components/Table';
-import type {TableProps} from 'components/Table';
+import Table, {TableStyles} from 'components/Table';
+import type {TableProps, CellType} from 'components/Table';
 
-import themeDefault from 'utils/theme';
+import TextInput from 'components/TextInput';
 
 import {remToPx, pxToRem} from 'utils/functions';
+import themeDefault from 'utils/theme';
+import dedent from 'ts-dedent';
 
 import DocsPage from 'stories/DocsPage';
 
 export default {
-	title: 'Components/Inputs/Table',
+	title: 'Components/Utility/Table',
 	component: Table,
 	argTypes: {
 		columns: {
 			description: 'Array of column objects',
 			type: {
-				summary: '{value: number | string; label?: string}[]',
+				summary: 'ColumnType[]',
+				detail: dedent(`
+					type DataType = {[key: string]: unknown} | string | number | boolean;
+
+					type ColumnType = {
+						dataKey: string | number;
+						header: string;
+						renderer?: (v: {
+							__rowIndex: number;
+							__dataKey: string | number;
+							__getter?: (v: DataType) => string | number | boolean;
+							[key: string]: unknown;
+						}) => JSX.Element;
+						getter?: (v: DataType) => string | number | boolean;
+						width?: string | number;
+						minWidth?: number;
+						sortable?: boolean;
+					};
+				`),
 				required: true
 			},
 			control: 'array',
@@ -29,12 +50,125 @@ export default {
 		data: {
 			description: 'Array of data objects',
 			type: {
-				summary: '{value: number | string; label: string}[]',
+				summary: 'DataType[]',
+				detail: dedent(`
+					type DataType = {[key: string]: unknown} | string | number | boolean;
+				`),
 				required: true
 			},
 			control: 'array',
 			table: {
 				category: 'Core'
+			}
+		},
+		defaultSortState: {
+			description: 'Array of sort objects representing the default sort state',
+			control: 'array',
+			type: {
+				summary: 'SortStateType[]',
+				detail: dedent(`
+					type SortStateType = {
+						dataKey: string | number;
+						value: 'asc' | 'desc';
+					};
+				`)
+			},
+			table: {
+				category: 'Miscellaneous'
+			}
+		},
+		rowHeight: {
+			description: 'The height of one row',
+			type: {
+				summary: 'number'
+			},
+			control: 'number',
+			defaultValue: remToPx(themeDefault.size[3]),
+			table: {
+				defaultValue: {
+					summary: remToPx(themeDefault.size[3])
+				},
+				category: 'Geometry'
+			}
+		},
+		visibleRowCount: {
+			description: 'Number of visible rows',
+			type: {
+				summary: 'number'
+			},
+			control: 'number',
+			defaultValue: 10,
+			table: {
+				defaultValue: {
+					summary: 10
+				},
+				category: 'Geometry'
+			}
+		},
+		onColumnResize: {
+			description: 'Callback function on column resize',
+			type: {
+				summary: '(columnWidths: number[]) => void'
+			},
+			control: {
+				disable: true
+			},
+			table: {
+				category: 'Callbacks'
+			}
+		},
+		onSort: {
+			description: 'Callback function on sort change',
+			type: {
+				summary: '(sortState: SortStateType[]) => void',
+				detail: dedent(`
+					type SortStateType = {
+						dataKey: string | number;
+						value: 'asc' | 'desc';
+					};
+				`)
+			},
+			control: {
+				disable: true
+			},
+			table: {
+				category: 'Callbacks'
+			}
+		},
+		onCellFocus: {
+			description: 'Callback function on cell click',
+			type: {
+				summary: '(cell: CellType) => void',
+				detail: dedent(`
+					type CellType = {
+						rowIndex: number;
+						dataKey: string | number;
+					};
+				`)
+			},
+			control: {
+				disable: true
+			},
+			table: {
+				category: 'Callbacks'
+			}
+		},
+		onCellHover: {
+			description: 'Callback function on cell hover',
+			type: {
+				summary: '(cell: CellType) => void',
+				detail: dedent(`
+					type CellType = {
+						rowIndex: number;
+						dataKey: string | number;
+					};
+				`)
+			},
+			control: {
+				disable: true
+			},
+			table: {
+				category: 'Callbacks'
 			}
 		}
   	},
@@ -52,19 +186,20 @@ export default {
 				]}
 			/>,
 			description: {
-				component: 'Search and select an option from an expandable dropdown menu'
+				component: 'A virtualized table with sorting and column resizing that allows custom cell renderers'
 			}
 		}
 	}
 } as Meta;
 
 const BasicTemplate: Story<TableProps> = args => {
-	return <Table
-		{...args}
-	/>;
+	return <div style={{height: `${pxToRem((args.visibleRowCount+2)*args.rowHeight)}rem`}}>
+		<Table {...args}/>
+	</div>;
 };
 
 export const Basic = BasicTemplate.bind({});
+
 Basic.args = {
 	columns: [
 		{
@@ -92,4 +227,77 @@ Basic.args = {
 		'name-short': `Short name ${i+1}`,
 		description: `Description ${i+1}`
 	}))
+};
+
+const TextInputStyled = styled(TextInput)`
+	position: relative;
+
+	background-color: transparent !important;
+
+	font-size: inherit;
+	font-family: inherit;
+	color: inherit;
+
+	box-shadow: none !important;
+
+	padding: 0;
+`;
+
+const EditableTemplate: Story<TableProps> = args => {
+	const [data, setData] = useState(Basic.args.data);
+
+	const [hovered, setHovered] = useState<CellType | null>(null);
+	const {rowIndex: rowIndexHovered, dataKey: dataKeyHovered} = hovered ?? {};
+
+	const [focused, setFocused] = useState<CellType | null>(null);
+	const {rowIndex: rowIndexFocused, dataKey: dataKeyFocused} = focused ?? {};
+
+	const textFieldRenderer = dataObj => {
+		const {__rowIndex, __dataKey} = dataObj;
+		const isHovered = __rowIndex == rowIndexHovered && __dataKey == dataKeyHovered;
+		const isFocused = __rowIndex == rowIndexFocused && __dataKey == dataKeyFocused;
+
+		return isHovered || isFocused ?
+			<TextInputStyled
+				value={dataObj[dataObj.__dataKey]}
+				onChange={v => {
+					setData(dataPrev => {
+						const dataNew = [...dataPrev];
+						dataNew[__rowIndex][__dataKey] = v;
+						return dataNew;
+					});
+				}}
+			/> :
+			<TableStyles.DataRaw>{dataObj[__dataKey]}</TableStyles.DataRaw>;
+	};
+
+	return <div style={{height: `${pxToRem((args.visibleRowCount+2)*args.rowHeight)}rem`}}>
+		<Table
+			{...args}
+			data={data}
+			columns={Basic.args.columns.map(columnObj => ({
+				...columnObj,
+				renderer: textFieldRenderer
+			}))}
+			onCellHover={setHovered}
+			onCellFocus={setFocused}
+			role='grid'
+		/>
+	</div>;
+};
+
+export const Editable = EditableTemplate.bind({});
+
+Editable.args = {...Basic.args};
+Editable.argTypes = {
+	columns: {
+		control: {
+			disable: true
+		}
+	},
+	data: {
+		control: {
+			disable: true
+		}
+	}
 };
