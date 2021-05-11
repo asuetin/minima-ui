@@ -45,7 +45,7 @@ export type TableProps = {
 	onColumnResize?: (v: number[]) => void;
 	onSort?: (v: SortStateType[]) => void;
 	onCellClick?: (v: CellType) => void;
-	onCellHover?: (v: CellType) => void;
+	onCellHover?: (v: CellType | null) => void;
 } & HTMLAttributes<HTMLTableElement>;
 
 const Table = forwardRef<HTMLTableElement, TableProps>(({
@@ -246,6 +246,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 			rowHeight={rowHeight}
 			rowRenderer={rowRenderer}
 			visibleRowCount={visibleRowCount}
+			onPointerLeave={() => onCellHover(null)}
 		/>
 	</Styled.Table>;
 });
