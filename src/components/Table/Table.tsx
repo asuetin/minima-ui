@@ -158,8 +158,8 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	const rowRenderer = (index, style) => {
 		const rowId = `${idRef.current}-row-${index}`;
 
-		const dataObj = data[sortIndexes[index]];
-		const rowIndex = index;
+		const rowIndex = sortIndexes[index];
+		const dataObj = data[rowIndex];
 
 		return <Styled.Row
 			style={style}
