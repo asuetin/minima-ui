@@ -65,33 +65,40 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	...props
 }, forwardedRef) => {
 	const idRef = useRef(uniqueId('table-'));
+	const isGrid = role == 'grid';
 
 	const componentRef = useMergedRef<HTMLTableElement>(forwardedRef);
 	const contentRef = useRef<HTMLTableSectionElement>();
+
+	const dragInfoRef = useRef<{
+		index: number;
+		columnWidthStart: number;
+		columnWidthNextStart: number;
+		xStart: number;
+	}>();
 
 	const [sortState, setSortState] = useState(defaultSortState);
 	const [sortIndexes, setSortIndexes] = useState<number[]>([]);
 
 	const [columnWidths, setColumnWidths] = useState<(number | null)[]>([]);
 
+	//utility functions
 	const sort = (shiftKey: boolean, dataKey: string | number) => {
-		const keySortIndex = sortState.findIndex(el => el.dataKey == dataKey);
-		const sortValue = sortState[keySortIndex]?.value;
+		const sortIndex = sortState.findIndex(el => el.dataKey == dataKey);
 
 		setSortState(sortStatePrev => {
 			let sortStateNew = [];
 
 			if (shiftKey){
 				sortStateNew = [...sortStatePrev];
-				if (keySortIndex != -1){
-					sortStateNew = [...sortStatePrev];
-					sortStateNew.splice(keySortIndex, 1);
+				if (sortIndex != -1){
+					sortStateNew.splice(sortIndex, 1);
 				}
 			}
 
 			sortStateNew.push({
 				dataKey,
-				value: sortValue == 'desc' ? 'asc' : 'desc'
+				value: sortState[sortIndex]?.value == 'desc' ? 'asc' : 'desc'
 			});
 
 			onSort && onSort(sortStateNew);
@@ -99,6 +106,14 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 			return sortStateNew;
 		});
 	};
+
+	const onDragStart = (e, index) =>
+		dragInfoRef.current = {
+			index,
+			columnWidthStart: document.getElementById(`${idRef.current}-header-0-cell-${index}`).offsetWidth,
+			columnWidthNextStart: document.getElementById(`${idRef.current}-header-0-cell-${index+1}`).offsetWidth,
+			xStart: e.clientX
+		};
 
 	const resizeColumn = useCallback((index: number, value: number, overrideWidths?: [number, number]) => {
 		const columnWidthStart = overrideWidths?.[0] ?? document.getElementById(`${idRef.current}-header-0-cell-${index}`).offsetWidth;
@@ -120,21 +135,6 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	}, [columns, onColumnResize]);
 
 	//pointer-specific controls
-	const dragInfoRef = useRef<{
-		index: number;
-		columnWidthStart: number;
-		columnWidthNextStart: number;
-		xStart: number;
-	}>();
-
-	const onDragStart = (e, index) =>
-		dragInfoRef.current = {
-			index,
-			columnWidthStart: document.getElementById(`${idRef.current}-header-0-cell-${index}`).offsetWidth,
-			columnWidthNextStart: document.getElementById(`${idRef.current}-header-0-cell-${index+1}`).offsetWidth,
-			xStart: e.clientX
-		};
-
 	useEvent('pointermove', useMemo(() => throttle(5, ({clientX}: PointerEvent) => {
 		if (dragInfoRef.current){
 			const {index, xStart, columnWidthStart, columnWidthNextStart} = dragInfoRef.current;
@@ -144,23 +144,9 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 
 	useEvent('pointerup', () => dragInfoRef.current = null);
 
-	useEffect(() => {
-		if (columnWidths.length == 0){
-			setColumnWidths(columns.map(({width}) => {
-				if (width){
-					if (typeof width == 'string' && width.includes('fr')){
-						return null;
-					}
-					return Number(width);
-				}
-				return null;
-			}));
-		}
-	}, [columns, columnWidths]);
-
 	//keyboard-specific controls
 	useEvent('keydown', (e: KeyboardEvent) => {
-		if (role == 'grid'){
+		if (isGrid){
 			const activeElement = document.activeElement;
 			if (componentRef.current.contains(activeElement)){
 				if (!activeElement.id.includes(idRef.current)){
@@ -177,6 +163,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 					const rowIndex = Number(elementIdSplit[3]);
 					const cellIndex = Number(elementIdSplit[5]);
 
+					//move focus between cells or resize columns if Ctrl is pressed
 					if (['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].some(v => e.code == v)){
 						e.preventDefault();
 						let elementIdNext = activeElement.id;
@@ -256,6 +243,20 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	}, [columns, data, sortState]);
 
 	//rendering
+	useEffect(() => {
+		if (columnWidths.length == 0){
+			setColumnWidths(columns.map(({width}) => {
+				if (width){
+					if (typeof width == 'string' && width.includes('fr')){
+						return null;
+					}
+					return Number(width);
+				}
+				return null;
+			}));
+		}
+	}, [columns, columnWidths]);
+
 	const gridTemplateColumns = columnWidths.map((v, i) => {
 		if (v === null){
 			const min = `${pxToRem(columns[i].minWidth ?? 100)}rem`;
@@ -264,42 +265,6 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		}
 		return `${pxToRem(v)}rem`;
 	}).join(' ');
-
-	const rowRenderer = (index, style) => {
-		const rowId = `${idRef.current}-row-${index}`;
-
-		const rowIndex = sortIndexes[index];
-		const dataObj = data[rowIndex];
-
-		return <Styled.Row
-			style={style}
-			key={rowId}
-			gridTemplateColumns={gridTemplateColumns}
-		>
-			{columns.map(({dataKey, renderer, getter}, i) => {
-				const cellId = `${rowId}-cell-${i}`;
-
-				return <Styled.Cell
-					id={cellId}
-					key={`${rowId}-cell-${i}`}
-					onClick={role == 'grid' && onCellFocus ? () => onCellFocus({rowIndex, dataKey}) : undefined}
-					onFocus={role == 'grid' && onCellFocus ? () => onCellFocus({rowIndex, dataKey}) : undefined}
-					onPointerOver={onCellHover ? () => onCellHover({rowIndex, dataKey}) : undefined}
-					tabIndex={role == 'grid' ? -1 : undefined}
-				>
-					{renderer ?
-						renderer({
-							...dataObj,
-							__rowIndex: rowIndex,
-							__dataKey: dataKey,
-							...getter ? {__getter: getter} : {}
-						}) :
-						getter ? getter(dataObj[dataKey]) : dataObj[dataKey]
-					}
-				</Styled.Cell>;
-			})}
-		</Styled.Row>;
-	};
 
 	return <Styled.Table
 		{...props}
@@ -316,17 +281,15 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 					return <Styled.HeaderCell
 						id={headerCellId}
 						key={headerCellId}
-						tabIndex={role == 'grid' ? (i == 0 ? 0 : -1) : undefined}
-						onFocus={role == 'grid' ? () => {
+						onFocus={isGrid ? () => {
 							contentRef.current.scrollTop = 0;
 							onCellFocus && onCellFocus(null);
 						} : undefined}
+						tabIndex={isGrid && i == 0 ? 0 : -1}
 					>
 						<Styled.Header
 							sort={sortable ? sortValue : 'disabled'}
-							onClick={sortable ? e => {
-								sort(e.shiftKey, dataKey);
-							} : undefined}
+							onClick={sortable ? e => sort(e.shiftKey, dataKey) : undefined}
 						>
 							{header}
 							{sortable && sortValue &&
@@ -345,11 +308,44 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		</thead>
 		<Styled.Content
 			ref={contentRef}
+			onPointerLeave={onCellHover ? () => onCellHover(null) : undefined}
+			visibleRowCount={visibleRowCount}
 			rowCount={data.length}
 			rowHeight={rowHeight}
-			rowRenderer={rowRenderer}
-			visibleRowCount={visibleRowCount}
-			onPointerLeave={() => onCellHover(null)}
+			rowRenderer={(index, style) => {
+				const rowId = `${idRef.current}-row-${index}`;
+
+				const rowIndex = sortIndexes[index];
+				const dataObj = data[rowIndex];
+
+				return <Styled.Row
+					style={style}
+					key={rowId}
+					gridTemplateColumns={gridTemplateColumns}
+				>
+					{columns.map(({dataKey, renderer, getter}, i) => {
+						const cellId = `${rowId}-cell-${i}`;
+
+						return <Styled.Cell
+							id={cellId}
+							key={cellId}
+							onPointerOver={onCellHover ? () => onCellHover({rowIndex, dataKey}) : undefined}
+							onClick={isGrid && onCellFocus ? () => onCellFocus({rowIndex, dataKey}) : undefined}
+							onFocus={isGrid && onCellFocus ? () => onCellFocus({rowIndex, dataKey}) : undefined}
+						>
+							{renderer ?
+								renderer({
+									...dataObj,
+									__rowIndex: rowIndex,
+									__dataKey: dataKey,
+									...getter ? {__getter: getter} : {}
+								}) :
+								getter ? getter(dataObj[dataKey]) : dataObj[dataKey]
+							}
+						</Styled.Cell>;
+					})}
+				</Styled.Row>;
+			}}
 		/>
 	</Styled.Table>;
 });

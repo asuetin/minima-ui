@@ -7,22 +7,18 @@ import themeDefault from 'utils/theme';
 import List from 'components/List';
 import {IconStyles} from 'components/Icon';
 
-const DataRaw = styled.span(({theme}) => {
-	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+const DataRaw = styled.span`
+	width: 100%;
 
-	return css`
-		width: 100%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 
-		text-overflow: ellipsis;
-		white-space: nowrap;
+	display: inline-block;
+	overflow: hidden;
+`;
 
-		display: inline-block;
-		overflow: hidden;
-	`;
-});
-
-const Cell = styled.td(({theme}) => {
-	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+const Cell = styled.td.attrs({tabIndex: -1})(({theme}) => {
+	const {focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
@@ -43,18 +39,14 @@ const Row = styled.tr.attrs<RowProps>(({gridTemplateColumns}) => ({
 	style: {
 		gridTemplateColumns
 	}
-}))<RowProps>(({theme}) => {
-	const {fontFamily, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+}))<RowProps>`
+	position: relative;
 
-	return css`
-		position: relative;
-
-		display: grid;
-	`;
-});
+	display: grid;
+`;
 
 const ResizeHandle = styled.div(({theme}) => {
-	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+	const {size} = theme.minima ?? themeDefault;
 
 	return css`
 		position: absolute;
@@ -70,7 +62,7 @@ const ResizeHandle = styled.div(({theme}) => {
 });
 
 const Header = styled.span<{sort: 'asc' | 'desc' | undefined | 'disabled'}>(({theme, sort}) => {
-	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+	const {size} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
@@ -100,8 +92,8 @@ const Header = styled.span<{sort: 'asc' | 'desc' | undefined | 'disabled'}>(({th
 	`;
 });
 
-const HeaderCell = styled.th(({theme}) => {
-	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+const HeaderCell = styled.th.attrs(({tabIndex}) => ({tabIndex}))(({theme}) => {
+	const {size, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
@@ -129,18 +121,14 @@ const HeaderRow = styled.tr.attrs<RowProps>(({gridTemplateColumns}) => ({
 	style: {
 		gridTemplateColumns
 	}
-}))<RowProps>(({theme}) => {
-	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+}))<RowProps>`
+	position: relative;
 
-	return css`
-		position: relative;
-
-		display: grid;
-	`;
-});
+	display: grid;
+`;
 
 const Content = styled(List).attrs({tagName: 'tbody'})<{visibleRowCount: number}>(({theme, rowHeight, rowCount, visibleRowCount}) => {
-	const {background, content, size, radius} = theme.minima ?? themeDefault;
+	const {content, size, radius} = theme.minima ?? themeDefault;
 
 	return css`
 		--height: ${pxToRem(rowHeight*Math.min(visibleRowCount, rowCount || 1))}rem;
@@ -182,13 +170,9 @@ const Content = styled(List).attrs({tagName: 'tbody'})<{visibleRowCount: number}
 		}
 	`;
 });
-const Table = styled.table(({theme}) => {
-	const {fontFamily, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
-
-	return css`
-		position: relative;
-		width: 50rem;
-	`;
-});
+const Table = styled.table`
+	position: relative;
+	width: 50rem;
+`;
 
 export default {Table, HeaderRow, HeaderCell, Header, ResizeHandle, Content, Row, Cell, DataRaw};
