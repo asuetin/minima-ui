@@ -15,7 +15,6 @@ const Cell = styled.td(({theme}) => {
 
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		line-height: 100%;
 
 		display: inline-block;
 		overflow: hidden;
@@ -129,6 +128,10 @@ const Content = styled(List).attrs({tagName: 'tbody'})<{visibleRowCount: number}
 		width: 100%;
 		top: 100%;
 		height: var(--height);
+
+		${Cell}{
+			line-height: ${pxToRem(rowHeight)}rem;
+		}
 
 		::-webkit-scrollbar {
 			width: ${size[0]};
