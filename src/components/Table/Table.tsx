@@ -9,46 +9,46 @@ import Styled from './Table.styles';
 
 import Icon from 'components/Icon';
 
-type SortStateType = {
+export type DataType = {[key: string]: unknown} | string | number | boolean;
+
+export type ColumnType = {
+	dataKey: string | number;
+	header: string;
+	renderer?: (v: {
+		__rowIndex: number;
+		__dataKey: string | number;
+		__getter?: (v: DataType) => string | number | boolean;
+		[key: string]: unknown;
+	}) => JSX.Element;
+	getter?: (v: DataType) => string | number | boolean;
+	width?: string | number;
+	minWidth?: number;
+	sortable?: boolean;
+};
+
+export type SortStateType = {
 	dataKey: string | number;
 	value: 'asc' | 'desc';
-}[];
+};
 
-type TableCellType = {
+export type CellType = {
 	rowIndex: number;
 	dataKey: string | number;
-} | null;
+};
 
 export type TableProps = {
-	refreshTrigger: string | number | boolean;
-	columns: {
-		dataKey: string | number;
-		header: string;
-		renderer?: (v: {
-			__rowIndex: number;
-			__dataKey: string | number;
-			__getter?: (v: {[key: string]: unknown} | string | number | boolean) => string | number | boolean;
-			[key: string]: unknown;
-		}) => JSX.Element;
-		getter?: (v: {[key: string]: unknown} | string | number | boolean) => string | number | boolean;
-		width?: string | number;
-		minWidth?: number;
-		sortable?: boolean;
-	}[];
-	data: {
-		__rowIndex: number;
-	}[];
-	defaultSortState?: SortStateType;
+	columns: ColumnType[];
+	data: {[key: string]: DataType}[];
+	defaultSortState?: SortStateType[];
 	rowHeight?: number;
 	visibleRowCount?: number;
 	onColumnResize?: (v: number[]) => void;
-	onSort?: (v: SortStateType) => void;
-	onCellClick?: (v: TableCellType) => void;
-	onCellHover?: (v: TableCellType) => void;
+	onSort?: (v: SortStateType[]) => void;
+	onCellClick?: (v: CellType) => void;
+	onCellHover?: (v: CellType) => void;
 } & HTMLAttributes<HTMLTableElement>;
 
 const Table = forwardRef<HTMLTableElement, TableProps>(({
-	refreshTrigger,
 	columns,
 	data,
 	defaultSortState = [],
@@ -158,7 +158,8 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	const rowRenderer = (index, style) => {
 		const rowId = `${idRef.current}-row-${index}`;
 
-		const {__rowIndex, ...dataObj} = data[sortIndexes[index]];
+		const dataObj = data[sortIndexes[index]];
+		const rowIndex = index;
 
 		return <Styled.Row
 			style={style}
@@ -168,13 +169,13 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 			{columns.map(({dataKey, renderer, getter}, i) =>
 				<Styled.Cell
 					key={`${rowId}-cell-${i}`}
-					onClick={onCellClick ? () => onCellClick({rowIndex: __rowIndex, dataKey}) : undefined}
-					onPointerOver={onCellHover ? () => onCellHover({rowIndex: __rowIndex, dataKey}) : undefined}
+					onClick={onCellClick ? () => onCellClick({rowIndex, dataKey}) : undefined}
+					onPointerOver={onCellHover ? () => onCellHover({rowIndex, dataKey}) : undefined}
 				>
 					{renderer ?
 						renderer({
 							...dataObj,
-							__rowIndex,
+							__rowIndex: rowIndex,
 							__dataKey: dataKey,
 							...getter ? {__getter: getter} : {}
 						}) :
@@ -251,9 +252,4 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 
 Table.displayName = 'Table';
 
-export default memo(Table, (propsPrev, propsNext) => {
-	if (['refreshTrigger', 'visibleRowCount'].some(v => propsPrev[v] != propsNext[v])){
-		return false;
-	}
-	return true;
-});
+export default Table;
