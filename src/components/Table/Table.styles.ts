@@ -7,17 +7,26 @@ import themeDefault from 'utils/theme';
 import List from 'components/List';
 import {IconStyles} from 'components/Icon';
 
-const Cell = styled.td(({theme}) => {
+const DataRaw = styled.span(({theme}) => {
 	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
-		position: relative;
+		width: 100%;
 
 		text-overflow: ellipsis;
 		white-space: nowrap;
 
 		display: inline-block;
 		overflow: hidden;
+	`;
+});
+
+const Cell = styled.td(({theme}) => {
+	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+
+	return css`
+		position: relative;
+
 		padding: 0;
 	`;
 });
@@ -129,7 +138,7 @@ const Content = styled(List).attrs({tagName: 'tbody'})<{visibleRowCount: number}
 		top: 100%;
 		height: var(--height);
 
-		${Cell}{
+		${DataRaw}{
 			line-height: ${pxToRem(rowHeight)}rem;
 		}
 
@@ -170,4 +179,4 @@ const Table = styled.table(({theme}) => {
 	`;
 });
 
-export default {Table, HeaderRow, HeaderCell, Header, ResizeHandle, Content, Row, Cell};
+export default {Table, HeaderRow, HeaderCell, Header, ResizeHandle, Content, Row, Cell, DataRaw};
