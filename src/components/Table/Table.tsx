@@ -228,7 +228,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 							} : undefined}
 						>
 							{header}
-							{sortable &&
+							{sortable && !isUndef(sortValue) &&
 								<Icon
 									preset='forward'
 									size={12}
