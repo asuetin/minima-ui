@@ -44,7 +44,7 @@ export type TableProps = {
 	visibleRowCount?: number;
 	onColumnResize?: (v: number[]) => void;
 	onSort?: (v: SortStateType[]) => void;
-	onCellClick?: (v: CellType) => void;
+	onCellFocus?: (v: CellType) => void;
 	onCellHover?: (v: CellType | null) => void;
 } & HTMLAttributes<HTMLTableElement>;
 
@@ -56,7 +56,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	visibleRowCount = 10,
 	onColumnResize,
 	onSort,
-	onCellClick,
+	onCellFocus,
 	onCellHover,
 	...props
 }, forwardedRef) => {
@@ -169,7 +169,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 			{columns.map(({dataKey, renderer, getter}, i) =>
 				<Styled.Cell
 					key={`${rowId}-cell-${i}`}
-					onClick={onCellClick ? () => onCellClick({rowIndex, dataKey}) : undefined}
+					onClick={onCellFocus ? () => onCellFocus({rowIndex, dataKey}) : undefined}
 					onPointerOver={onCellHover ? () => onCellHover({rowIndex, dataKey}) : undefined}
 				>
 					{renderer ?
