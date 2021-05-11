@@ -350,11 +350,13 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	</Styled.Table>;
 });
 
-Table.displayName = 'Table';
-
-export default memo(Table, (propsPrev, propsNext) => {
+const TableMemoized = memo(Table, (propsPrev, propsNext) => {
 	if (['refreshTrigger', 'visibleRowCount'].some(v => propsPrev[v] != propsNext[v])){
 		return false;
 	}
 	return true;
 });
+
+TableMemoized.displayName = 'Table';
+
+export default TableMemoized;
