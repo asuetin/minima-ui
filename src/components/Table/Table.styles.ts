@@ -27,7 +27,13 @@ const Cell = styled.td(({theme}) => {
 	return css`
 		position: relative;
 
+		outline: none;
+
 		padding: 0;
+
+		&:focus-visible {
+			box-shadow: inset ${focus};
+		}
 	`;
 });
 
@@ -102,6 +108,8 @@ const HeaderCell = styled.th(({theme}) => {
 		width: 100%;
 		height: ${size[3]};
 
+		outline: none;
+
 		display: flex;
 		justify-content: start;
 		align-items: center;
@@ -110,6 +118,10 @@ const HeaderCell = styled.th(({theme}) => {
 		--webkit-user-drag: none;
 		touch-action: none;
 		user-select: none;
+
+		&:focus-visible {
+			box-shadow: inset ${focus};
+		}
 	`;
 });
 

@@ -1,4 +1,4 @@
-import {forwardRef, memo, useRef, useState, useEffect, useMemo, HTMLAttributes} from 'react';
+import {forwardRef, useRef, useState, useEffect, useMemo, useCallback, HTMLAttributes} from 'react';
 
 import {remToPx, pxToRem, uniqueId, limitInRange, throttle} from 'utils/functions';
 import {useMergedRef, useEvent} from 'utils/hooks';
@@ -44,8 +44,9 @@ export type TableProps = {
 	visibleRowCount?: number;
 	onColumnResize?: (v: number[]) => void;
 	onSort?: (v: SortStateType[]) => void;
-	onCellFocus?: (v: CellType) => void;
+	onCellFocus?: (v: CellType | null) => void;
 	onCellHover?: (v: CellType | null) => void;
+	role?: 'table' | 'grid';
 } & HTMLAttributes<HTMLTableElement>;
 
 const Table = forwardRef<HTMLTableElement, TableProps>(({
@@ -58,18 +59,65 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	onSort,
 	onCellFocus,
 	onCellHover,
+	role,
 	...props
 }, forwardedRef) => {
 	const idRef = useRef(uniqueId('table-'));
 
 	const componentRef = useMergedRef<HTMLTableElement>(forwardedRef);
+	const contentRef = useRef<HTMLTableSectionElement>();
 
 	const [sortState, setSortState] = useState(defaultSortState);
 	const [sortIndexes, setSortIndexes] = useState<number[]>([]);
 
-	//column resize controls
 	const [columnWidths, setColumnWidths] = useState<(number | null)[]>([]);
 
+	const sort = (shiftKey: boolean, dataKey: string | number) => {
+		const keySortIndex = sortState.findIndex(el => el.dataKey == dataKey);
+		const sortValue = sortState[keySortIndex]?.value;
+
+		setSortState(sortStatePrev => {
+			let sortStateNew = [];
+
+			if (shiftKey){
+				sortStateNew = [...sortStatePrev];
+				if (keySortIndex != -1){
+					sortStateNew = [...sortStatePrev];
+					sortStateNew.splice(keySortIndex, 1);
+				}
+			}
+
+			sortStateNew.push({
+				dataKey,
+				value: sortValue == 'desc' ? 'asc' : 'desc'
+			});
+
+			onSort && onSort(sortStateNew);
+
+			return sortStateNew;
+		});
+	};
+
+	const resizeColumn = useCallback((index: number, value: number, overrideWidths?: [number, number]) => {
+		const columnWidthStart = overrideWidths?.[0] ?? document.getElementById(`${idRef.current}-header-0-cell-${index}`).offsetWidth;
+		const columnWidthNextStart = overrideWidths?.[1] ?? document.getElementById(`${idRef.current}-header-0-cell-${index+1}`).offsetWidth;
+
+		const widthDiff = limitInRange(value, [
+			-(columnWidthStart - (columns[index].minWidth ?? 100)),
+			(columnWidthNextStart - (columns[index+1].minWidth ?? 100))
+		]);
+
+		setColumnWidths(columnWidthsPrev => {
+			const columnWidthsNew = [...columnWidthsPrev];
+			columnWidthsNew.splice(index, 1, columnWidthStart + widthDiff);
+			columnWidthsNew.splice(index+1, 1, columnWidthNextStart - widthDiff);
+
+			onColumnResize && onColumnResize(columnWidthsNew);
+			return columnWidthsNew;
+		});
+	}, [columns, onColumnResize]);
+
+	//pointer-specific controls
 	const dragInfoRef = useRef<{
 		index: number;
 		columnWidthStart: number;
@@ -80,44 +128,104 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	const onDragStart = (e, index) =>
 		dragInfoRef.current = {
 			index,
-			columnWidthStart: document.getElementById(`${idRef.current}-header-${index}`).offsetWidth,
-			columnWidthNextStart: document.getElementById(`${idRef.current}-header-${index+1}`).offsetWidth,
+			columnWidthStart: document.getElementById(`${idRef.current}-header-0-cell-${index}`).offsetWidth,
+			columnWidthNextStart: document.getElementById(`${idRef.current}-header-0-cell-${index+1}`).offsetWidth,
 			xStart: e.clientX
 		};
 
 	useEvent('pointermove', useMemo(() => throttle(5, ({clientX}: PointerEvent) => {
 		if (dragInfoRef.current){
-			setColumnWidths(columnWidthsPrev => {
-				const {index, xStart, columnWidthStart, columnWidthNextStart} = dragInfoRef.current;
-
-				const widthDiff = limitInRange(clientX - xStart, [
-					-(columnWidthStart - (columns[index].minWidth ?? 100)),
-					(columnWidthNextStart - (columns[index+1].minWidth ?? 100))
-				]);
-
-				const columnWidthsNew = [...columnWidthsPrev];
-				columnWidthsNew.splice(index, 1, columnWidthStart + widthDiff);
-				columnWidthsNew.splice(index+1, 1, columnWidthNextStart - widthDiff);
-
-				onColumnResize && onColumnResize(columnWidthsNew);
-				return columnWidthsNew;
-			});
+			const {index, xStart, columnWidthStart, columnWidthNextStart} = dragInfoRef.current;
+			resizeColumn(index, clientX - xStart, [columnWidthStart, columnWidthNextStart]);
 		}
-	}), [columns, onColumnResize]));
+	}), [resizeColumn]));
 
 	useEvent('pointerup', () => dragInfoRef.current = null);
 
 	useEffect(() => {
-		setColumnWidths(columns.map(({width}) => {
-			if (width){
-				if (typeof width == 'string' && width.includes('fr')){
-					return null;
+		if (columnWidths.length == 0){
+			setColumnWidths(columns.map(({width}) => {
+				if (width){
+					if (typeof width == 'string' && width.includes('fr')){
+						return null;
+					}
+					return Number(width);
 				}
-				return Number(width);
+				return null;
+			}));
+		}
+	}, [columns, columnWidths]);
+
+	//keyboard-specific controls
+	useEvent('keydown', (e: KeyboardEvent) => {
+		if (role == 'grid'){
+			const activeElement = document.activeElement;
+			if (componentRef.current.contains(activeElement)){
+				if (!activeElement.id.includes(idRef.current)){
+					switch (e.code){
+					case 'Escape':
+						//set focus back to cell
+						(activeElement?.parentNode as HTMLElement)?.focus(); //set focus back to cell
+					}
+				}
+				else {
+					const elementIdSplit = activeElement.id.split('-');
+
+					const elementType = elementIdSplit[2];
+					const rowIndex = Number(elementIdSplit[3]);
+					const cellIndex = Number(elementIdSplit[5]);
+
+					if (['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].some(v => e.code == v)){
+						e.preventDefault();
+						let elementIdNext = activeElement.id;
+
+						switch (e.code){
+						case 'ArrowRight':
+							if (e.ctrlKey){
+								resizeColumn(cellIndex, 25);
+							}
+							else {
+								elementIdNext = `${idRef.current}-${elementType}-${rowIndex}-cell-${cellIndex+1}`;
+							}
+							break;
+						case 'ArrowLeft':
+							if (e.ctrlKey){
+								resizeColumn(cellIndex, -25);
+							}
+							else {
+								elementIdNext = `${idRef.current}-${elementType}-${rowIndex}-cell-${cellIndex-1}`;
+							}
+							break;
+						case 'ArrowDown':
+							elementIdNext = `${idRef.current}-row-${elementType == 'header' ? 0 : rowIndex+1}-cell-${cellIndex}`;
+							break;
+						case 'ArrowUp':
+							elementIdNext = `${idRef.current}-${rowIndex == 0 ? 'header' : 'row'}-${limitInRange(rowIndex-1, [0, null])}-cell-${cellIndex}`;
+						}
+
+						document.getElementById(elementIdNext)?.focus();
+					}
+					else {
+						switch (e.code){
+						case 'Enter':
+						case 'Space':
+							if (elementType == 'row'){
+								//focus on component returned by custom renderer
+								(document.activeElement?.firstChild as HTMLElement)?.focus();
+							}
+							else {
+								//sort focused column
+								const {sortable = true, dataKey} = columns[cellIndex];
+								if (sortable){
+									sort(e.shiftKey, dataKey);
+								}
+							}
+						}
+					}
+				}
 			}
-			return null;
-		}));
-	}, [columns]);
+		}
+	});
 
 	//data sorting
 	useEffect(() => {
@@ -166,11 +274,16 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 			key={rowId}
 			gridTemplateColumns={gridTemplateColumns}
 		>
-			{columns.map(({dataKey, renderer, getter}, i) =>
-				<Styled.Cell
+			{columns.map(({dataKey, renderer, getter}, i) => {
+				const cellId = `${rowId}-cell-${i}`;
+
+				return <Styled.Cell
+					id={cellId}
 					key={`${rowId}-cell-${i}`}
-					onClick={onCellFocus ? () => onCellFocus({rowIndex, dataKey}) : undefined}
+					onClick={role == 'grid' && onCellFocus ? () => onCellFocus({rowIndex, dataKey}) : undefined}
+					onFocus={role == 'grid' && onCellFocus ? () => onCellFocus({rowIndex, dataKey}) : undefined}
 					onPointerOver={onCellHover ? () => onCellHover({rowIndex, dataKey}) : undefined}
+					tabIndex={role == 'grid' ? -1 : undefined}
 				>
 					{renderer ?
 						renderer({
@@ -181,8 +294,8 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 						}) :
 						getter ? getter(dataObj[dataKey]) : dataObj[dataKey]
 					}
-				</Styled.Cell>
-			)}
+				</Styled.Cell>;
+			})}
 		</Styled.Row>;
 	};
 
@@ -190,45 +303,31 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		{...props}
 		ref={componentRef}
 		aria-rowcount={data.length}
+		role={role}
 	>
 		<thead>
 			<Styled.HeaderRow gridTemplateColumns={gridTemplateColumns}>
 				{columns.map(({dataKey, sortable = true, header}, i) => {
-					const keySortIndex = sortable ? sortState.findIndex(el => el.dataKey == dataKey) : -1;
-					const sortValue = sortState[keySortIndex]?.value;
+					const headerCellId = `${idRef.current}-header-0-cell-${i}`;
+					const sortValue = sortable ? sortState[sortState.findIndex(el => el.dataKey == dataKey)]?.value : undefined;
 
 					return <Styled.HeaderCell
-						id={`${idRef.current}-header-${i}`}
-						key={`${idRef.current}-header-${i}`}
+						id={headerCellId}
+						key={headerCellId}
+						tabIndex={role == 'grid' ? (i == 0 ? 0 : -1) : undefined}
+						onFocus={role == 'grid' ? () => {
+							contentRef.current.scrollTop = 0;
+							onCellFocus && onCellFocus(null);
+						} : undefined}
 					>
 						<Styled.Header
 							sort={sortable ? sortValue : 'disabled'}
 							onClick={sortable ? e => {
-								const isShiftKey = e.shiftKey;
-								setSortState(sortStatePrev => {
-									let sortStateNew = [];
-
-									if (isShiftKey){
-										sortStateNew = [...sortStatePrev];
-										if (keySortIndex != -1){
-											sortStateNew = [...sortStatePrev];
-											sortStateNew.splice(keySortIndex, 1);
-										}
-									}
-
-									sortStateNew.push({
-										dataKey,
-										value: sortValue == 'desc' ? 'asc' : 'desc'
-									});
-
-									onSort && onSort(sortStateNew);
-
-									return sortStateNew;
-								});
+								sort(e.shiftKey, dataKey);
 							} : undefined}
 						>
 							{header}
-							{sortable && !isUndef(sortValue) &&
+							{sortable && sortValue &&
 								<Icon
 									preset='forward'
 									size={12}
@@ -243,6 +342,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 			</Styled.HeaderRow>
 		</thead>
 		<Styled.Content
+			ref={contentRef}
 			rowCount={data.length}
 			rowHeight={rowHeight}
 			rowRenderer={rowRenderer}
