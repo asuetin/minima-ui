@@ -1,4 +1,4 @@
-import {forwardRef, useRef, useState, useEffect, useMemo, useCallback, HTMLAttributes} from 'react';
+import {forwardRef, memo, useRef, useState, useEffect, useMemo, useCallback, HTMLAttributes} from 'react';
 
 import {remToPx, pxToRem, uniqueId, limitInRange, throttle} from 'utils/functions';
 import {useMergedRef, useEvent} from 'utils/hooks';
@@ -37,6 +37,7 @@ export type CellType = {
 };
 
 export type TableProps = {
+	refreshTrigger?: string | number | boolean;
 	columns: ColumnType[];
 	data: {[key: string]: DataType}[];
 	defaultSortState?: SortStateType[];
@@ -50,6 +51,7 @@ export type TableProps = {
 } & HTMLAttributes<HTMLTableElement>;
 
 const Table = forwardRef<HTMLTableElement, TableProps>(({
+	refreshTrigger,
 	columns,
 	data,
 	defaultSortState = [],
@@ -354,4 +356,9 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 
 Table.displayName = 'Table';
 
-export default Table;
+export default memo(Table, (propsPrev, propsNext) => {
+	if (['refreshTrigger', 'visibleRowCount'].some(v => propsPrev[v] != propsNext[v])){
+		return false;
+	}
+	return true;
+});
