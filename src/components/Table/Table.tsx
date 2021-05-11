@@ -1,7 +1,7 @@
-import {forwardRef, memo, useRef, useState, useEffect, HTMLAttributes} from 'react';
+import {forwardRef, memo, useRef, useState, useEffect, useMemo, HTMLAttributes} from 'react';
 
-import {remToPx, uniqueId} from 'utils/functions';
-import {useMergedRef} from 'utils/hooks';
+import {remToPx, pxToRem, uniqueId, limitInRange, throttle} from 'utils/functions';
+import {useMergedRef, useEvent} from 'utils/hooks';
 
 import themeDefault from 'utils/theme';
 
@@ -9,7 +9,12 @@ import Styled from './Table.styles';
 
 import Icon from 'components/Icon';
 
-export type TableCellType = {
+type SortStateType = {
+	dataKey: string | number;
+	value: 'asc' | 'desc';
+}[];
+
+type TableCellType = {
 	rowIndex: number;
 	dataKey: string | number;
 } | null;
@@ -27,19 +32,19 @@ export type TableProps = {
 		}) => JSX.Element;
 		getter?: (v: {[key: string]: unknown} | string | number | boolean) => string | number | boolean;
 		width?: string | number;
+		minWidth?: number;
 		sortable?: boolean;
 	}[];
 	data: {
 		__rowIndex: number;
 	}[];
-	defaultSortState?: {
-		dataKey: string | number;
-		value: 'asc' | 'desc';
-	}[];
-	onCellClick?: (v: TableCellType) => void;
-	onCellHover?: (v: TableCellType) => void;
+	defaultSortState?: SortStateType;
 	rowHeight?: number;
 	visibleRowCount?: number;
+	onColumnResize?: (v: number[]) => void;
+	onSort?: (v: SortStateType) => void;
+	onCellClick?: (v: TableCellType) => void;
+	onCellHover?: (v: TableCellType) => void;
 } & HTMLAttributes<HTMLTableElement>;
 
 const Table = forwardRef<HTMLTableElement, TableProps>(({
@@ -47,10 +52,12 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	columns,
 	data,
 	defaultSortState = [],
-	onCellClick,
-	onCellHover,
 	rowHeight = remToPx(themeDefault.size[3]),
 	visibleRowCount = 10,
+	onColumnResize,
+	onSort,
+	onCellClick,
+	onCellHover,
 	...props
 }, forwardedRef) => {
 	const idRef = useRef(uniqueId('table-'));
@@ -60,8 +67,59 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	const [sortState, setSortState] = useState(defaultSortState);
 	const [sortIndexes, setSortIndexes] = useState<number[]>([]);
 
-	const gridTemplateColumns = columns.map(({width}) => width || '1fr').join(' ');
+	//column resize controls
+	const [columnWidths, setColumnWidths] = useState<(number | null)[]>([]);
 
+	const dragInfoRef = useRef<{
+		index: number;
+		columnWidthStart: number;
+		columnWidthNextStart: number;
+		xStart: number;
+	}>();
+
+	const onDragStart = (e, index) =>
+		dragInfoRef.current = {
+			index,
+			columnWidthStart: document.getElementById(`${idRef.current}-header-${index}`).offsetWidth,
+			columnWidthNextStart: document.getElementById(`${idRef.current}-header-${index+1}`).offsetWidth,
+			xStart: e.clientX
+		};
+
+	useEvent('pointermove', useMemo(() => throttle(5, ({clientX}: PointerEvent) => {
+		if (dragInfoRef.current){
+			setColumnWidths(columnWidthsPrev => {
+				const {index, xStart, columnWidthStart, columnWidthNextStart} = dragInfoRef.current;
+
+				const widthDiff = limitInRange(clientX - xStart, [
+					-(columnWidthStart - (columns[index].minWidth ?? 100)),
+					(columnWidthNextStart - (columns[index+1].minWidth ?? 100))
+				]);
+
+				const columnWidthsNew = [...columnWidthsPrev];
+				columnWidthsNew.splice(index, 1, columnWidthStart + widthDiff);
+				columnWidthsNew.splice(index+1, 1, columnWidthNextStart - widthDiff);
+
+				onColumnResize && onColumnResize(columnWidthsNew);
+				return columnWidthsNew;
+			});
+		}
+	}), [columns, onColumnResize]));
+
+	useEvent('pointerup', () => dragInfoRef.current = null);
+
+	useEffect(() => {
+		setColumnWidths(columns.map(({width}) => {
+			if (width){
+				if (typeof width == 'string' && width.includes('fr')){
+					return null;
+				}
+				return Number(width);
+			}
+			return null;
+		}));
+	}, [columns]);
+
+	//data sorting
 	useEffect(() => {
 		const dataSorted = [...data.map((el, i) => ({...el, __sortIndex: i}))];
 
@@ -86,6 +144,16 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		});
 		setSortIndexes(dataSorted.map(({__sortIndex}) => __sortIndex));
 	}, [columns, data, sortState]);
+
+	//rendering
+	const gridTemplateColumns = columnWidths.map((v, i) => {
+		if (v === null){
+			const min = `${pxToRem(columns[i].minWidth ?? 100)}rem`;
+			const max = columns[i].width ? `${pxToRem(columns[i].width)}rem` : '1fr';
+			return `minmax(${min},${max})`;
+		}
+		return `${pxToRem(v)}rem`;
+	}).join(' ');
 
 	const rowRenderer = (index, style) => {
 		const rowId = `${idRef.current}-row-${index}`;
@@ -122,41 +190,55 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		ref={componentRef}
 	>
 		<thead>
-			<Styled.Header gridTemplateColumns={gridTemplateColumns}>
+			<Styled.HeaderRow gridTemplateColumns={gridTemplateColumns}>
 				{columns.map(({dataKey, sortable = true, header}, i) => {
 					const keySortIndex = sortable ? sortState.findIndex(el => el.dataKey == dataKey) : -1;
 					const sortValue = sortState[keySortIndex]?.value;
 
-					return <Styled.HeaderElement
+					return <Styled.HeaderCell
+						id={`${idRef.current}-header-${i}`}
 						key={`${idRef.current}-header-${i}`}
-						sort={sortable ? sortValue : 'disabled'}
-						onClick={sortable ? e => {
-							const isShiftKey = e.shiftKey;
-							setSortState(sortStatePrev => {
-								const sortStateNew = [...sortStatePrev];
+					>
+						<Styled.Header
+							sort={sortable ? sortValue : 'disabled'}
+							onClick={sortable ? e => {
+								const isShiftKey = e.shiftKey;
+								setSortState(sortStatePrev => {
+									let sortStateNew = [];
 
-								if (keySortIndex != -1){
-									sortStateNew.splice(keySortIndex, 1);
-								}
+									if (isShiftKey){
+										sortStateNew = [...sortStatePrev];
+										if (keySortIndex != -1){
+											sortStateNew = [...sortStatePrev];
+											sortStateNew.splice(keySortIndex, 1);
+										}
+									}
 
-								return [
-									...isShiftKey ? sortStateNew : [],
-									{
+									sortStateNew.push({
 										dataKey,
 										value: sortValue == 'desc' ? 'asc' : 'desc'
-									}
-								];
-							});
-						} : undefined}
-					>
-						{header}
-						{sortable && <Icon
-							preset='forward'
-							size={12}
-						/>}
-					</Styled.HeaderElement>;
+									});
+
+									onSort && onSort(sortStateNew);
+
+									return sortStateNew;
+								});
+							} : undefined}
+						>
+							{header}
+							{sortable &&
+								<Icon
+									preset='forward'
+									size={12}
+								/>
+							}
+						</Styled.Header>
+						{i != columns.length-1 &&
+							<Styled.ResizeHandle onPointerDown={e => onDragStart(e, i)}/>
+						}
+					</Styled.HeaderCell>;
 				})}
-			</Styled.Header>
+			</Styled.HeaderRow>
 		</thead>
 		<Styled.Content
 			rowCount={data.length}

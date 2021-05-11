@@ -70,17 +70,20 @@ Basic.args = {
 		{
 			dataKey: 'id',
 			header: 'ID',
-			width: '7.5rem'
+			minWidth: 50
 		}, {
 			dataKey: 'name',
-			header: 'Name'
+			header: 'Name',
+			minWidth: 80
 		}, {
 			dataKey: 'name-short',
-			header: 'Short name'
+			header: 'Short name',
+			minWidth: 125
 		}, {
 			dataKey: 'description',
 			header: 'Description',
-			sortable: false
+			sortable: false,
+			minWidth: 125
 		}
 	],
 	data: Array.from({length: 20}, (v, i) => ({

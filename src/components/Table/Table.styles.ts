@@ -8,36 +8,64 @@ import List from 'components/List';
 import {IconStyles} from 'components/Icon';
 
 const Cell = styled.td(({theme}) => {
-	const {fontFamily, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
 
-		display: flex;
-		align-items: center;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		line-height: 100%;
+
+		display: inline-block;
+		overflow: hidden;
+		padding: 0;
 	`;
 });
 
-const Row = styled.tr<{gridTemplateColumns: string}>(({theme, gridTemplateColumns}) => {
+type RowProps = {gridTemplateColumns: string};
+
+const Row = styled.tr.attrs<RowProps>(({gridTemplateColumns}) => ({
+	style: {
+		gridTemplateColumns
+	}
+}))<RowProps>(({theme}) => {
 	const {fontFamily, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
 
 		display: grid;
-		grid-template-columns: ${gridTemplateColumns};
 	`;
 });
 
-const HeaderElement = styled.th<{sort: 'asc' | 'desc' | undefined | 'disabled'}>(({theme, sort}) => {
+const ResizeHandle = styled.div(({theme}) => {
 	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
-		height: ${size[3]};
-		margin: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
 
-		display: flex;
-		align-items: center;
+		width: ${size[1]};
+		height: 100%;
+		margin-left: auto;
+
+		cursor: col-resize;
+	`;
+});
+
+const Header = styled.span<{sort: 'asc' | 'desc' | undefined | 'disabled'}>(({theme, sort}) => {
+	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+
+	return css`
+		position: relative;
+
+		text-overflow: ellipsis;
+		white-space: nowrap;
+
+		display: inline-block;
+		overflow: hidden;
 
 		${sort == 'disabled' ? css`
 			pointer-events: none;
@@ -48,6 +76,7 @@ const HeaderElement = styled.th<{sort: 'asc' | 'desc' | undefined | 'disabled'}>
 		${IconStyles.Icon}{
 			margin-left: ${size[1]};
 			transform: rotate(270deg);
+
 			transition: ${['stroke', 'fill', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 
 			${sort == 'desc' && css`
@@ -57,14 +86,36 @@ const HeaderElement = styled.th<{sort: 'asc' | 'desc' | undefined | 'disabled'}>
 	`;
 });
 
-const Header = styled.tr<{gridTemplateColumns: string}>(({theme, gridTemplateColumns}) => {
+const HeaderCell = styled.th(({theme}) => {
+	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+
+	return css`
+		position: relative;
+		width: 100%;
+		height: ${size[3]};
+
+		display: flex;
+		justify-content: start;
+		align-items: center;
+		padding: 0;
+
+		--webkit-user-drag: none;
+		touch-action: none;
+		user-select: none;
+	`;
+});
+
+const HeaderRow = styled.tr.attrs<RowProps>(({gridTemplateColumns}) => ({
+	style: {
+		gridTemplateColumns
+	}
+}))<RowProps>(({theme}) => {
 	const {fontFamily, size, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
 
 		display: grid;
-		grid-template-columns: ${gridTemplateColumns};
 	`;
 });
 
@@ -116,4 +167,4 @@ const Table = styled.table(({theme}) => {
 	`;
 });
 
-export default {Table, Header, HeaderElement, Content, Row, Cell};
+export default {Table, HeaderRow, HeaderCell, Header, ResizeHandle, Content, Row, Cell};
