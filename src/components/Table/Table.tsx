@@ -296,6 +296,8 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	return <Styled.Table
 		{...props}
 		ref={componentRef}
+		rowHeight={rowHeight}
+		visibleRowCount={visibleRowCount}
 		aria-rowcount={data.length}
 		role={role}
 	>
@@ -333,7 +335,6 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		<Styled.Content
 			ref={contentRef}
 			onPointerLeave={onCellHover ? () => onCellHover(null) : undefined}
-			visibleRowCount={visibleRowCount}
 			rowCount={data.length}
 			rowHeight={rowHeight}
 			rowRenderer={(index, style) => {
@@ -364,7 +365,9 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 									__dataKey: dataKey,
 									...getter ? {__getter: getter} : {}
 								}) :
-								getter ? getter(dataObj[dataKey]) : dataObj[dataKey]
+								<Styled.DataRaw>
+									{getter ? getter(dataObj[dataKey]) : dataObj[dataKey]}
+								</Styled.DataRaw>
 							}
 						</Styled.Cell>;
 					})}

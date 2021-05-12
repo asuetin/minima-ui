@@ -8,7 +8,7 @@ import type {TableProps, CellType} from 'components/Table';
 
 import TextInput from 'components/TextInput';
 
-import {remToPx, pxToRem} from 'utils/functions';
+import {remToPx} from 'utils/functions';
 import themeDefault from 'utils/theme';
 import dedent from 'ts-dedent';
 
@@ -204,11 +204,7 @@ export default {
 	}
 } as Meta;
 
-const BasicTemplate: Story<TableProps> = args => {
-	return <div style={{height: `${pxToRem((args.visibleRowCount+2)*args.rowHeight)}rem`}}>
-		<Table {...args}/>
-	</div>;
-};
+const BasicTemplate: Story<TableProps> = args => <Table {...args}/>;
 
 export const Basic = BasicTemplate.bind({});
 
@@ -299,20 +295,18 @@ const EditableTemplate: Story<TableProps> = args => {
 			<TableStyles.DataRaw>{dataObj[__dataKey]}</TableStyles.DataRaw>;
 	};
 
-	return <div style={{height: `${pxToRem((args.visibleRowCount+2)*args.rowHeight)}rem`}}>
-		<Table
-			{...args}
-			refreshTrigger={refreshTrigger}
-			data={data}
-			columns={Basic.args.columns.map(columnObj => ({
-				...columnObj,
-				renderer: textFieldRenderer
-			}))}
-			onCellHover={setHovered}
-			onCellFocus={setFocused}
-			role='grid'
-		/>
-	</div>;
+	return <Table
+		{...args}
+		refreshTrigger={refreshTrigger}
+		data={data}
+		columns={Basic.args.columns.map(columnObj => ({
+			...columnObj,
+			renderer: textFieldRenderer
+		}))}
+		onCellHover={setHovered}
+		onCellFocus={setFocused}
+		role='grid'
+	/>;
 };
 
 export const Editable = EditableTemplate.bind({});

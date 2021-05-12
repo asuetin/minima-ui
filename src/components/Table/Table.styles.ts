@@ -10,6 +10,7 @@ import {IconStyles} from 'components/Icon';
 const DataRaw = styled.span`
 	width: 100%;
 
+	line-height: var(--row-height);
 	text-overflow: ellipsis;
 	white-space: nowrap;
 
@@ -22,6 +23,7 @@ const Cell = styled.td.attrs({tabIndex: -1})(({theme}) => {
 
 	return css`
 		position: relative;
+		height: var(--row-height);
 
 		outline: none;
 
@@ -93,12 +95,12 @@ const Header = styled.span<{sort: 'asc' | 'desc' | undefined | 'disabled'}>(({th
 });
 
 const HeaderCell = styled.th.attrs(({tabIndex}) => ({tabIndex}))(({theme}) => {
-	const {size, focus} = theme.minima ?? themeDefault;
+	const {focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
 		width: 100%;
-		height: ${size[3]};
+		height: var(--row-height);
 
 		outline: none;
 
@@ -121,26 +123,25 @@ const HeaderRow = styled.tr.attrs<RowProps>(({gridTemplateColumns}) => ({
 	style: {
 		gridTemplateColumns
 	}
-}))<RowProps>`
-	position: relative;
+}))<RowProps>(({theme}) => {
+	const {size} = theme.minima ?? themeDefault;
 
-	display: grid;
-`;
+	return css`
+		position: relative;
+		margin-right: ${size[0]};
 
-const Content = styled(List).attrs({tagName: 'tbody'})<{visibleRowCount: number}>(({theme, rowHeight, rowCount, visibleRowCount}) => {
+		display: grid;
+	`;
+});
+
+const Content = styled(List).attrs({tagName: 'tbody'})(({theme}) => {
 	const {content, size, radius} = theme.minima ?? themeDefault;
 
 	return css`
-		--height: ${pxToRem(rowHeight*Math.min(visibleRowCount, rowCount || 1))}rem;
-
 		position: absolute;
 		width: 100%;
-		top: 100%;
-		height: var(--height);
-
-		${DataRaw}{
-			line-height: ${pxToRem(rowHeight)}rem;
-		}
+		top: ${size[3]};
+		height: var(--content-height);
 
 		::-webkit-scrollbar {
 			width: ${size[0]};
@@ -170,9 +171,15 @@ const Content = styled(List).attrs({tagName: 'tbody'})<{visibleRowCount: number}
 		}
 	`;
 });
-const Table = styled.table`
+const Table = styled.table<{rowHeight: number; visibleRowCount: number}>(({rowHeight, visibleRowCount}) => css`
+	--row-height: ${pxToRem(rowHeight)}rem;
+	--content-height: calc(var(--row-height) * ${visibleRowCount});
+
 	position: relative;
 	width: 50rem;
-`;
+	height: calc(var(--row-height) + var(--content-height));
+
+	border-collapse: collapse;
+`);
 
 export default {Table, HeaderRow, HeaderCell, Header, ResizeHandle, Content, Row, Cell, DataRaw};
