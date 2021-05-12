@@ -20,9 +20,10 @@ const RadioGroup = forwardRef<HTMLUListElement, RadioGroupProps>(({
 	value,
 	onChange,
 	disabled,
+	id,
 	...props
 }, forwardedRef) => {
-	const idRef = useRef(uniqueId('radiogroup-'));
+	const idRef = useRef(id ?? uniqueId('radiogroup-'));
 
 	const componentRef = useMergedRef<HTMLUListElement>(forwardedRef);
 
@@ -55,6 +56,7 @@ const RadioGroup = forwardRef<HTMLUListElement, RadioGroupProps>(({
 	return <Styled.RadioGroup
 		{...props}
 		ref={componentRef}
+		id={id}
 	>
 		{options.map((o, index) => {
 			const optionId = `${idRef.current}-option-${index}`;

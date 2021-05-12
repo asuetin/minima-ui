@@ -62,9 +62,10 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	onCellFocus,
 	onCellHover,
 	role,
+	id,
 	...props
 }, forwardedRef) => {
-	const idRef = useRef(uniqueId('table-'));
+	const idRef = useRef(id ?? uniqueId('table-'));
 	const isGrid = role == 'grid';
 	const rowCount = Math.min(visibleRowCount, data.length);
 
@@ -110,17 +111,19 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		});
 	};
 
+	const getCellId = (rowIndex: number, cellIndex: number) => `${idRef.current}-row-${rowIndex}-cell-${cellIndex}`;
+
 	const onDragStart = (e, index) =>
 		dragInfoRef.current = {
 			index,
-			columnWidthStart: document.getElementById(`${idRef.current}-row-0-cell-${index}`).offsetWidth,
-			columnWidthNextStart: document.getElementById(`${idRef.current}-row-0-cell-${index+1}`).offsetWidth,
+			columnWidthStart: document.getElementById(getCellId(0, index)).offsetWidth,
+			columnWidthNextStart: document.getElementById(getCellId(0, index+1)).offsetWidth,
 			xStart: e.clientX
 		};
 
 	const resizeColumn = useCallback((index: number, value: number, overrideWidths?: [number, number]) => {
-		const columnWidthStart = overrideWidths?.[0] ?? document.getElementById(`${idRef.current}-row-0-cell-${index}`).offsetWidth;
-		const columnWidthNextStart = overrideWidths?.[1] ?? document.getElementById(`${idRef.current}-row-0-cell-${index+1}`).offsetWidth;
+		const columnWidthStart = overrideWidths?.[0] ?? document.getElementById(getCellId(0, index)).offsetWidth;
+		const columnWidthNextStart = overrideWidths?.[1] ?? document.getElementById(getCellId(0, index+1)).offsetWidth;
 
 		const widthDiff = limitInRange(value, [
 			-(columnWidthStart - (columns[index].minWidth ?? 100)),
@@ -136,8 +139,6 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 			return columnWidthsNew;
 		});
 	}, [columns, onColumnResize]);
-
-	const getCellId = (rowIndex: number, cellIndex: number) => `${idRef.current}-row-${rowIndex}-cell-${cellIndex}`;
 
 	//pointer-specific controls
 	useEvent('pointermove', useMemo(() => throttle(5, ({clientX}: PointerEvent) => {
@@ -156,8 +157,8 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 			if (componentRef.current.contains(activeElement)){
 				const elementIdSplit = activeElement.id.split('-');
 
-				const rowIndex = Number(elementIdSplit[3]);
-				const cellIndex = Number(elementIdSplit[5]);
+				const rowIndex = Number(elementIdSplit[elementIdSplit.length-3]);
+				const cellIndex = Number(elementIdSplit[elementIdSplit.length-1]);
 
 				let elementIdNext = activeElement.id;
 
@@ -294,6 +295,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	return <Styled.Table
 		{...props}
 		ref={componentRef}
+		id={id}
 		rowHeight={rowHeight}
 		rowCount={rowCount}
 		aria-rowcount={data.length}
@@ -312,7 +314,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 				padded={data.length > rowCount}
 			>
 				{columns.map(({dataKey, sortable = true, header}, i) => {
-					const headerCellId = `${idRef.current}-row-0-cell-${i}`;
+					const headerCellId = getCellId(0, i);
 					const sortValue = sortable ? sortState[sortState.findIndex(el => el.dataKey == dataKey)]?.value : undefined;
 
 					return <Styled.HeaderCell
@@ -358,7 +360,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 					gridTemplateColumns={gridTemplateColumns}
 				>
 					{columns.map(({dataKey, renderer, getter}, i) => {
-						const cellId = `${rowId}-cell-${i}`;
+						const cellId = getCellId(index+1, i);
 
 						return <Styled.Cell
 							id={cellId}

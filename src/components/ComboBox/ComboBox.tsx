@@ -38,9 +38,10 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	chevron = <Icon preset='down'/>,
 	searchDisabled = false,
 	disabled = false,
+	id,
 	...props
 }, forwardedRef) => {
-	const idRef = useRef(uniqueId('combobox-'));
+	const idRef = useRef(id ?? uniqueId('combobox-'));
 
 	const componentRef = useMergedRef<HTMLDivElement>(forwardedRef);
 	const inputRef = useRef<HTMLInputElement>();
@@ -227,6 +228,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	return <Styled.ComboBox
 		{...props}
 		ref={componentRef}
+		id={id}
 		height={height}
 		role='combobox'
 		tabIndex={isExpanded || disabled ? -1 : 0}
