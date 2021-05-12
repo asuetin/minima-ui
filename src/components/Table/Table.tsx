@@ -341,6 +341,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 			onPointerLeave={onCellHover ? () => onCellHover(null) : undefined}
 			rowCount={data.length}
 			rowHeight={rowHeight}
+			tabIndex={role == 'grid' ? -1 : 0}
 			rowRenderer={(index, style) => {
 				const rowId = `${idRef.current}-row-${index}`;
 
