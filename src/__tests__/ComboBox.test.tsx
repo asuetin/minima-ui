@@ -21,14 +21,14 @@ describe('ComboBox', () => {
 	test('change the value of a combobox with a mouse', async () => {
 		let value: string | number = 0;
 
-		const {getByDisplayValue, findByText, rerender} = render(<ComboBox
+		const {getByDisplayValue, getByText, rerender} = render(<ComboBox
 			options={options}
 			value={value}
 			onChange={(v: string | number) => value = v}
 		/>);
 
 		fireEvent.click(getByDisplayValue('Option 1'));
-		fireEvent.click(await findByText('Option 3'));
+		fireEvent.click(getByText('Option 3'));
 
 		rerender(<ComboBox
 			options={options}
@@ -42,7 +42,7 @@ describe('ComboBox', () => {
 	test('change the value of a combobox with a keyboard', async () => {
 		let value: string | number = 0;
 
-		const {getByDisplayValue, findByText, rerender} = render(<ComboBox
+		const {getByDisplayValue, getByText, rerender} = render(<ComboBox
 			options={options}
 			value={value}
 			onChange={(v: string | number) => value = v}
@@ -51,7 +51,7 @@ describe('ComboBox', () => {
 		const inputElement = getByDisplayValue('Option 1');
 
 		fireEvent.keyDown(inputElement, {code: 'Enter'});
-		await findByText('Option 3');
+		getByText('Option 3');
 		for (let i = 0; i < 2; ++i){
 			fireEvent.keyDown(inputElement, {code: 'ArrowDown'});
 		}

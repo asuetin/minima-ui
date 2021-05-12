@@ -1,4 +1,4 @@
-import {useState, useMemo, useEffect, forwardRef, ForwardedRef, MutableRefObject, HTMLAttributes} from 'react';
+import {useState, useMemo, useEffect, forwardRef, useCallback, MutableRefObject, HTMLAttributes} from 'react';
 
 import {remToPx, pxToRem, debounce, limitInRange} from 'utils/functions';
 import {useEvent, useMergedRef} from 'utils/hooks';
@@ -34,7 +34,7 @@ const List = forwardRef<HTMLUListElement | HTMLTableSectionElement, ListProps>((
 
 	const [visibleBounds, setVisibleBounds] = useState([0, 0]);
 
-	const onScroll = useMemo(() => debounce(5, () => {
+	const onScroll = useCallback(() => {
 		if (componentRef.current){
 			const {scrollTop, offsetHeight} = componentRef.current;
 
@@ -43,9 +43,11 @@ const List = forwardRef<HTMLUListElement | HTMLTableSectionElement, ListProps>((
 
 			setVisibleBounds([lowerBound, upperBound]);
 		}
-	}), [rowHeight, rowCount, componentRef]);
+	}, [rowHeight, rowCount, componentRef]);
 
-	useEvent('scroll', onScroll, componentRef.current);
+	const onScrollDebounced = useMemo(() => debounce(5, onScroll), [onScroll]);
+
+	useEvent('scroll', onScrollDebounced, componentRef.current);
 	useEvent('animationend', onScroll, componentRef.current);
 
 	useEffect(() => {
