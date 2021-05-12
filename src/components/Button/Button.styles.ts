@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components';
 import themeDefault from 'utils/theme';
 
 const Button = styled.button(({theme}) => {
-	const {fontFamily, background, accent, content, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+	const {fontFamily, background, accent, content, size, radius, border, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
@@ -13,7 +13,7 @@ const Button = styled.button(({theme}) => {
 
 		background-color: ${background[8]};
 
-		border: none;
+		border: ${border[0]};
 		border-radius: ${radius[2]};
 		outline: none;
 		box-shadow: ${shadow[0]};
@@ -24,7 +24,7 @@ const Button = styled.button(({theme}) => {
 		color: ${content[0]};
 		text-decoration: none;
 
-		transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
+		transition: ${['background-color', 'box-shadow', 'transform', 'border'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		display: flex;
 		align-items: center;
@@ -55,6 +55,8 @@ const Button = styled.button(({theme}) => {
 		@media (hover: hover) and (pointer: fine) {
 			&:hover {
 				background-color: ${background[9]};
+
+				border: ${border[1]};
 				box-shadow: ${light[1]};
 
 				> span {
@@ -69,6 +71,7 @@ const Button = styled.button(({theme}) => {
 		}
 
 		&:active {
+			border: ${border[2]};
 			box-shadow: ${light[0]};
 			transform: translateY(5%);
 		}

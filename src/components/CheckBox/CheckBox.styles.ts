@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components';
 import themeDefault from 'utils/theme';
 
 const CheckBox = styled.input.attrs({type: 'checkbox'})(({theme}) => {
-	const {background, accent, content, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+	const {background, accent, content, size, radius, border, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
@@ -23,12 +23,14 @@ const CheckBox = styled.input.attrs({type: 'checkbox'})(({theme}) => {
 
 			background-color: ${background[8]};
 
+			border: ${border[0]};
 			border-radius: ${radius[2]};
 			box-shadow: ${shadow[0]};
 
-			transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
+			transition: ${['background-color', 'box-shadow', 'transform', 'border'].map(v => `${v} 125ms ease-in-out`).join()};
 
 			display: block;
+			box-sizing: border-box;
 		}
 
 		&::after {
@@ -57,6 +59,8 @@ const CheckBox = styled.input.attrs({type: 'checkbox'})(({theme}) => {
 				&:hover {
 					&::before {
 						background-color: ${background[9]};
+
+						border: ${border[1]};
 						box-shadow: ${light[1]};
 					}
 
@@ -69,6 +73,8 @@ const CheckBox = styled.input.attrs({type: 'checkbox'})(({theme}) => {
 			&:active {
 				&::before {
 					transform: translateY(-45%);
+
+					border: ${border[2]};
 					box-shadow: ${light[0]};
 				}
 

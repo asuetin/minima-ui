@@ -15,7 +15,7 @@ const Handle = styled.div.attrs<{left: number; width: number}>(({theme, left, wi
 	left: number;
 	width: number;
 }>(({theme}) => {
-	const {accent, radius, light, focus} = theme.minima ?? themeDefault;
+	const {accent, radius, border, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: absolute;
@@ -27,9 +27,12 @@ const Handle = styled.div.attrs<{left: number; width: number}>(({theme, left, wi
 		background-color: ${accent[7]};
 
 		outline: none;
+		border: ${border[0]};
 		border-radius: ${radius[2]};
 
-		transition: ${['background-color', 'box-shadow'].map(v => `${v} 125ms ease-in-out`).join()};
+		transition: ${['background-color', 'box-shadow', 'border'].map(v => `${v} 125ms ease-in-out`).join()};
+
+		box-sizing: border-box;
 
 		&:focus-visible {
 			box-shadow: ${focus};
@@ -39,6 +42,7 @@ const Handle = styled.div.attrs<{left: number; width: number}>(({theme, left, wi
 			&:hover {
 				background-color: ${accent[9]};
 
+				border: ${border[1]};
 				box-shadow: ${light[1]};
 			}
 		}
@@ -50,6 +54,7 @@ const Handle = styled.div.attrs<{left: number; width: number}>(({theme, left, wi
 		&:active {
 			cursor: grabbing;
 
+			border: ${border[2]};
 			box-shadow: ${light[0]};
 		}
 	`;
@@ -106,7 +111,7 @@ const Thumb = styled.div.attrs<{left: number}>(({left}) => ({
 });
 
 const Slider = styled.div(({theme}) => {
-	const {background, size, radius, shadow} = theme.minima ?? themeDefault;
+	const {background, size, radius, border, shadow} = theme.minima ?? themeDefault;
 
 	return css`
 		--thumb-shift: calc(${size[1]} + ${size[0]});
@@ -117,6 +122,7 @@ const Slider = styled.div(({theme}) => {
 		margin: 0 var(--thumb-shift) 0 var(--thumb-shift);
 
 		display: flex;
+
 		--webkit-user-drag: none;
 		user-select: none;
 		touch-action: none;
@@ -130,8 +136,11 @@ const Slider = styled.div(({theme}) => {
 
 			background-color: ${background[8]};
 
+			border: ${border[0]};
 			border-radius: ${radius[2]};
 			box-shadow: ${shadow[0]};
+
+			box-sizing: border-box;
 		}
 
 		&[aria-disabled='true']{

@@ -148,12 +148,14 @@ const HeaderRow = styled.tr.attrs<RowProps>(({gridTemplateColumns}) => ({
 		gridTemplateColumns
 	}
 }))<RowProps & {padded: boolean}>(({theme, padded}) => {
-	const {size, background} = theme.minima ?? themeDefault;
+	const {size, background, radius} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
 
 		background-color: ${background[8]};
+
+		border-radius: ${radius[2]} ${radius[2]} 0 0;
 
 		display: grid;
 		padding-right: ${padded ? size[0] : 0};
@@ -206,7 +208,9 @@ const Content = styled(List).attrs({tagName: 'tbody'})(({theme}) => {
 	`;
 });
 const Table = styled.table<{rowHeight: number; rowCount: number}>(({theme, rowHeight, rowCount}) => {
-	const {fontFamily, size, background, content, radius, shadow} = theme.minima ?? themeDefault;
+	const {fontFamily, background, content, radius, border, shadow} = theme.minima ?? themeDefault;
+
+	const borderWidth = border[0] == 'none' ? '0rem' : border[0].split(' ')[0];
 
 	return css`
 		--row-height: ${pxToRem(rowHeight)}rem;
@@ -214,19 +218,18 @@ const Table = styled.table<{rowHeight: number; rowCount: number}>(({theme, rowHe
 
 		position: relative;
 		width: 50rem;
-		height: calc(var(--row-height) + var(--content-height));
+		height: calc(var(--row-height) + var(--content-height) + ${borderWidth} * 2);
 
 		background-color: ${background[9]};
 
-		border-collapse: collapse;
+		border: ${border[0]};
 		border-radius: ${radius[2]};
 		box-shadow: ${shadow[0]};
 
 		font-family: ${fontFamily};
 		color: ${content[3]};
 
-		padding: ${size[3]};
-		box-sizing: border-box;
+		border-spacing: 0;
 	`;
 });
 

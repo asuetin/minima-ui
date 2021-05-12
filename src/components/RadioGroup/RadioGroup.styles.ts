@@ -3,16 +3,15 @@ import styled, {css} from 'styled-components';
 import themeDefault from 'utils/theme';
 
 const RadioButton = styled.input.attrs({type: 'radio'})(({theme}) => {
-	const {size, background, accent, content, shadow, light, focus} = theme.minima ?? themeDefault;
+	const {size, background, accent, content, border, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
 		width: ${size[3]};
 		height: 0;
+		margin: ${size[2]} 0 ${size[2]} 0;
 
 		outline: none;
-
-		margin: ${size[2]} 0 ${size[2]} 0;
 
 		&::before {
 			content: '';
@@ -22,12 +21,14 @@ const RadioButton = styled.input.attrs({type: 'radio'})(({theme}) => {
 
 			background-color: ${background[8]};
 
+			border: ${border[0]};
 			border-radius: 50%;
 			box-shadow: ${shadow[0]};
 
-			transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
+			transition: ${['background-color', 'box-shadow', 'transform', 'border'].map(v => `${v} 125ms ease-in-out`).join()};
 
 			display: block;
+			box-sizing: border-box;
 		}
 
 		&::after {
@@ -58,6 +59,7 @@ const RadioButton = styled.input.attrs({type: 'radio'})(({theme}) => {
 					&::before {
 						background-color: ${background[9]};
 
+						border: ${border[1]};
 						box-shadow: ${light[1]};
 					}
 
@@ -71,6 +73,7 @@ const RadioButton = styled.input.attrs({type: 'radio'})(({theme}) => {
 				&::before {
 					transform: translateY(-45%);
 
+					border: ${border[2]};
 					box-shadow: ${light[0]};
 				}
 

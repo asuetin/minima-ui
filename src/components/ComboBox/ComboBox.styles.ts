@@ -82,19 +82,24 @@ const Option = styled.li(({theme}) => {
 });
 
 const Dropdown = styled(List).attrs({role: 'listbox'})<{visibleOptionCount: number}>(({theme, rowHeight, rowCount, visibleOptionCount}) => {
-	const {background, content, size, radius} = theme.minima ?? themeDefault;
+	const {background, content, size, radius, border} = theme.minima ?? themeDefault;
+
+	const borderWidth = border[0] == 'none' ? '0rem' : border[0].split(' ')[0];
 
 	return css`
 		--height: ${pxToRem(rowHeight*Math.min(visibleOptionCount, rowCount || 1))}rem;
 
 		position: absolute;
 		width: 100%;
+		left: -${borderWidth};
 		top: 100%;
 		height: var(--height);
 
 		background-color: ${background[8]};
 
+		border: ${border[0]};
 		border-radius: ${radius[2]};
+		border-top: none;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
 		box-shadow: var(--box-shadow);
@@ -197,7 +202,7 @@ const Input = styled.input(({theme}) => {
 });
 
 const ComboBox = styled.div<{height: number}>(({theme, height}) => {
-	const {fontFamily, background, accent, content, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+	const {fontFamily, background, accent, content, radius, border, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
@@ -206,15 +211,17 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 		background-color: ${background[8]};
 
 		outline: none;
+		border: ${border[0]};
 		border-radius: ${radius[2]};
 		box-shadow: ${shadow[0]};
 
 		font-family: ${fontFamily};
 		color: ${content[3]};
 
-		transition: ${['background-color', 'box-shadow', 'border-radius'].map(v => `${v} 125ms ease-in-out`).join()};
+		transition: ${['background-color', 'box-shadow', 'border-radius', 'border'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		display: flex;
+		box-sizing: border-box;
 
 		svg {
 			stroke: ${content[3]};
@@ -229,6 +236,7 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 			&:hover {
 				background-color: ${background[9]};
 
+				border: ${border[1]};
 				box-shadow: ${light[1]};
 			}
 		}
@@ -255,8 +263,14 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 		&[aria-expanded='true']{
 			background-color: ${background[9]};
 
+			border: ${border[2]};
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
+
+			${Dropdown}{
+				border: ${border[2]};
+				border-top: 0;
+			}
 
 			${Button}{
 				> * {

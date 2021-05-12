@@ -7,7 +7,7 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 		'--percentage': percentage*100
 	}
 }))<{percentage: number}>(({theme}) => {
-	const {fontFamily, background, accent, content, size, radius, shadow} = theme.minima ?? themeDefault;
+	const {fontFamily, background, accent, content, size, radius, border, shadow} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
@@ -16,6 +16,7 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 
 		background-color: ${background[8]};
 
+		border: ${border[0]};
 		border-radius: ${radius[2]};
 		box-shadow: ${shadow[0]};
 
@@ -24,6 +25,8 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 
 		display: flex;
 		align-items: center;
+		box-sizing: border-box;
+		overflow: hidden;
 
 		&::after {
 			content: '';
@@ -35,7 +38,7 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 
 			background-color: ${accent[7]};
 
-			border-radius: ${radius[2]};
+			border-radius: 0 ${radius[2]} ${radius[2]} 0;
 
 			transition: width 125ms ease-in-out;
 		}

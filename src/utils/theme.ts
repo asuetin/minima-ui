@@ -3,6 +3,7 @@ import type {CSSProperties} from 'react';
 export type ColorType = [CSSProperties['color'], ...CSSProperties['color'][]] & {length: 10};
 export type SizeType = [CSSProperties['width'], ...CSSProperties['width'][]] & {length: 5};
 export type ShadowType = [CSSProperties['boxShadow'], ...CSSProperties['boxShadow'][]] & {length: 3};
+export type BorderType = [CSSProperties['border'], ...CSSProperties['border'][]] & {length: 3};
 
 export type ThemeType = {
 	fontFamily: CSSProperties['fontFamily'];
@@ -11,6 +12,7 @@ export type ThemeType = {
 	content: ColorType;
 	size: SizeType;
 	radius: SizeType;
+	border: BorderType;
 	shadow: ShadowType;
 	light: ShadowType;
 	focus: CSSProperties['boxShadow'];
@@ -54,6 +56,11 @@ const themeDefault: ThemeType = {
 		'rgb(140,140,140)',
 		'rgb(150,150,150)'
 	],
+	border: [
+		'none',
+		'none',
+		'none'
+	],
 	size: [
 		'0.25rem',
 		'0.5rem',
@@ -78,7 +85,7 @@ const themeDefault: ThemeType = {
 		'0 0.15rem 0.6rem 0 rgb(145,175,255)',
 		'0 0.45rem 1.8rem 0 rgb(145,175,255)',
 	],
-	focus: '0 0 0 0.125rem rgb(85,115,195)'
+	focus: '0 0 0 0.125rem rgb(85,115,195)',
 };
 
 export default themeDefault;

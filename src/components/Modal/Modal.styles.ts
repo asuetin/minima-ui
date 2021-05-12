@@ -3,7 +3,7 @@ import styled, {css, keyframes} from 'styled-components';
 import themeDefault from 'utils/theme';
 
 const Content = styled.div(({theme}) => {
-	const {background, size, radius, shadow} = theme.minima ?? themeDefault;
+	const {background, size, radius, border, shadow} = theme.minima ?? themeDefault;
 
 	return css`
 		position: fixed;
@@ -15,11 +15,13 @@ const Content = styled.div(({theme}) => {
 
 		background-color: ${background[8]};
 
+		border: ${border[0]};
 		border-radius: ${radius[2]};
 		box-shadow: ${shadow[0]};
 
 		align-items: center;
 		padding: ${size[1]};
+		box-sizing: border-box;
 
 		animation: ${keyframes`
 			0% {

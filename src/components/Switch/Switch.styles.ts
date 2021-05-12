@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components';
 import themeDefault from 'utils/theme';
 
 const Switch = styled.button(({theme}) => {
-	const {background, accent, size, radius, shadow, light, focus} = theme.minima ?? themeDefault;
+	const {background, accent, size, radius, border, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
@@ -14,14 +14,15 @@ const Switch = styled.button(({theme}) => {
 
 		background-color: ${background[8]};
 
-		border: none;
+		border: ${border[0]};
 		border-radius: ${radius[2]};
 		outline: none;
 		box-shadow: ${shadow[0]};
 
-		transition: ${['background-color', 'box-shadow', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
+		transition: ${['background-color', 'box-shadow', 'transform', 'border'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		display: flex;
+		box-sizing: border-box;
 
 		&::after {
 			content: '';
@@ -46,6 +47,7 @@ const Switch = styled.button(({theme}) => {
 			&:hover {
 				background-color: ${background[9]};
 
+				border: ${border[1]};
 				box-shadow: ${light[1]};
 
 				&::after {
@@ -57,6 +59,7 @@ const Switch = styled.button(({theme}) => {
 		&:active {
 			transform: translateY(5%);
 
+			border: ${border[2]};
 			box-shadow: ${light[0]};
 		}
 
