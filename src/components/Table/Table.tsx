@@ -303,7 +303,10 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		role={role}
 	>
 		<thead>
-			<Styled.HeaderRow gridTemplateColumns={gridTemplateColumns}>
+			<Styled.HeaderRow
+				gridTemplateColumns={gridTemplateColumns}
+				padded={data.length > rowCount}
+			>
 				{columns.map(({dataKey, sortable = true, header}, i) => {
 					const headerCellId = `${idRef.current}-header-0-cell-${i}`;
 					const sortValue = sortable ? sortState[sortState.findIndex(el => el.dataKey == dataKey)]?.value : undefined;

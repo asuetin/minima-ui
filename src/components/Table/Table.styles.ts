@@ -123,12 +123,12 @@ const HeaderRow = styled.tr.attrs<RowProps>(({gridTemplateColumns}) => ({
 	style: {
 		gridTemplateColumns
 	}
-}))<RowProps>(({theme}) => {
+}))<RowProps & {padded: boolean}>(({theme, padded}) => {
 	const {size} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
-		margin-right: ${size[0]};
+		margin-right: ${padded ? size[0] : 0};
 
 		display: grid;
 	`;
