@@ -15,7 +15,7 @@ import dedent from 'ts-dedent';
 import DocsPage from 'stories/DocsPage';
 
 export default {
-	title: 'Components/Utility/Table',
+	title: 'Components/Containers/Table',
 	component: Table,
 	argTypes: {
 		refreshTrigger: {
@@ -237,6 +237,54 @@ Basic.args = {
 	}))
 };
 
+export const CustomGetters = BasicTemplate.bind({});
+
+CustomGetters.parameters = {
+	docs: {
+		description: {
+			story: 'The city and state names in this story are fetched through getter functions while the data itself only contains IDs.'
+		}
+	}
+};
+
+const cities = ['Montgomery', 'Sacramento', 'Atlanta'];
+const states = ['Alabama', 'California', 'Georgia'];
+
+CustomGetters.args = {
+	columns: [
+		{
+			dataKey: 'id',
+			header: 'ID',
+			minWidth: 50
+		}, {
+			dataKey: 'city',
+			header: 'City',
+			minWidth: 125,
+			getter: v => cities[v]
+		}, {
+			dataKey: 'state',
+			header: 'State',
+			minWidth: 125,
+			getter: v => states[v]
+		}
+	],
+	data: [
+		{
+			id: 1,
+			city: 0,
+			state: 0
+		}, {
+			id: 2,
+			city: 1,
+			state: 1
+		}, {
+			id: 3,
+			city: 2,
+			state: 2
+		}
+	]
+};
+
 const TextInputStyled = styled(TextInput)`
 	position: relative;
 
@@ -310,6 +358,14 @@ const EditableTemplate: Story<TableProps> = args => {
 };
 
 export const Editable = EditableTemplate.bind({});
+
+Editable.parameters = {
+	docs: {
+		description: {
+			story: 'This story utilizes custom column renderers to allow the user to change the values in the table.'
+		}
+	}
+};
 
 Editable.args = {...Basic.args};
 Editable.argTypes = {

@@ -8,6 +8,10 @@ The library is written in TypeScript. It utilizes styled-components for styling 
 
 The library includes the following components:
 
+#### Containers
+1. [Table](https://asuetin.github.io/minima-ui/?path=/docs/components-containers-table--basic) - a virtualized table with sorting and column resizing that allows custom cell renderers;
+2. [Tooltip](https://asuetin.github.io/minima-ui/?path=/docs/components-containers-tooltip--basic) - a wrapper around an element that shows a tooltip on hover;
+3. [Modal](https://asuetin.github.io/minima-ui/?path=/docs/components-containers-modal--basic) - a modal dialog.
 #### Inputs
 1. [Button](https://asuetin.github.io/minima-ui/?path=/docs/components-inputs-button--basic) - a basic button;
 2. [CheckBox](https://asuetin.github.io/minima-ui/?path=/docs/components-inputs-checkbox--basic) - a basic checkbox;
@@ -22,10 +26,7 @@ The library includes the following components:
 2. [ProgressBar](https://asuetin.github.io/minima-ui/?path=/docs/components-display-progressbar--basic) - a basic progress bar.
 
 #### Utility
-1. [List](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-list--basic) - a basic virtualized list;
-2. [Table](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-table--basic) - a virtualized table with sorting and column resizing that allows custom cell renderers;
-3. [Tooltip](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-tooltip--basic) - a wrapper around an element that shows a tooltip on hover;
-4. [Modal](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-modal--basic) - a modal dialog.
+1. [List](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-list--basic) - a basic virtualized list/
 
 ## Installation and usage
 

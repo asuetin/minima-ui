@@ -9,7 +9,7 @@ import type {TooltipProps} from 'components/Tooltip';
 import DocsPage from 'stories/DocsPage';
 
 export default {
-	title: 'Components/Utility/Tooltip',
+	title: 'Components/Containers/Tooltip',
 	component: Tooltip,
 	argTypes: {
 		text: {
