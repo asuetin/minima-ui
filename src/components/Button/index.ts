@@ -1,6 +1,5 @@
 import Button from './Button';
-import Styles from './Button.styles';
 
 export default Button;
-export {ButtonProps} from './Button';
-export {Styles as ButtonStyles};
+export * from './Button';
+export {default as ButtonStyles} from './Button.styles';

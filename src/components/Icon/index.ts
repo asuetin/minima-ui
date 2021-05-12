@@ -1,6 +1,5 @@
-import Icon, {presetIcons} from './Icon';
-import Styles from './Icon.styles';
+import Icon from './Icon';
 
 export default Icon;
-export {IconProps} from './Icon';
-export {Styles as IconStyles, presetIcons};
+export * from './Icon';
+export {default as IconStyles} from './Icon.styles';
