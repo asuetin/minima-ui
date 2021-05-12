@@ -78,6 +78,8 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		xStart: number;
 	}>();
 
+	const [hasFocus, setHasFocus] = useState(false);
+
 	const [sortState, setSortState] = useState(defaultSortState);
 	const [sortIndexes, setSortIndexes] = useState<number[]>([]);
 
@@ -111,14 +113,14 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	const onDragStart = (e, index) =>
 		dragInfoRef.current = {
 			index,
-			columnWidthStart: document.getElementById(`${idRef.current}-header-0-cell-${index}`).offsetWidth,
-			columnWidthNextStart: document.getElementById(`${idRef.current}-header-0-cell-${index+1}`).offsetWidth,
+			columnWidthStart: document.getElementById(`${idRef.current}-row-0-cell-${index}`).offsetWidth,
+			columnWidthNextStart: document.getElementById(`${idRef.current}-row-0-cell-${index+1}`).offsetWidth,
 			xStart: e.clientX
 		};
 
 	const resizeColumn = useCallback((index: number, value: number, overrideWidths?: [number, number]) => {
-		const columnWidthStart = overrideWidths?.[0] ?? document.getElementById(`${idRef.current}-header-0-cell-${index}`).offsetWidth;
-		const columnWidthNextStart = overrideWidths?.[1] ?? document.getElementById(`${idRef.current}-header-0-cell-${index+1}`).offsetWidth;
+		const columnWidthStart = overrideWidths?.[0] ?? document.getElementById(`${idRef.current}-row-0-cell-${index}`).offsetWidth;
+		const columnWidthNextStart = overrideWidths?.[1] ?? document.getElementById(`${idRef.current}-row-0-cell-${index+1}`).offsetWidth;
 
 		const widthDiff = limitInRange(value, [
 			-(columnWidthStart - (columns[index].minWidth ?? 100)),
@@ -135,6 +137,8 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		});
 	}, [columns, onColumnResize]);
 
+	const getCellId = (rowIndex: number, cellIndex: number) => `${idRef.current}-row-${rowIndex}-cell-${cellIndex}`;
+
 	//pointer-specific controls
 	useEvent('pointermove', useMemo(() => throttle(5, ({clientX}: PointerEvent) => {
 		if (dragInfoRef.current){
@@ -150,95 +154,88 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		if (isGrid){
 			const activeElement = document.activeElement;
 			if (componentRef.current.contains(activeElement)){
-				if (!activeElement.id.includes(idRef.current)){
+				const elementIdSplit = activeElement.id.split('-');
+
+				const rowIndex = Number(elementIdSplit[3]);
+				const cellIndex = Number(elementIdSplit[5]);
+
+				let elementIdNext = activeElement.id;
+
+				//move focus between cells or resize columns if Ctrl is pressed
+				if (e.ctrlKey){
 					switch (e.code){
-					case 'Escape':
-						//set focus back to cell
-						(activeElement?.parentNode as HTMLElement)?.focus(); //set focus back to cell
+					case 'ArrowRight':
+						resizeColumn(cellIndex, 25);
+						break;
+					case 'ArrowLeft':
+						resizeColumn(cellIndex, -25);
+						break;
+					case 'Home':
+						contentRef.current.scrollTop = 0;
+						elementIdNext = getCellId(0, 0);
+						break;
+					case 'End':
+						contentRef.current.scrollTop = contentRef.current.scrollHeight;
+						elementIdNext = getCellId(data.length, columns.length-1);
 					}
 				}
 				else {
-					const elementIdSplit = activeElement.id.split('-');
-
-					const elementType = elementIdSplit[2];
-					const rowIndex = Number(elementIdSplit[3]);
-					const cellIndex = Number(elementIdSplit[5]);
-
-					//move focus between cells or resize columns if Ctrl is pressed
-					if (['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End', 'PageDown', 'PageUp'].some(v => e.code == v)){
+					switch (e.code){
+					case 'ArrowRight':
+						elementIdNext = getCellId(rowIndex, cellIndex+1);
+						break;
+					case 'ArrowLeft':
+						elementIdNext = getCellId(rowIndex, cellIndex-1);
+						break;
+					case 'ArrowDown':
 						e.preventDefault();
-						let elementIdNext = activeElement.id;
-
-						switch (e.code){
-						case 'ArrowRight':
-							if (e.ctrlKey){
-								resizeColumn(cellIndex, 25);
-							}
-							else {
-								elementIdNext = `${idRef.current}-${elementType}-${rowIndex}-cell-${cellIndex+1}`;
-							}
-							break;
-						case 'ArrowLeft':
-							if (e.ctrlKey){
-								resizeColumn(cellIndex, -25);
-							}
-							else {
-								elementIdNext = `${idRef.current}-${elementType}-${rowIndex}-cell-${cellIndex-1}`;
-							}
-							break;
-						case 'ArrowDown':
-							elementIdNext = `${idRef.current}-row-${elementType == 'header' ? 0 : rowIndex+1}-cell-${cellIndex}`;
-							break;
-						case 'ArrowUp':
-							elementIdNext = `${idRef.current}-${rowIndex == 0 ? 'header' : 'row'}-${limitInRange(rowIndex-1, [0, null])}-cell-${cellIndex}`;
-							break;
-						case 'Home':
-							if (e.ctrlKey){
-								contentRef.current.scrollTop = 0;
-								elementIdNext = `${idRef.current}-header-0-cell-0`;
-							}
-							else {
-								elementIdNext = `${idRef.current}-${elementType}-${rowIndex}-cell-0`;
-							}
-							break;
-						case 'End':
-							if (e.ctrlKey){
-								contentRef.current.scrollTop = contentRef.current.scrollHeight;
-								elementIdNext = `${idRef.current}-row-${data.length-1}-cell-${columns.length-1}`;
-							}
-							else {
-								elementIdNext = `${idRef.current}-${elementType}-${rowIndex}-cell-${columns.length-1}`;
-							}
-							break;
-						case 'PageDown':
-							contentRef.current.scrollTop += rowCount*rowHeight;
-							elementIdNext = `${idRef.current}-row-${limitInRange(rowIndex+rowCount, [0, data.length-1])}-cell-${cellIndex}`;
-							break;
-						case 'PageUp':
-							contentRef.current.scrollTop -= rowCount*rowHeight;
-							elementIdNext = `${idRef.current}-row-${limitInRange(rowIndex-rowCount, [0, data.length-1])}-cell-${cellIndex}`;
-							break;
+						if (rowIndex == 0){
+							contentRef.current.scrollTop = 0;
 						}
-
-						setTimeout(() => document.getElementById(elementIdNext)?.focus(), 25);
-					}
-					else {
-						switch (e.code){
-						case 'Enter':
-						case 'Space':
-							if (elementType == 'row'){
-								//focus on component returned by custom renderer
-								(document.activeElement?.firstChild as HTMLElement)?.focus();
-							}
-							else {
-								//sort focused column
-								const {sortable = true, dataKey} = columns[cellIndex];
-								if (sortable){
-									sort(e.shiftKey, dataKey);
-								}
+						elementIdNext = getCellId(rowIndex+1, cellIndex);
+						break;
+					case 'ArrowUp':
+						e.preventDefault();
+						elementIdNext = getCellId(rowIndex-1, cellIndex);
+						break;
+					case 'Home':
+						elementIdNext = getCellId(rowIndex, 0);
+						break;
+					case 'End':
+						elementIdNext = getCellId(rowIndex, columns.length-1);
+						break;
+					case 'PageDown':
+						contentRef.current.scrollTop += rowCount*rowHeight;
+						elementIdNext = getCellId(limitInRange(rowIndex+rowCount, [0, data.length]), cellIndex);
+						break;
+					case 'PageUp':
+						contentRef.current.scrollTop -= rowCount*rowHeight;
+						elementIdNext = getCellId(limitInRange(rowIndex-rowCount, [0, data.length]), cellIndex);
+						break;
+					case 'Enter':
+					case 'Space':
+						if (rowIndex > 0){
+							//focus on component returned by custom renderer
+							(document.activeElement?.firstChild as HTMLElement)?.focus();
+						}
+						else {
+							//sort focused column
+							const {sortable = true, dataKey} = columns[cellIndex];
+							if (sortable){
+								sort(e.shiftKey, dataKey);
 							}
 						}
+						break;
+					case 'Escape':
+						//set focus back to cell
+						if (!activeElement.id.includes(idRef.current)){
+							(activeElement?.parentNode as HTMLElement)?.focus(); //set focus back to cell
+						}
 					}
+				}
+
+				if (elementIdNext != activeElement.id){
+					setTimeout(() => document.getElementById(elementIdNext)?.focus(), 25);
 				}
 			}
 		}
@@ -301,6 +298,13 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		rowCount={rowCount}
 		aria-rowcount={data.length}
 		role={role}
+		onFocus={() => setHasFocus(true)}
+		onBlur={e => {
+			if (!componentRef.current.contains(e.relatedTarget as HTMLElement)){
+				setHasFocus(false);
+				onCellFocus && onCellFocus(null);
+			}
+		}}
 	>
 		<thead>
 			<Styled.HeaderRow
@@ -308,14 +312,14 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 				padded={data.length > rowCount}
 			>
 				{columns.map(({dataKey, sortable = true, header}, i) => {
-					const headerCellId = `${idRef.current}-header-0-cell-${i}`;
+					const headerCellId = `${idRef.current}-row-0-cell-${i}`;
 					const sortValue = sortable ? sortState[sortState.findIndex(el => el.dataKey == dataKey)]?.value : undefined;
 
 					return <Styled.HeaderCell
 						id={headerCellId}
 						key={headerCellId}
 						onFocus={isGrid && onCellFocus ? () => onCellFocus(null) : undefined}
-						tabIndex={isGrid && i == 0 ? 0 : -1}
+						tabIndex={isGrid && !hasFocus && i == 0 ? 0 : -1}
 					>
 						<Styled.Header
 							sort={sortable ? sortValue : 'disabled'}
@@ -341,9 +345,9 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 			onPointerLeave={onCellHover ? () => onCellHover(null) : undefined}
 			rowCount={data.length}
 			rowHeight={rowHeight}
-			tabIndex={role == 'grid' ? -1 : 0}
+			tabIndex={role == 'grid' && hasFocus ? -1 : 0}
 			rowRenderer={(index, style) => {
-				const rowId = `${idRef.current}-row-${index}`;
+				const rowId = `${idRef.current}-row-${index+1}`;
 
 				const rowIndex = sortIndexes[index];
 				const dataObj = data[rowIndex];

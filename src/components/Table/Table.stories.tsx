@@ -340,6 +340,7 @@ const EditableTemplate: Story<TableProps> = args => {
 						return dataNew;
 					});
 				}}
+				tabIndex={-1}
 			/> :
 			<TableStyles.DataRaw>{dataObj[__dataKey]}</TableStyles.DataRaw>;
 	};
