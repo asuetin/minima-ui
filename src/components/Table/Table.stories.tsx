@@ -71,6 +71,23 @@ export default {
 				category: 'Core'
 			}
 		},
+		role: {
+			description: 'The "grid" role activates keyboard controls. Use "grid" for interactive tables and the default "table" for static ones.',
+			type: {
+				summary: 'table | grid'
+			},
+			control: {
+				type: 'inline-radio',
+				options: ['table', 'grid']
+			},
+			defaultValue: 'table',
+			table: {
+				defaultValue: {
+					summary: 'table'
+				},
+				category: 'Core'
+			}
+		},
 		defaultSortState: {
 			description: 'Array of sort objects representing the default sort state',
 			control: {
@@ -382,6 +399,11 @@ Editable.argTypes = {
 		}
 	},
 	data: {
+		control: {
+			disable: true
+		}
+	},
+	role: {
 		control: {
 			disable: true
 		}
