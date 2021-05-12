@@ -31,12 +31,12 @@ export type ThemeType = {
 	focus: CSSProperties['boxShadow'];
 };
 ```
-The default theme can be imported to create modified versions of it:
+By default the library uses the built-in Minima Light theme. There are also Dark and Plain themes available. To import one of the built-in themes, use the following:
 ```tsx
-import {themeDefault} from 'PACKAGE_NAME';
+import {minimaLight, minimaDark, minimaPlain} from 'PACKAGE_NAME';
 ```
 
-The source code for the default theme can be viewed [here.](REPOSITORY_URL/blob/main/src/utils/theme.ts)
+The source code for the default themes can be viewed [here.](REPOSITORY_URL/blob/main/src/utils/theme.ts)
 
 ## Example
 
@@ -46,13 +46,13 @@ A regular Slider looks like this:
 
 <br/>
 
-Let's create a Slider with a custom theme that modifies the background color:
+Let's create a Slider with a custom theme that modifies the background color, adds borders and removes the lighting effects:
 
 ```tsx
 import {useState} from 'react';
 import {ThemeProvider} from 'styled-components';
 
-import {Slider, themeDefault} from 'PACKAGE_NAME';
+import {Slider, minimaLight} from 'PACKAGE_NAME';
 
 const ThemingExample = (): JSX.Element => {
 	const [value, setValue] = useState(33);
@@ -60,8 +60,11 @@ const ThemingExample = (): JSX.Element => {
 	return <ThemeProvider
 		theme={{
 			minima: {
-				...themeDefault,
-				background: Array.from({length: 10}, () => 'white')
+				...minimaLight,
+				background: Array.from({length: 10}, () => 'white'),
+				border: Array.from({length: 10}, () => '0.0625rem solid black'),
+				shadow: Array.from({length: 3}, () => 'none'),
+				light: Array.from({length: 3}, () => 'none')
 			}
 		}}
 	>
@@ -91,7 +94,10 @@ The result looks like this:
 	theme={{
 		minima: {
 			...themeDefault,
-			background: Array.from({length: 10}, () => 'white')
+			background: Array.from({length: 10}, () => 'white'),
+			border: Array.from({length: 10}, () => '0.0625rem solid black'),
+			shadow: Array.from({length: 3}, () => 'none'),
+			light: Array.from({length: 3}, () => 'none')
 		}
 	}}
 >
