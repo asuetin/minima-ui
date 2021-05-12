@@ -229,4 +229,4 @@ const minimaPlain: ThemeType = {
 };
 
 export default minimaLight;
-export {minimaDark, minimaPlain};
+export {minimaLight, minimaDark, minimaPlain};
