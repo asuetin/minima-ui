@@ -109,13 +109,10 @@ const RadioGroupOption = styled.li.attrs({role: 'radio'})(({theme}) => {
 });
 
 const RadioGroup = styled.ul.attrs({role: 'radiogroup' as string})(({theme}) => {
-	const {fontFamily, content, size} = theme.minima ?? themeDefault;
+	const {size} = theme.minima ?? themeDefault;
 
 	return css`
 		margin: 0;
-
-		font-family: ${fontFamily};
-		color: ${content[3]};
 
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
