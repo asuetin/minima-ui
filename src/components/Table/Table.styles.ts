@@ -82,10 +82,13 @@ const Header = styled.span<{sort: 'asc' | 'desc' | undefined | 'disabled'}>(({th
 
 	return css`
 		position: relative;
+		width: 100%;
 
+		line-height: var(--row-height);
 		font-size: 0.75rem;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		text-align: start;
 
 		display: inline-block;
 		overflow: hidden;
