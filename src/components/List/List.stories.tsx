@@ -70,7 +70,7 @@ export default {
 } as Meta;
 
 const BasicTemplate: Story<ListProps> = args =>
-	<div style={{height: '10rem'}}>
+	<div style={{width: '10rem', height: '10rem'}}>
 		<List {...args}/>
 	</div>;
 
