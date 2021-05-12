@@ -54,6 +54,7 @@ const ProgressBar = styled.div.attrs<{percentage: number}>(({percentage}) => ({
 		span:last-child {
 			clip-path: inset(0 calc((100 - var(--percentage)) * 1%) 0 0);
 			color: ${background[9]};
+			mix-blend-mode: color-dodge;
 
 			transition: clip-path 125ms ease-in-out;
 		}

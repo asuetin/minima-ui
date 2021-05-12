@@ -60,7 +60,7 @@ const Row = styled.tr.attrs<RowProps>(({gridTemplateColumns}) => ({
 });
 
 const ResizeHandle = styled.div(({theme}) => {
-	const {size, background} = theme.minima ?? themeDefault;
+	const {size, content} = theme.minima ?? themeDefault;
 
 	return css`
 		z-index: 1;
@@ -73,7 +73,7 @@ const ResizeHandle = styled.div(({theme}) => {
 
 		cursor: col-resize;
 
-		background: linear-gradient(${background[3]}, ${background[3]}) no-repeat 50%/calc(${size[0]} / 2) 50%;
+		background: linear-gradient(${content[9]}, ${content[9]}) no-repeat 50%/calc(${size[0]} / 2) 50%;
 	`;
 });
 
