@@ -123,7 +123,7 @@ const BasicTemplate: Story<SliderProps> = args => {
 		style={{
 			display: 'grid',
 			alignItems: 'center',
-			gridTemplateColumns: '1fr 8rem',
+			gridTemplateColumns: '12rem 8rem',
 			gridGap: '0.5rem'
 		}}
 	>
@@ -146,7 +146,7 @@ const MultiThumbTemplate: Story<SliderProps> = args => {
 		style={{
 			display: 'grid',
 			alignItems: 'center',
-			gridTemplateColumns: '1fr 10rem',
+			gridTemplateColumns: '12rem 10rem',
 			gridGap: '0.5rem'
 		}}
 	>
