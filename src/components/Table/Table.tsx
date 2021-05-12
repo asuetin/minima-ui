@@ -66,6 +66,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 }, forwardedRef) => {
 	const idRef = useRef(uniqueId('table-'));
 	const isGrid = role == 'grid';
+	const rowCount = Math.min(visibleRowCount, data.length);
 
 	const componentRef = useMergedRef<HTMLTableElement>(forwardedRef);
 	const contentRef = useRef<HTMLTableSectionElement>();
@@ -210,12 +211,12 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 							}
 							break;
 						case 'PageDown':
-							contentRef.current.scrollTop += visibleRowCount*rowHeight;
-							elementIdNext = `${idRef.current}-row-${limitInRange(rowIndex+visibleRowCount, [0, data.length-1])}-cell-${cellIndex}`;
+							contentRef.current.scrollTop += rowCount*rowHeight;
+							elementIdNext = `${idRef.current}-row-${limitInRange(rowIndex+rowCount, [0, data.length-1])}-cell-${cellIndex}`;
 							break;
 						case 'PageUp':
-							contentRef.current.scrollTop -= visibleRowCount*rowHeight;
-							elementIdNext = `${idRef.current}-row-${limitInRange(rowIndex-visibleRowCount, [0, data.length-1])}-cell-${cellIndex}`;
+							contentRef.current.scrollTop -= rowCount*rowHeight;
+							elementIdNext = `${idRef.current}-row-${limitInRange(rowIndex-rowCount, [0, data.length-1])}-cell-${cellIndex}`;
 							break;
 						}
 
@@ -297,7 +298,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 		{...props}
 		ref={componentRef}
 		rowHeight={rowHeight}
-		visibleRowCount={visibleRowCount}
+		rowCount={rowCount}
 		aria-rowcount={data.length}
 		role={role}
 	>

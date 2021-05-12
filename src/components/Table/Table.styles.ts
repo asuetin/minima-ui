@@ -171,9 +171,9 @@ const Content = styled(List).attrs({tagName: 'tbody'})(({theme}) => {
 		}
 	`;
 });
-const Table = styled.table<{rowHeight: number; visibleRowCount: number}>(({rowHeight, visibleRowCount}) => css`
+const Table = styled.table<{rowHeight: number; rowCount: number}>(({rowHeight, rowCount}) => css`
 	--row-height: ${pxToRem(rowHeight)}rem;
-	--content-height: calc(var(--row-height) * ${visibleRowCount});
+	--content-height: calc(var(--row-height) * ${rowCount});
 
 	position: relative;
 	width: 50rem;
