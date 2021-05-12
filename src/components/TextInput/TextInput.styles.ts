@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components';
 import themeDefault from 'utils/theme';
 
 const TextInput = styled.input(({theme}) => {
-	const {fontFamily, background, content, size, radius, border, shadow, light} = theme.minima ?? themeDefault;
+	const {fontFamily, background, content, size, radius, border, shadow, light, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
@@ -35,13 +35,6 @@ const TextInput = styled.input(({theme}) => {
 			color: ${content[9]};
 		}
 
-		&:focus-visible {
-			background-color: ${background[9]};
-
-			border: ${border[1]};
-			box-shadow: ${light[1]};
-		}
-
 		@media (hover: hover) and (pointer: fine) {
 			&:hover {
 				background-color: ${background[9]};
@@ -49,6 +42,13 @@ const TextInput = styled.input(({theme}) => {
 				border: ${border[1]};
 				box-shadow: ${light[1]};
 			}
+		}
+
+		&:focus-visible {
+			background-color: ${background[9]};
+
+			border: ${border[1]};
+			box-shadow: ${light[1]}, ${focus};
 		}
 
 		&:disabled {

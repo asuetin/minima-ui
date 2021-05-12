@@ -150,7 +150,9 @@ const Button = styled.button(({theme}) => {
 	const {size} = theme.minima ?? themeDefault;
 
 	return css`
-		position: relative;
+		position: absolute;
+		height: 100%;
+		right: 0;
 
 		cursor: pointer;
 
@@ -171,7 +173,7 @@ const Button = styled.button(({theme}) => {
 });
 
 const Input = styled.input(({theme}) => {
-	const {content, size} = theme.minima ?? themeDefault;
+	const {content, size, focus} = theme.minima ?? themeDefault;
 
 	return css`
 		position: relative;
@@ -197,6 +199,10 @@ const Input = styled.input(({theme}) => {
 
 		::placeholder {
 			color: ${content[9]};
+		}
+
+		&:focus-visible {
+			box-shadow: ${focus};
 		}
 	`;
 });
