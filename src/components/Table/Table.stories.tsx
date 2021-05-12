@@ -287,6 +287,7 @@ CustomGetters.args = {
 
 const TextInputStyled = styled(TextInput)`
 	position: relative;
+	width: 100%;
 
 	background-color: transparent !important;
 
@@ -295,11 +296,11 @@ const TextInputStyled = styled(TextInput)`
 	font-weight: inherit;
 	color: inherit;
 
-	border-radius: 0;
 	outline: none;
 	box-shadow: none;
 
-	padding: 0;
+	padding-left: ${themeDefault.size[2]};
+	box-sizing: border-box;
 
 	&:hover {
 		box-shadow: inset 0 0 0 0.125rem lightgrey;
