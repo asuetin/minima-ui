@@ -151,6 +151,7 @@ const Button = styled.button(({theme}) => {
 
 	return css`
 		position: absolute;
+		width: ${size[3]};
 		height: 100%;
 		right: 0;
 
@@ -164,7 +165,7 @@ const Button = styled.button(({theme}) => {
 
 		display: flex;
 		align-items: center;
-		padding: 0 ${size[1]} 0 ${size[1]};
+		justify-content: center;
 
 		> * {
 			transition: ${['stroke', 'fill', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
@@ -195,7 +196,7 @@ const Input = styled.input(({theme}) => {
 		display: flex;
 		align-items: center;
 		overflow: hidden;
-		padding: 0 0 0 ${size[1]};
+		padding: 0 ${size[3]} 0 ${size[1]};
 
 		::placeholder {
 			color: ${content[9]};
