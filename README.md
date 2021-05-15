@@ -26,7 +26,7 @@ The library includes the following components:
 2. [ProgressBar](https://asuetin.github.io/minima-ui/?path=/docs/components-display-progressbar--basic) - a basic progress bar.
 
 #### Utility
-1. [List](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-list--basic) - a basic virtualized list/
+1. [List](https://asuetin.github.io/minima-ui/?path=/docs/components-utility-list--basic) - a basic virtualized list.
 
 ## Installation and usage
 
