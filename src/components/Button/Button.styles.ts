@@ -21,7 +21,7 @@ const Button = styled.button(({theme}) => {
 		font-size: 0.8rem;
 		font-family: ${fontFamily};
 		font-weight: bold;
-		color: ${content[0]};
+		color: ${content[3]};
 		text-decoration: none;
 
 		transition: ${['background-color', 'box-shadow', 'transform', 'border'].map(v => `${v} 125ms ease-in-out`).join()};
@@ -43,9 +43,10 @@ const Button = styled.button(({theme}) => {
 			transition: color 125ms ease-in-out;
 		}
 
+
 		svg {
-			stroke: ${content[0]};
-			fill: ${content[0]};
+			stroke: ${content[3]};
+			fill: ${content[3]};
 
 			transition: ${['stroke', 'fill', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 		}
