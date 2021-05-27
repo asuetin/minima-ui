@@ -69,7 +69,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 		return limitInRange(valueCurr as number + valueDiff, range);
 	};
 
-	const onDragStart = (e, type: DragType) => {
+	const handleDragStart = (e, type: DragType) => {
 		dragInfoRef.current = {
 			type,
 			width: componentRef.current.getBoundingClientRect().width,
@@ -78,7 +78,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 		};
 	};
 
-	const onKeyDown = (e, type: DragType) => {
+	const handleKeyDown = (e, type: DragType) => {
 		let valueDiff;
 		switch(e.code){
 		case 'ArrowLeft':
@@ -138,8 +138,8 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 		<Styled.Thumb
 			{...commonProps}
 			left={leftThumbPos}
-			onPointerDown={e => onDragStart(e, 'left')}
-			onKeyDown={e => onKeyDown(e, 'left')}
+			onPointerDown={e => handleDragStart(e, 'left')}
+			onKeyDown={e => handleKeyDown(e, 'left')}
 			multi={isArray}
 			aria-valuenow={isArray ? value[0] : value}
 		/>
@@ -147,8 +147,8 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 			<Styled.Thumb
 				{...commonProps}
 				left={(value[1] - range[0])/rangeSpan}
-				onPointerDown={e => onDragStart(e, 'right')}
-				onKeyDown={e => onKeyDown(e, 'right')}
+				onPointerDown={e => handleDragStart(e, 'right')}
+				onKeyDown={e => handleKeyDown(e, 'right')}
 				multi={isArray}
 				aria-valuenow={value[0]}
 			/>
@@ -156,8 +156,8 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
 				{...commonProps}
 				left={leftThumbPos}
 				width={rightThumbPos - leftThumbPos}
-				onPointerDown={e => onDragStart(e, 'handle')}
-				onKeyDown={e => onKeyDown(e, 'handle')}
+				onPointerDown={e => handleDragStart(e, 'handle')}
+				onKeyDown={e => handleKeyDown(e, 'handle')}
 				aria-valuenow={value[1]}
 			/>
 		</>}

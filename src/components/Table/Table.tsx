@@ -87,7 +87,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	const [columnWidths, setColumnWidths] = useState<(number | null)[]>([]);
 
 	//utility functions
-	const sort = (shiftKey: boolean, dataKey: string | number) => {
+	const sortColumn = (dataKey: string | number, shiftKey: boolean) => {
 		const sortIndex = sortState.findIndex(el => el.dataKey == dataKey);
 
 		setSortState(sortStatePrev => {
@@ -112,14 +112,6 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 	};
 
 	const getCellId = (rowIndex: number, cellIndex: number) => `${idRef.current}-row-${rowIndex}-cell-${cellIndex}`;
-
-	const onDragStart = (e, index) =>
-		dragInfoRef.current = {
-			index,
-			columnWidthStart: document.getElementById(getCellId(0, index)).offsetWidth,
-			columnWidthNextStart: document.getElementById(getCellId(0, index+1)).offsetWidth,
-			xStart: e.clientX
-		};
 
 	const resizeColumn = useCallback((index: number, value: number, overrideWidths?: [number, number]) => {
 		const columnWidthStart = overrideWidths?.[0] ?? document.getElementById(getCellId(0, index)).offsetWidth;
@@ -223,7 +215,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 							//sort focused column
 							const {sortable = true, dataKey} = columns[cellIndex];
 							if (sortable){
-								sort(e.shiftKey, dataKey);
+								sortColumn(dataKey, e.shiftKey);
 							}
 						}
 						break;
@@ -313,19 +305,19 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 				gridTemplateColumns={gridTemplateColumns}
 				padded={data.length > rowCount}
 			>
-				{columns.map(({dataKey, sortable = true, header}, i) => {
-					const headerCellId = getCellId(0, i);
+				{columns.map(({dataKey, sortable = true, header}, columnIndex) => {
+					const headerCellId = getCellId(0, columnIndex);
 					const sortValue = sortable ? sortState[sortState.findIndex(el => el.dataKey == dataKey)]?.value : undefined;
 
 					return <Styled.HeaderCell
 						id={headerCellId}
 						key={headerCellId}
 						onFocus={isGrid && onCellFocus ? () => onCellFocus(null) : undefined}
-						tabIndex={isGrid && !hasFocus && i == 0 ? 0 : -1}
+						tabIndex={isGrid && !hasFocus && columnIndex == 0 ? 0 : -1}
 					>
 						<Styled.Header
 							sort={sortable ? sortValue : 'disabled'}
-							onClick={sortable ? e => sort(e.shiftKey, dataKey) : undefined}
+							onClick={sortable ? e => sortColumn(dataKey, e.shiftKey) : undefined}
 						>
 							{header}
 							{sortable && sortValue &&
@@ -335,8 +327,15 @@ const Table = forwardRef<HTMLTableElement, TableProps>(({
 								/>
 							}
 						</Styled.Header>
-						{i != columns.length-1 &&
-							<Styled.ResizeHandle onPointerDown={e => onDragStart(e, i)}/>
+						{columnIndex != columns.length-1 &&
+							<Styled.ResizeHandle onPointerDown={e => {
+								dragInfoRef.current = {
+									index: columnIndex,
+									columnWidthStart: document.getElementById(getCellId(0, columnIndex)).offsetWidth,
+									columnWidthNextStart: document.getElementById(getCellId(0, columnIndex+1)).offsetWidth,
+									xStart: e.clientX
+								};
+							}}/>
 						}
 					</Styled.HeaderCell>;
 				})}

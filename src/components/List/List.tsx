@@ -34,7 +34,7 @@ const List = forwardRef<HTMLUListElement | HTMLTableSectionElement, ListProps>((
 
 	const [visibleBounds, setVisibleBounds] = useState([0, 0]);
 
-	const onScroll = useCallback(() => {
+	const handleScroll = useCallback(() => {
 		if (componentRef.current){
 			const {scrollTop, offsetHeight} = componentRef.current;
 
@@ -45,14 +45,14 @@ const List = forwardRef<HTMLUListElement | HTMLTableSectionElement, ListProps>((
 		}
 	}, [rowHeight, rowCount, componentRef]);
 
-	const onScrollDebounced = useMemo(() => debounce(5, onScroll), [onScroll]);
+	const handleScrollDebounced = useMemo(() => debounce(5, handleScroll), [handleScroll]);
 
-	useEvent('scroll', onScrollDebounced, componentRef.current);
-	useEvent('animationend', onScroll, componentRef.current);
+	useEvent('scroll', handleScrollDebounced, componentRef.current);
+	useEvent('animationend', handleScroll, componentRef.current);
 
 	useEffect(() => {
-		onScroll();
-	}, [onScroll]);
+		handleScroll();
+	}, [handleScroll]);
 
 	return <Styled.List
 		{...props}

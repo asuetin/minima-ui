@@ -28,7 +28,7 @@ const RadioGroup = forwardRef<HTMLUListElement, RadioGroupProps>(({
 	const componentRef = useMergedRef<HTMLUListElement>(forwardedRef);
 
 	//keyboard controls
-	const changeBy = (v: number) => {
+	const incrementIndex = (v: number) => {
 		if (componentRef.current.contains(document.activeElement)){
 			let indexNext = options.findIndex(o => o.value == value) + v;
 			indexNext = limitInRange(indexNext, [0, options.length-1], true);
@@ -42,12 +42,12 @@ const RadioGroup = forwardRef<HTMLUListElement, RadioGroupProps>(({
 			switch (e.code){
 			case 'ArrowDown':
 			case 'ArrowRight':
-				changeBy(1);
+				incrementIndex(1);
 				e.preventDefault();
 				break;
 			case 'ArrowUp':
 			case 'ArrowLeft':
-				changeBy(-1);
+				incrementIndex(-1);
 				e.preventDefault();
 			}
 		}

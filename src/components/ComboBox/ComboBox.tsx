@@ -60,7 +60,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	const dropdownId = `${idRef.current}-dropdown`;
 	const isMultiselectable = Array.isArray(value);
 
-	const handleChange = optionIndex => {
+	const changeToIndex = optionIndex => {
 		const option = optionsGrouped[optionIndex];
 
 		if (isMultiselectable){
@@ -123,7 +123,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 					break;
 				case 'Enter': {
 					if (rowCount){
-						handleChange(selectedIndex);
+						changeToIndex(selectedIndex);
 						componentRef.current.focus();
 					}
 					break;
@@ -235,7 +235,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			style={style}
 			key={`${optionIndex}-${option?.value}`}
 			onClick={rowCount && !option?.isGroup ? () => {
-				handleChange(optionIndex);
+				changeToIndex(optionIndex);
 				if (!isMultiselectable){
 					setIsExpanded(false);
 				}
