@@ -9,6 +9,7 @@ export type TextInputProps = {
 	onChange: (v: string) => void;
 	name?: string;
 	required?: boolean;
+	readOnly?: boolean;
 } & (
 	(
 		{
@@ -24,6 +25,7 @@ export type TextInputProps = {
 const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputProps>(({
 	onChange,
 	multiline,
+	readOnly,
 	...props
 }, forwardedRef) => {
 	const componentRef = useMergedRef(forwardedRef);
@@ -37,6 +39,7 @@ const TextInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextInputPr
 			componentRef as MutableRefObject<HTMLInputElement>
 		}
 		onChange={e => onChange(e.target.value)}
+		readOnly={readOnly}
 		role='textbox'
 		aria-multiline={multiline ? true : undefined}
 	/>;
