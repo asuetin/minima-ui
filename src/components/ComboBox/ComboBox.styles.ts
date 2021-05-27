@@ -171,6 +171,7 @@ const Input = styled(TextInput)(({theme}) => {
 	const {size} = theme.minima ?? themeDefault;
 
 	return css`
+		width: 100%;
 		height: 100%;
 
 		background-color: inherit;
