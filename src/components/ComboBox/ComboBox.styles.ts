@@ -5,6 +5,8 @@ import {pxToRem} from 'utils/functions';
 import themeDefault from 'utils/theme';
 
 import List from 'components/List';
+import Button from 'components/Button';
+import TextInput from 'components/TextInput';
 
 const Option = styled.li(({theme}) => {
 	const {background, accent, size} = theme.minima ?? themeDefault;
@@ -82,7 +84,7 @@ const Option = styled.li(({theme}) => {
 });
 
 const Dropdown = styled(List).attrs({role: 'listbox'})<{visibleOptionCount: number}>(({theme, rowHeight, rowCount, visibleOptionCount}) => {
-	const {background, content, size, radius, border} = theme.minima ?? themeDefault;
+	const {background, content, size, radius, border, light} = theme.minima ?? themeDefault;
 
 	const borderWidth = border[0] == 'none' ? '0rem' : border[0].split(' ')[0];
 
@@ -102,7 +104,7 @@ const Dropdown = styled(List).attrs({role: 'listbox'})<{visibleOptionCount: numb
 		border-top: none;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
-		box-shadow: var(--box-shadow);
+		box-shadow: ${light[1]};
 
 		animation: ${keyframes`
 			0% {
@@ -146,65 +148,43 @@ const Dropdown = styled(List).attrs({role: 'listbox'})<{visibleOptionCount: numb
 	`;
 });
 
-const Button = styled.button(({theme}) => {
+const ChevronButton = styled(Button)(({theme}) => {
 	const {size} = theme.minima ?? themeDefault;
 
 	return css`
 		position: absolute;
 		width: ${size[3]};
-		height: 100%;
 		right: 0;
 
-		cursor: pointer;
+		&& {
+			background-color: transparent;
 
-		background-color: inherit;
+			border: none;
+			box-shadow: none;
 
-		border: none;
-		border-radius: inherit;
-		outline: none;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		> * {
-			transition: ${['stroke', 'fill', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
+			transform: none;
 		}
 	`;
 });
 
-const Input = styled.input(({theme}) => {
-	const {content, size, focus} = theme.minima ?? themeDefault;
+const Input = styled(TextInput)(({theme}) => {
+	const {size} = theme.minima ?? themeDefault;
 
 	return css`
-		position: relative;
-		flex-grow: 1;
+		height: 100%;
 
 		background-color: inherit;
 
-		border: none;
 		border-radius: inherit;
-		outline: none;
+
+		&& {
+			border: none;
+			box-shadow: none;
+		}
 
 		font: inherit;
-		color: ${content[3]};
-		text-overflow: ellipsis;
-		white-space: nowrap;
 
-		transition: color 125ms ease-in-out;
-
-		display: flex;
-		align-items: center;
-		overflow: hidden;
 		padding: 0 ${size[3]} 0 ${size[1]};
-
-		::placeholder {
-			color: ${content[9]};
-		}
-
-		&:focus-visible {
-			box-shadow: ${focus};
-		}
 	`;
 });
 
@@ -229,15 +209,6 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 
 		display: flex;
 		box-sizing: border-box;
-
-		svg {
-			stroke: ${content[3]};
-			fill: ${content[3]};
-		}
-
-		&[aria-expanded='true'], ${Dropdown}{
-			box-shadow: ${light[1]};
-		}
 
 		@media (hover: hover) and (pointer: fine) {
 			&:hover {
@@ -274,21 +245,20 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
 
+			box-shadow: ${light[1]};
+
+			${Input}{
+				box-shadow: ${focus};
+			}
+
 			${Dropdown}{
 				border: ${border[2]};
 				border-top: 0;
 			}
 
-			${Button}{
+			${ChevronButton}{
 				> * {
 					transform: rotate(180deg);
-				}
-
-				@media (hover: hover) and (pointer: fine) {
-					&:hover svg {
-						stroke: ${accent[9]};
-						fill: ${accent[9]};
-					}
 				}
 			}
 		}
@@ -300,4 +270,4 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 	`;
 });
 
-export default {ComboBox, Input, Button, Dropdown, Option};
+export default {ComboBox, Input, ChevronButton, Dropdown, Option};

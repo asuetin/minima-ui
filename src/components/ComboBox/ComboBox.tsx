@@ -254,6 +254,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 		ref={componentRef}
 		id={id}
 		height={height}
+		onClick={isExpanded ? undefined : () => setIsExpanded(isExpandedPrev => !isExpandedPrev)}
 		onBlur={e => {
 			if (!componentRef.current.contains(e.relatedTarget as HTMLElement)){
 				setIsExpanded(false);
@@ -286,10 +287,9 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 						return optionSelected.label ?? optionSelected.value;
 					}).join(', ');
 				}
-				return options.find(o => o.value == value)?.label ?? value as string | number;
+				return options.find(o => o.value == value)?.label ?? String(value);
 			})()}
-			onChange={!searchDisabled ? e => setSearchQuery(e.target.value) : undefined}
-			onClick={isExpanded ? undefined : () => setIsExpanded(isExpandedPrev => !isExpandedPrev)}
+			onChange={!searchDisabled ? v => setSearchQuery(v) : undefined}
 			readOnly={searchDisabled}
 			placeholder='Enter search query'
 			tabIndex={!searchDisabled && isExpanded ? 0 : -1}
@@ -299,14 +299,12 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			aria-labelledby={props['aria-labelledby']}
 		>
 		</Styled.Input>
-		<Styled.Button
-			onClick={() => setIsExpanded(isExpandedPrev => !isExpandedPrev)}
-			role='button'
+		<Styled.ChevronButton
+			onClick={isExpanded ? () => setIsExpanded(false) : undefined}
+			icon={chevron}
 			tabIndex={-1}
 			aria-label='Expand dropdown menu'
-		>
-			{chevron}
-		</Styled.Button>
+		/>
 	</Styled.ComboBox>;
 });
 
