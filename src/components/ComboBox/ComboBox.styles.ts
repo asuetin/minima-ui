@@ -257,7 +257,7 @@ const ComboBox = styled.div<{height: number}>(({theme, height}) => {
 			}
 
 			${ChevronButton}{
-				> * {
+				>:first-child {
 					transform: rotate(180deg);
 				}
 			}

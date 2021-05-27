@@ -39,7 +39,7 @@ const Button = styled.button(({theme}) => {
 			padding-right: 0;
 		}
 
-		> span {
+		span {
 			transition: color 125ms ease-in-out;
 		}
 

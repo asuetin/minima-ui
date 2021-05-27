@@ -101,7 +101,7 @@ const RadioGroupOption = styled.li.attrs({role: 'radio'})(({theme}) => {
 		grid-template-columns: min-content 1fr;
 		align-items: center;
 
-		>:last-child {
+		label {
 			line-height: ${size[3]};
 			padding-left: ${size[1]};
 		}

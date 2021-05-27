@@ -306,7 +306,9 @@ const TextInputStyled = styled(TextInput)`
 	position: relative;
 	width: 100%;
 
-	background-color: transparent !important;
+	&& {
+		background-color: transparent;
+	}
 
 	font-size: inherit;
 	font-family: inherit;
