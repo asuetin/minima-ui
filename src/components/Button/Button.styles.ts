@@ -46,6 +46,8 @@ const Button = styled.button(({theme}) => {
 		svg {
 			stroke: ${content[0]};
 			fill: ${content[0]};
+
+			transition: ${['stroke', 'fill', 'transform'].map(v => `${v} 125ms ease-in-out`).join()};
 		}
 
 		&:focus-visible {
