@@ -21,7 +21,7 @@ const TextInput = styled.input(({theme}) => {
 		border-radius: ${radius[2]};
 		box-shadow: ${shadow[0]};
 
-		transition: ${['background-color', 'box-shadow', 'border'].map(v => `${v} 125ms ease-in-out`).join()};
+		transition: ${['background-color', 'color', 'box-shadow', 'border'].map(v => `${v} 125ms ease-in-out`).join()};
 
 		padding: 0 ${size[1]} 0 ${size[1]};
 		overflow: hidden;
