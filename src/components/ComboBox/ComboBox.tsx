@@ -67,8 +67,8 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			case 'ArrowDown':
 				if (isExpanded){
 					setSelectedIndex(selectedIndexPrev => {
-						let indexNext = limitInRange(selectedIndexPrev+1, [0, optionsGrouped.length-1], true);
-						return optionsGrouped[indexNext].isGroup ? limitInRange(++indexNext, [0, optionsGrouped.length-1], true) : indexNext;
+						let indexNext = limitInRange(selectedIndexPrev+1, [0, optionsGrouped.length-1]);
+						return optionsGrouped[indexNext].isGroup ? limitInRange(++indexNext, [0, optionsGrouped.length-1]) : indexNext;
 					});
 					e.preventDefault();
 				}
@@ -76,9 +76,21 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			case 'ArrowUp':
 				if (isExpanded){
 					setSelectedIndex(selectedIndexPrev => {
-						let indexNext = limitInRange(selectedIndexPrev-1, [0, optionsGrouped.length-1], true);
-						return optionsGrouped[indexNext].isGroup ? limitInRange(--indexNext, [0, optionsGrouped.length-1], true) : indexNext;
+						let indexNext = limitInRange(selectedIndexPrev-1, [0, optionsGrouped.length-1]);
+						return optionsGrouped[indexNext].isGroup ? limitInRange(--indexNext, [0, optionsGrouped.length-1]) : indexNext;
 					});
+					e.preventDefault();
+				}
+				break;
+			case 'Home':
+				if (isExpanded){
+					setSelectedIndex(0);
+					e.preventDefault();
+				}
+				break;
+			case 'End':
+				if (isExpanded){
+					setSelectedIndex(optionsGrouped.length-1);
 					e.preventDefault();
 				}
 				break;
