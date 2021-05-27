@@ -127,13 +127,6 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 		}
 	});
 
-	//close on click outside
-	useEvent('click', e => {
-		if (isExpanded && !componentRef.current.contains(e.target as Node)){
-			setIsExpanded(false);
-		}
-	});
-
 	//filter options
 	useEffect(() => {
 		let searchResultsNew = null;
