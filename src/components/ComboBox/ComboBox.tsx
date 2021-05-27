@@ -230,6 +230,11 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 		ref={componentRef}
 		id={id}
 		height={height}
+		onBlur={e => {
+			if (!componentRef.current.contains(e.relatedTarget as HTMLElement)){
+				setIsExpanded(false);
+			}
+		}}
 		role='combobox'
 		tabIndex={isExpanded || disabled ? -1 : 0}
 		aria-expanded={isExpanded}
