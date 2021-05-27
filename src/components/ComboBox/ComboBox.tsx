@@ -60,53 +60,65 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	const dropdownId = `${idRef.current}-dropdown`;
 	const isMultiselectable = Array.isArray(value);
 
-	//keyboard controls
+	//keyboard-specific controls
 	useEvent('keydown', (e: KeyboardEvent) => {
 		if (!disabled){
-			switch (e.code){
-			case 'ArrowDown':
-				if (isExpanded){
+			if (isExpanded){
+				switch (e.code){
+				case 'ArrowDown':
 					setSelectedIndex(selectedIndexPrev => {
 						let indexNext = limitInRange(selectedIndexPrev+1, [0, optionsGrouped.length-1]);
 						return optionsGrouped[indexNext].isGroup ? limitInRange(++indexNext, [0, optionsGrouped.length-1]) : indexNext;
 					});
 					e.preventDefault();
-				}
-				break;
-			case 'ArrowUp':
-				if (isExpanded){
+					break;
+				case 'ArrowUp':
 					setSelectedIndex(selectedIndexPrev => {
 						let indexNext = limitInRange(selectedIndexPrev-1, [0, optionsGrouped.length-1]);
 						return optionsGrouped[indexNext].isGroup ? limitInRange(--indexNext, [0, optionsGrouped.length-1]) : indexNext;
 					});
 					e.preventDefault();
-				}
-				break;
-			case 'Home':
-				if (isExpanded){
-					setSelectedIndex(0);
-					e.preventDefault();
-				}
-				break;
-			case 'End':
-				if (isExpanded){
+					break;
+				case 'Home':
+					setSelectedIndex(() => {
+						let indexNext = 0;
+						return optionsGrouped[indexNext].isGroup ? limitInRange(++indexNext, [0, optionsGrouped.length-1]) : indexNext;
+					});
+					break;
+				case 'End':
 					setSelectedIndex(optionsGrouped.length-1);
-					e.preventDefault();
+					break;
+				case 'PageDown':
+					setSelectedIndex(selectedIndexPrev => {
+						let indexNext = limitInRange(selectedIndexPrev+visibleOptionCount, [0, optionsGrouped.length-1]);
+						return optionsGrouped[indexNext].isGroup ? limitInRange(++indexNext, [0, optionsGrouped.length-1]) : indexNext;
+					});
+					break;
+				case 'PageUp':
+					setSelectedIndex(selectedIndexPrev => {
+						let indexNext = limitInRange(selectedIndexPrev-visibleOptionCount, [0, optionsGrouped.length-1]);
+						return optionsGrouped[indexNext].isGroup ? limitInRange(++indexNext, [0, optionsGrouped.length-1]) : indexNext;
+					});
+					break;
+				case 'Enter': {
+					if (rowCount){
+						onChange(optionsGrouped[selectedIndex].value);
+						componentRef.current.focus();
+					}
+					break;
 				}
-				break;
-			case 'Enter': {
-				if (isExpanded && rowCount){
-					onChange(optionsGrouped[selectedIndex].value);
+				case 'Escape': {
 					componentRef.current.focus();
 				}
+				}
+			}
+			switch (e.code){
+			case 'Enter': {
 				setIsExpanded(isExpandedPrev => !isExpandedPrev);
 				break;
 			}
 			case 'Escape': {
-				if (isExpanded){
-					componentRef.current.focus();
-				}
-				else {
+				if (!isExpanded) {
 					componentRef.current.blur();
 				}
 				setIsExpanded(false);
