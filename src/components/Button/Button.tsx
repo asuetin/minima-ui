@@ -45,7 +45,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
 			ref: componentRef as MutableRefObject<HTMLButtonElement>,
 			onClick
 		}}
-		aria-label={label}
+		aria-label={props['aria-label'] ?? label}
 	>
 		{icon}
 		{label && <span>{label}</span>}
