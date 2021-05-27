@@ -60,6 +60,27 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 	const dropdownId = `${idRef.current}-dropdown`;
 	const isMultiselectable = Array.isArray(value);
 
+	const handleChange = optionIndex => {
+		const option = optionsGrouped[optionIndex];
+
+		if (isMultiselectable){
+			const valueNew = [...value as (string | number)[]];
+			const indexInValue = (value as (string | number)[]).findIndex(v => v == option?.value);
+
+			if (indexInValue == -1){
+				valueNew.unshift(option?.value);
+			}
+			else {
+				valueNew.splice(indexInValue, 1);
+			}
+
+			onChange(valueNew);
+		}
+		else {
+			onChange(option?.value);
+		}
+	};
+
 	//keyboard-specific controls
 	useEvent('keydown', (e: KeyboardEvent) => {
 		if (!disabled){
@@ -102,7 +123,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 					break;
 				case 'Enter': {
 					if (rowCount){
-						onChange(optionsGrouped[selectedIndex].value);
+						handleChange(selectedIndex);
 						componentRef.current.focus();
 					}
 					break;
@@ -114,7 +135,7 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 			}
 			switch (e.code){
 			case 'Enter': {
-				setIsExpanded(isExpandedPrev => !isExpandedPrev);
+				setIsExpanded(isExpandedPrev => isExpandedPrev && isMultiselectable ? true : !isExpandedPrev);
 				break;
 			}
 			case 'Escape': {
@@ -207,35 +228,25 @@ const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(({
 		setSelectedIndex(optionsGrouped.findIndex(o => !o.isGroup));
 	}, [isExpanded, optionsGrouped]);
 
-	const optionRenderer = (index, style) => {
-		const option = optionsGrouped[index];
-		const indexOfOption = isMultiselectable ? (value as (string | number)[]).findIndex(v => v == option?.value) : -1;
+	const optionRenderer = (optionIndex, style) => {
+		const option = optionsGrouped[optionIndex];
 
 		return <Styled.Option
 			style={style}
-			key={`${index}-${option?.value}`}
+			key={`${optionIndex}-${option?.value}`}
 			onClick={rowCount && !option?.isGroup ? () => {
-				if (isMultiselectable){
-					const valueNew = [...value as (string | number)[]];
-
-					if (indexOfOption == -1){
-						valueNew.unshift(option?.value);
-					}
-					else {
-						valueNew.splice(indexOfOption, 1);
-					}
-
-					onChange(valueNew);
-				}
-				else {
-					onChange(option?.value);
+				handleChange(optionIndex);
+				if (!isMultiselectable){
 					setIsExpanded(false);
 				}
 			} : undefined}
 			role={option?.isGroup ? undefined : 'option'}
-			id={`${dropdownId}-row-${index}`}
-			aria-checked={rowCount && !option?.isGroup && isMultiselectable ? indexOfOption != -1 : undefined}
-			aria-selected={rowCount && !option?.isGroup && selectedIndex == index ? true : undefined}
+			id={`${dropdownId}-row-${optionIndex}`}
+			aria-checked={rowCount && !option?.isGroup && isMultiselectable ?
+				(value as (string | number)[]).includes(option?.value) :
+				undefined
+			}
+			aria-selected={rowCount && !option?.isGroup && selectedIndex == optionIndex ? true : undefined}
 			as={option?.isGroup ? 'label' : undefined}
 		>
 			{option?.label ?? option?.value ?? 'No results'}
